@@ -3,7 +3,6 @@ import { useState } from "react";
 import { post } from "@/lib/client";
 import { COLLEGE_STAGE_DESC, LOST_REASONS, STAGE_LABEL, type CollegeStage } from "@/lib/stages";
 import type { College } from "@/lib/types";
-import { suggestDue } from "@/lib/priority";
 import { DuePicker } from "../NextStep";
 import { Field, Modal, NumField, TextField, useAction } from "../ui";
 
@@ -24,8 +23,8 @@ export function MoveDialog({ college, to, onClose, onDone }: { college: College;
   });
   const [reason, setReason] = useState(LOST_REASONS[0]);
   const open = to !== "locked" && to !== "lost";
-  const [nextAction, setNextAction] = useState("");
-  const [nextDue, setNextDue] = useState(suggestDue(to) ?? "");
+  const [nextAction, setNextAction] = useState(college.nextAction ?? "");
+  const [nextDue, setNextDue] = useState(college.nextActionDue ?? "");
   const { busy, error, run } = useAction();
   const set = <K extends keyof typeof f>(k: K, v: (typeof f)[K]) => setF((p) => ({ ...p, [k]: v }));
 
@@ -70,7 +69,7 @@ export function MoveDialog({ college, to, onClose, onDone }: { college: College;
         {open && (
           <>
             <TextField full label="Next step (optional)" value={nextAction} onChange={setNextAction} ph="Send the curated roster, confirm dates…" />
-            <Field full label="Next step due">
+            <Field full label="Next step due (optional)">
               <DuePicker value={nextDue} onChange={setNextDue} />
             </Field>
           </>

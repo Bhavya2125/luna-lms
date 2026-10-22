@@ -9,7 +9,7 @@ import { COLLEGE_STAGES, DEAL_STAGES, STAGE_LABEL } from "@/lib/stages";
 import type { CollegeRow, Me } from "@/lib/types";
 import { CollegeDrawer } from "../colleges/CollegeDrawer";
 import { AssignModal } from "../colleges/CollegesView";
-import { DueTag, NextStepModal } from "../NextStep";
+import { DueTag, NextStepModal, TargetTag } from "../NextStep";
 import { CompanyDrawer } from "../sponsors/CompanyDrawer";
 import { Tag } from "../ui";
 
@@ -98,7 +98,10 @@ export function HomeView({ me }: { me: Me }) {
               <article key={i.key} className={`focus-card lv-${i.level}`}>
                 <div className="top" style={{ marginBottom: 6 }}>
                   <Tag tone={levelTone(i.level)}>{LEVEL_LABEL[i.level]}</Tag>
-                  <DueTag due={i.nextActionDue} />
+                  <span style={{ display: "flex", gap: 4, flexWrap: "wrap", justifyContent: "flex-end" }}>
+                    <DueTag due={i.nextActionDue} />
+                    <TargetTag date={i.targetDate} />
+                  </span>
                 </div>
                 <button className="lnk focus-title" onClick={() => open(i)}>
                   {i.title}
@@ -175,7 +178,10 @@ export function HomeView({ me }: { me: Me }) {
                     {i.reasons.length > 0 && <div className="why">{i.reasons.slice(0, 2).join(" · ")}</div>}
                   </div>
                   <div className="qside">
-                    <DueTag due={i.nextActionDue} />
+                    <span style={{ display: "flex", gap: 4, flexWrap: "wrap", justifyContent: "flex-end" }}>
+                      <DueTag due={i.nextActionDue} />
+                      <TargetTag date={i.targetDate} />
+                    </span>
                     <div className="qbtns">
                       <button className="sm" aria-label={`Mark next step done for ${i.title}`} onClick={() => setStep({ item: i, mode: "done" })}>
                         ✓

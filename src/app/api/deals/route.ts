@@ -3,7 +3,6 @@ import { schema } from "@/db";
 import { api, HttpError, isAdmin, readJson } from "@/lib/api";
 import { normPhone } from "@/lib/format";
 import { assignedCollegeIds, dealScope } from "@/lib/queries";
-import { suggestDue } from "@/lib/priority";
 import { checkDealMove } from "@/lib/rules";
 import { dealCreate } from "@/lib/validators";
 
@@ -22,10 +21,7 @@ export const GET = api(async ({ db, user }) => {
 });
 
 export const POST = api(async ({ req, db, user }) => {
-  const raw = await readJson(req);
-  const b = dealCreate.parse(raw);
-  // no date sent → suggest one; an explicit empty date means "no due date"
-  const due = raw?.nextActionDue === undefined ? suggestDue(b.stage) : b.nextActionDue;
+  const b = dealCreate.parse(await readJson(req));
   if (!isAdmin(user.role)) {
     if (b.collegeId && !(await assignedCollegeIds(db, user.id)).includes(b.collegeId)) {
       throw new HttpError(403, "This college isn't assigned to you");
@@ -39,7 +35,7 @@ export const POST = api(async ({ req, db, user }) => {
   const id = await db.transaction(async (tx) => {
     const [row] = await tx
       .insert(sponsorDeals)
-      .values({ ...b, nextActionDue: due, contactPhone: normPhone(b.contactPhone), createdBy: user.id, lostReason: b.stage === "lost" ? "Other" : "" })
+      .values({ ...b, contactPhone: normPhone(b.contactPhone), createdBy: user.id, lostReason: b.stage === "lost" ? "Other" : "" })
       .returning({ id: sponsorDeals.id });
     await tx.insert(sponsorDealLog).values({ dealId: row.id, fromStage: "new", toStage: b.stage, byUserId: user.id });
     // remember a new contact on the company so the next person reaching out can pick it

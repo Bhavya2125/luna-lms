@@ -97,16 +97,23 @@ function Notifications() {
   return (
     <div className="box">
       <h3>Alerts and app</h3>
-      <p className="sub">Get a push alert one month before each fest, on this device.</p>
+      <p className="sub">Get push alerts on this device: a morning summary of what's due, and fests a month away.</p>
       {push.supported ? (
         <p>
           <button className={push.on ? "" : "p"} disabled={push.busy} onClick={push.on ? push.disable : push.enable}>
             {push.on ? "Turn off push alerts" : "Turn on push alerts"}
           </button>{" "}
-          {push.on && <Tag tone="g">On for this device</Tag>}
+          {push.on && <Tag tone="g">On for this device</Tag>}{" "}
+          {push.on && <TestPush />}
         </p>
       ) : (
-        <p className="sub">Push alerts aren't available here. {inst.ios && !inst.installed ? "On iPhone, add Luna Wave to your Home Screen first (Share, then Add to Home Screen)." : "They need a browser that supports web push and a configured server key."}</p>
+        <p className="sub">
+          {inst.ios && !inst.installed
+            ? "On iPhone, add Luna Wave to your Home Screen first (Share, then Add to Home Screen), then open it from there to turn on alerts."
+            : typeof Notification !== "undefined" && Notification.permission === "denied"
+              ? "Notifications are blocked for this site. Allow them in your browser's site settings, then reload."
+              : "Push alerts aren't available here. They need a browser that supports web push and push keys set on the server."}
+        </p>
       )}
       {push.error && <p className="err">{push.error}</p>}
       {inst.installed ? (
@@ -117,6 +124,18 @@ function Notifications() {
         <p className="sub" style={{ margin: 0 }}>{inst.ios ? "To install: tap Share, then Add to Home Screen." : "To install: use your browser's Install or Add to Home Screen option."}</p>
       )}
     </div>
+  );
+}
+
+function TestPush() {
+  const { busy, error, run } = useAction();
+  return (
+    <>
+      <button disabled={busy} onClick={() => run(() => post("/api/push/test"), "Test notification sent")}>
+        {busy ? "Sending…" : "Send test notification"}
+      </button>
+      {error && <span className="err"> {error}</span>}
+    </>
   );
 }
 

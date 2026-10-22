@@ -33,6 +33,7 @@ export type College = {
   pitchCompany: string;
   nextAction: string;
   nextActionDue: string | null;
+  targetDate: string | null;
   stageEnteredAt: string;
   lastTouchedAt: string | null;
 };
@@ -120,6 +121,7 @@ export type Deal = {
   notes: string;
   nextAction: string;
   nextActionDue: string | null;
+  targetDate: string | null;
   createdBy: number | null;
   updatedAt: string;
   company?: string;

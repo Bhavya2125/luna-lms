@@ -4,7 +4,6 @@ import useSWR from "swr";
 import { fetcher, patch, post } from "@/lib/client";
 import { DEAL_STAGE_DESC, LOST_REASONS, STAGE_LABEL, type DealStage } from "@/lib/stages";
 import type { CollegeRow, Contact, Deal } from "@/lib/types";
-import { suggestDue } from "@/lib/priority";
 import { DuePicker } from "../NextStep";
 import { Field, Modal, NumField, SelectField, TextField, useAction } from "../ui";
 
@@ -16,8 +15,8 @@ export function DealMoveDialog({ deal, name, to, onClose, onDone }: { deal: Deal
   const [deliverables, setDeliverables] = useState(deal.deliverables);
   const [reason, setReason] = useState(LOST_REASONS[0]);
   const open = to !== "locked" && to !== "lost";
-  const [nextAction, setNextAction] = useState("");
-  const [nextDue, setNextDue] = useState(suggestDue(to) ?? "");
+  const [nextAction, setNextAction] = useState(deal.nextAction ?? "");
+  const [nextDue, setNextDue] = useState(deal.nextActionDue ?? "");
   const { busy, error, run } = useAction();
   return (
     <Modal onClose={onClose} title={`Move ${name} to ${STAGE_LABEL[to]}`}>
@@ -35,7 +34,7 @@ export function DealMoveDialog({ deal, name, to, onClose, onDone }: { deal: Deal
         {open && (
           <>
             <TextField full label="Next step (optional)" value={nextAction} onChange={setNextAction} ph="Follow up on the deck…" />
-            <Field full label="Next step due">
+            <Field full label="Next step due (optional)">
               <DuePicker value={nextDue} onChange={setNextDue} />
             </Field>
           </>
@@ -79,7 +78,8 @@ export function DealModal({ companyId, companyName, deal, contacts, onClose, onD
     exclusive: deal?.exclusive ?? false,
     notes: deal?.notes ?? "",
     nextAction: deal?.nextAction ?? "",
-    nextActionDue: deal ? (deal.nextActionDue ?? "") : (suggestDue("reach_out") ?? ""),
+    nextActionDue: deal?.nextActionDue ?? "",
+    targetDate: deal?.targetDate ?? "",
   });
   const set = <K extends keyof typeof f>(k: K, v: (typeof f)[K]) => setF((p) => ({ ...p, [k]: v }));
   const { busy, error, run } = useAction();
@@ -120,8 +120,11 @@ export function DealModal({ companyId, companyName, deal, contacts, onClose, onD
         </Field>
         <TextField label="Notes" value={f.notes} onChange={(v) => set("notes", v)} />
         <TextField full label="Next step" value={f.nextAction} onChange={(v) => set("nextAction", v)} ph="Send the deck, call back Monday…" />
-        <Field full label="Next step due">
+        <Field full label="Next step due (optional)">
           <DuePicker value={f.nextActionDue} onChange={(v) => set("nextActionDue", v)} />
+        </Field>
+        <Field full label="Target: close by (optional)">
+          <DuePicker value={f.targetDate} onChange={(v) => set("targetDate", v)} />
         </Field>
       </div>
       {error && <p className="err" role="alert">{error}</p>}
@@ -130,7 +133,7 @@ export function DealModal({ companyId, companyName, deal, contacts, onClose, onD
         style={{ width: "100%", marginTop: 14 }}
         disabled={busy}
         onClick={async () => {
-          const body = { collegeId: f.collegeId ? +f.collegeId : null, year: f.year ? +f.year : null, amount: f.amount, deliverables: f.deliverables, contactName: f.contactName, contactPhone: f.contactPhone, exclusive: f.exclusive, notes: f.notes, nextAction: f.nextAction.trim(), nextActionDue: f.nextActionDue || null };
+          const body = { collegeId: f.collegeId ? +f.collegeId : null, year: f.year ? +f.year : null, amount: f.amount, deliverables: f.deliverables, contactName: f.contactName, contactPhone: f.contactPhone, exclusive: f.exclusive, notes: f.notes, nextAction: f.nextAction.trim(), nextActionDue: f.nextActionDue || null, targetDate: f.targetDate || null };
           const ok = await run(() => (deal ? patch(`/api/deals/${deal.id}`, body) : post("/api/deals", { companyId, ...body })), deal ? "Saved" : "Outreach logged");
           if (ok) onDone();
         }}

@@ -10,7 +10,7 @@ import { GeoFields } from "../GeoFields";
 import { Modal, Seg, SelectField, Tag, TextField, useAction, useToast } from "../ui";
 import { CollegeDrawer } from "./CollegeDrawer";
 import { MoveDialog, NEEDS_FORM } from "./MoveDialog";
-import { DueTag } from "../NextStep";
+import { DueTag, TargetTag } from "../NextStep";
 
 type Filters = { q: string; month: string; agency: string; assignee: string; stage: string; budget: string; days: string };
 const EMPTY: Filters = { q: "", month: "", agency: "", assignee: "", stage: "", budget: "", days: "" };
@@ -305,9 +305,10 @@ export function CollegesView({ me }: { me: Me }) {
                     <div className="sub">
                       {c.festName} · {MONTHS[c.festMonth]}
                     </div>
-                    {c.nextActionDue && (
-                      <div style={{ marginTop: 4 }}>
+                    {(c.nextActionDue || c.targetDate) && (
+                      <div style={{ marginTop: 4, display: "flex", gap: 4, flexWrap: "wrap" }}>
                         <DueTag due={c.nextActionDue} />
+                        <TargetTag date={c.targetDate} />
                       </div>
                     )}
                     <div style={{ marginTop: 6 }}>

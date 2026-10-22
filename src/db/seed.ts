@@ -179,6 +179,8 @@ async function main() {
       .set({ nextAction: action, nextActionDue: addDays(t, dueIn), stageEnteredAt: new Date(Date.now() - daysInStage * 864e5) })
       .where(eq(s.colleges.id, col[n]));
   }
+  await db.update(s.colleges).set({ targetDate: addDays(t, 12) }).where(eq(s.colleges.id, col["IIT Bombay"]));
+  await db.update(s.colleges).set({ targetDate: addDays(t, -1) }).where(eq(s.colleges.id, col["IIM Ahmedabad"]));
   await db.update(s.sponsorDeals).set({ nextAction: "Send the 3-fest sponsorship deck", nextActionDue: addDays(t, 1), stageEnteredAt: new Date(Date.now() - 4 * 864e5) }).where(eq(s.sponsorDeals.id, deal.id));
   const [boatDeal] = await db
     .insert(s.sponsorDeals)

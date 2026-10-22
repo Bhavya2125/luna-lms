@@ -8,6 +8,7 @@ import { fetcher } from "@/lib/client";
 import { useOnline } from "@/lib/pwa";
 import type { AlertItem } from "@/lib/types";
 import { InstallBanner } from "./InstallBanner";
+import { NotifyBanner } from "./NotifyBanner";
 import { UpdateBanner } from "./UpdateBanner";
 import { Overlay, ToastProvider } from "./ui";
 
@@ -62,6 +63,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             </button>
           </div>
           <UpdateBanner />
+          <NotifyBanner />
           <InstallBanner />
           {children}
         </main>

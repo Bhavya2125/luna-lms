@@ -15,6 +15,7 @@ export type QueueItem = Scored & {
   stage: string;
   nextAction: string;
   nextActionDue: string | null;
+  targetDate: string | null;
   phone: string;
   fest: string | null;
 };
@@ -66,7 +67,8 @@ export async function buildHome(db: Db, viewer: { id: number; role: Role }, targ
         nextActionDue: c.nextActionDue,
         phone: c.convenorPhone,
         fest,
-        ...scoreItem({ stage: c.stage, due: c.nextActionDue, fest, stageEnteredAt: c.stageEnteredAt, lastTouchedAt: c.lastTouchedAt, value: Math.max(c.dealAmount, c.artistBudget + c.prodBudget) }, today),
+        targetDate: c.targetDate,
+        ...scoreItem({ stage: c.stage, due: c.nextActionDue, target: c.targetDate, fest, lastTouchedAt: c.lastTouchedAt ?? c.stageEnteredAt, value: Math.max(c.dealAmount, c.artistBudget + c.prodBudget) }, today),
       });
     }
     for (const { d, company } of deals) {
@@ -88,7 +90,8 @@ export async function buildHome(db: Db, viewer: { id: number; role: Role }, targ
         nextActionDue: d.nextActionDue,
         phone: d.contactPhone,
         fest,
-        ...scoreItem({ stage: d.stage, due: d.nextActionDue, fest, stageEnteredAt: d.stageEnteredAt, lastTouchedAt: d.updatedAt, value: d.amount }, today),
+        targetDate: d.targetDate,
+        ...scoreItem({ stage: d.stage, due: d.nextActionDue, target: d.targetDate, fest, lastTouchedAt: d.updatedAt, value: d.amount }, today),
       });
     }
     return out.sort((a, b) => b.score - a.score || (a.dueIn ?? 999) - (b.dueIn ?? 999) || a.title.localeCompare(b.title));

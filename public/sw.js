@@ -39,7 +39,11 @@ async function networkFirst(req, cacheName) {
   }
 }
 
+// registered as /sw.js?dev=1 during development: push works, nothing is cached
+const DEV = new URL(self.location.href).searchParams.has("dev");
+
 self.addEventListener("fetch", (event) => {
+  if (DEV) return;
   const req = event.request;
   if (req.method !== "GET") return;
   const url = new URL(req.url);

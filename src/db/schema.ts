@@ -107,6 +107,7 @@ export const colleges = pgTable(
     pitchCompany: text("pitch_company").notNull().default(""), // the company name we pitch to this college under
     nextAction: text("next_action").notNull().default(""),
     nextActionDue: date("next_action_due", { mode: "string" }),
+    targetDate: date("target_date", { mode: "string" }), // overall deadline set by the team, e.g. "lock by"
     stageEnteredAt: ts("stage_entered_at").notNull().defaultNow(),
     lastTouchedAt: ts("last_touched_at"),
     createdBy: integer("created_by").references(() => users.id, { onDelete: "set null" }),
@@ -321,6 +322,7 @@ export const sponsorDeals = pgTable(
     notes: text("notes").notNull().default(""),
     nextAction: text("next_action").notNull().default(""),
     nextActionDue: date("next_action_due", { mode: "string" }),
+    targetDate: date("target_date", { mode: "string" }), // overall deadline set by the team, e.g. "lock by"
     stageEnteredAt: ts("stage_entered_at").notNull().defaultNow(),
     createdBy: integer("created_by").references(() => users.id, { onDelete: "set null" }),
     createdAt: ts("created_at").notNull().defaultNow(),

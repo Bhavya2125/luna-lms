@@ -9,7 +9,7 @@ import { GeoFields } from "../GeoFields";
 import { Drawer, Field, NumField, Seg, SelectField, Tag, TextField, useAction, useToast } from "../ui";
 import { HistoryTabs } from "./HistoryTabs";
 import { MoveDialog, NEEDS_FORM } from "./MoveDialog";
-import { DueTag, NextStepModal } from "../NextStep";
+import { DueTag, NextStepModal, TargetModal, TargetTag } from "../NextStep";
 
 const tone = (s: string) => (s === "locked" ? "g" : s === "lost" ? "r" : undefined);
 
@@ -87,6 +87,7 @@ function DealTab({ detail, admin, onMove, reload, onAssign, phoneLinks }: { deta
   const next = !closed && idx < 3 ? COLLEGE_STAGES[idx + 1] : null;
   const [note, setNote] = useState("");
   const [step, setStep] = useState<"done" | "edit" | "snooze" | null>(null);
+  const [targetOpen, setTargetOpen] = useState(false);
   const { busy, run } = useAction();
 
   async function direct(to: CollegeStage) {
@@ -148,15 +149,25 @@ function DealTab({ detail, admin, onMove, reload, onAssign, phoneLinks }: { deta
 
       {!closed && (
         <div className="box">
-          <div className="top" style={{ marginBottom: 4 }}>
-            <h3>Next step</h3>
-            <DueTag due={c.nextActionDue} />
+          <h3>Plan</h3>
+          <p className="sub" style={{ margin: "2px 0 8px" }}>Dates here are yours to set. Stages never add due dates on their own.</p>
+          <div className="rw first">
+            <div>
+              <b>Target</b> <span className="sub">lock this college by</span>
+              <div style={{ marginTop: 4 }}>{c.targetDate ? <TargetTag date={c.targetDate} /> : <span className="sub">No target date</span>}</div>
+            </div>
+            <button className="sm" onClick={() => setTargetOpen(true)}>{c.targetDate ? "Change" : "Set target"}</button>
           </div>
-          <p style={{ margin: "4px 0 10px" }}>{c.nextAction || <span className="sub">No next step written yet{c.nextActionDue ? "" : " and no due date"}.</span>}</p>
-          <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-            <button className="sm" onClick={() => setStep("done")}>✓ Done</button>
-            <button className="sm" onClick={() => setStep("snooze")}>Snooze</button>
-            <button className="sm" onClick={() => setStep("edit")}>Edit</button>
+          <div className="rw">
+            <div style={{ minWidth: 0 }}>
+              <b>Next step</b> <DueTag due={c.nextActionDue} />
+              <div style={{ marginTop: 4 }}>{c.nextAction || <span className="sub">Nothing written yet</span>}</div>
+            </div>
+            <div style={{ display: "flex", gap: 4, flexWrap: "wrap", justifyContent: "flex-end" }}>
+              <button className="sm" onClick={() => setStep("done")}>✓ Done</button>
+              <button className="sm" onClick={() => setStep("snooze")}>Snooze</button>
+              <button className="sm" onClick={() => setStep("edit")}>Edit</button>
+            </div>
           </div>
         </div>
       )}
@@ -167,6 +178,16 @@ function DealTab({ detail, admin, onMove, reload, onAssign, phoneLinks }: { deta
           onClose={() => setStep(null)}
           onDone={() => {
             setStep(null);
+            reload();
+          }}
+        />
+      )}
+      {targetOpen && (
+        <TargetModal
+          target={{ kind: "college", id: c.id, stage: c.stage, title: c.name, nextAction: c.nextAction, nextActionDue: c.nextActionDue, targetDate: c.targetDate }}
+          onClose={() => setTargetOpen(false)}
+          onDone={() => {
+            setTargetOpen(false);
             reload();
           }}
         />
@@ -262,6 +283,7 @@ function DetailsTab({ college, reload }: { college: CollegeDetail["college"]; re
           <SelectField label="Fest year" value={f.festYear} onChange={(v) => set("festYear", +v)} options={[-2, -1, 0, 1, 2].map((k) => [y + k, String(y + k)] as [number, string])} />
           <TextField type="date" label="Start date" value={f.festStart ?? ""} onChange={(v) => set("festStart", v || null)} />
           <TextField type="date" label="End date" value={f.festEnd ?? ""} onChange={(v) => set("festEnd", v || null)} />
+          <TextField type="date" label="Target: lock by (optional)" value={f.targetDate ?? ""} onChange={(v) => set("targetDate", v || null)} />
           <SelectField label="Number of days" value={f.days} onChange={(v) => set("days", +v)} options={[1, 2, 3, 4, 5, 6, 7].map((n) => [n, `${n} day${n > 1 ? "s" : ""}`] as [number, string])} />
         </div>
         {dateRange && <div className="sub" style={{ marginTop: 6 }}>Dates: {dateRange}. A start date sets the month and year.</div>}
@@ -299,7 +321,7 @@ function DetailsTab({ college, reload }: { college: CollegeDetail["college"]; re
         onClick={async () => {
           const { festStart, festEnd } = f;
           const body = {
-            name: f.name, city: f.city, state: f.state, festName: f.festName, pitchCompany: f.pitchCompany, festType: f.festType, festMonth: f.festMonth, festYear: f.festYear, festStart, festEnd, days: f.days,
+            name: f.name, city: f.city, state: f.state, festName: f.festName, pitchCompany: f.pitchCompany, festType: f.festType, festMonth: f.festMonth, festYear: f.festYear, festStart, festEnd, days: f.days, targetDate: f.targetDate || null,
             convenorName: f.convenorName, convenorPhone: normPhone(f.convenorPhone), facultyName: f.facultyName, facultyPhone: normPhone(f.facultyPhone),
             artistBudget: f.artistBudget, prodBudget: f.prodBudget, wishlist: f.wishlist, scopeNotes: f.scopeNotes,
             proposedArtistRate: f.proposedArtistRate, proposedProdRate: f.proposedProdRate, proposalNotes: f.proposalNotes, dealAmount: f.dealAmount, dealDeliverables: f.dealDeliverables,

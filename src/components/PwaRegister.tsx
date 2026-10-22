@@ -1,11 +1,12 @@
 "use client";
 import { useEffect } from "react";
 
-/** Registers the service worker. Skipped in development so cached files never hide your edits. */
+/** Registers the service worker. In development it runs with caching off (push only), so edits always show. */
 export function PwaRegister() {
   useEffect(() => {
-    if (process.env.NODE_ENV !== "production" || !("serviceWorker" in navigator)) return;
-    navigator.serviceWorker.register("/sw.js", { scope: "/", updateViaCache: "none" }).catch(() => {});
+    if (!("serviceWorker" in navigator)) return;
+    const url = process.env.NODE_ENV === "production" ? "/sw.js" : "/sw.js?dev=1";
+    navigator.serviceWorker.register(url, { scope: "/", updateViaCache: "none" }).catch(() => {});
   }, []);
   return null;
 }

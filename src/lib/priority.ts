@@ -1,25 +1,24 @@
 import { STAGE_LABEL } from "./stages";
 
-/** Default days a deal should stay in a stage before its next step is due. Any date can be chosen instead. */
-export const STAGE_DAYS: Record<string, number> = {
-  reach_out: 3,
-  initial_connect: 7,
-  requirements_received: 5,
-  rates_proposed: 7,
-  proposal_sent: 7,
-};
+/*
+ * Stages and dates are separate. A stage says where a deal is; dates are only ever set by people:
+ *  - next step due: when the current task should be done
+ *  - target date: the overall deadline for the college or sponsor deal (e.g. "lock by")
+ * Priority comes from those dates, the fest date and how quiet the deal has been.
+ */
+
 const EARLY = ["reach_out", "initial_connect"];
 const CLOSED = ["locked", "lost"];
 export const isClosed = (stage: string) => CLOSED.includes(stage);
 
 export type Level = "urgent" | "high" | "normal" | "low";
 export type Group = "overdue" | "today" | "week" | "later";
-export type Scored = { score: number; level: Level; group: Group; reasons: string[]; dueIn: number | null; festIn: number | null };
+export type Scored = { score: number; level: Level; group: Group; reasons: string[]; dueIn: number | null; targetIn: number | null; festIn: number | null };
 export type PriorityInput = {
   stage: string;
-  due: string | null; // YYYY-MM-DD
-  fest: string | null; // YYYY-MM-DD
-  stageEnteredAt: Date | string | null;
+  due: string | null; // next step due, YYYY-MM-DD
+  target: string | null; // overall target date, YYYY-MM-DD
+  fest: string | null; // fest start, YYYY-MM-DD
   lastTouchedAt: Date | string | null;
   value: number; // rupees
 };
@@ -30,35 +29,46 @@ export const todayIST = (now = new Date()) => new Date(now.getTime() + 5.5 * 360
 const dayNum = (iso: string) => Date.UTC(+iso.slice(0, 4), +iso.slice(5, 7) - 1, +iso.slice(8, 10)) / DAY;
 export const daysBetween = (fromIso: string, toIso: string) => Math.round(dayNum(toIso) - dayNum(fromIso));
 export const addDays = (iso: string, n: number) => new Date((dayNum(iso) + n) * DAY).toISOString().slice(0, 10);
-/** Suggested due date for the next step after entering a stage. */
-export const suggestDue = (stage: string, today = todayIST()) => (STAGE_DAYS[stage] ? addDays(today, STAGE_DAYS[stage]) : null);
 /** When a fest starts: its exact start date, else the first of its month. */
 export const festDate = (c: { festStart: string | null; festMonth: number; festYear: number }) =>
   c.festStart ?? `${c.festYear}-${String(c.festMonth + 1).padStart(2, "0")}-01`;
 
-const ago = (d: Date | string | null, today: string) => (d ? daysBetween(todayIST(typeof d === "string" ? new Date(d) : d), today) : null);
 const plural = (n: number, w: string) => `${n} ${w}${n === 1 ? "" : "s"}`;
 
-/** Scores an open item 0-100 and explains why. See the home-page plan for the weights. */
+/** Scores an open item 0-100 and explains why. */
 export function scoreItem(i: PriorityInput, today = todayIST()): Scored {
   const reasons: string[] = [];
   let score = 0;
   const dueIn = i.due ? daysBetween(today, i.due) : null;
+  const targetIn = i.target ? daysBetween(today, i.target) : null;
   const festIn = i.fest ? daysBetween(today, i.fest) : null;
 
   if (dueIn !== null) {
     if (dueIn < 0) {
       score += 50 + Math.min(-dueIn, 10) * 2;
-      reasons.push(`Overdue ${plural(-dueIn, "day")}`);
+      reasons.push(`Step overdue ${plural(-dueIn, "day")}`);
     } else if (dueIn === 0) {
       score += 45;
-      reasons.push("Due today");
+      reasons.push("Step due today");
     } else if (dueIn <= 3) {
       score += 35;
-      reasons.push(`Due in ${plural(dueIn, "day")}`);
+      reasons.push(`Step due in ${plural(dueIn, "day")}`);
     } else if (dueIn <= 7) {
       score += 25;
-      reasons.push(`Due in ${plural(dueIn, "day")}`);
+      reasons.push(`Step due in ${plural(dueIn, "day")}`);
+    }
+  }
+  if (targetIn !== null) {
+    if (targetIn < 0) {
+      score += 45 + Math.min(-targetIn, 10) * 2;
+      reasons.push(`Target passed ${plural(-targetIn, "day")} ago`);
+    } else if (targetIn === 0) {
+      score += 40;
+      reasons.push("Target is today");
+    } else {
+      const pts = targetIn <= 7 ? 30 : targetIn <= 14 ? 20 : targetIn <= 30 ? 10 : 0;
+      score += pts;
+      if (pts) reasons.push(`Target in ${plural(targetIn, "day")}`);
     }
   }
   if (festIn !== null) {
@@ -75,22 +85,12 @@ export function scoreItem(i: PriorityInput, today = todayIST()): Scored {
       }
     }
   }
-  const inStage = ago(i.stageEnteredAt, today);
-  const quiet = ago(i.lastTouchedAt ?? i.stageEnteredAt, today);
-  const limit = STAGE_DAYS[i.stage];
-  let stuck = 0;
-  let stuckWhy = "";
-  if (limit && inStage !== null && inStage > limit) {
-    stuck = inStage > 2 * limit ? 20 : 10;
-    stuckWhy = `In ${STAGE_LABEL[i.stage]} for ${plural(inStage, "day")}`;
-  }
-  if (quiet !== null && quiet >= 14 && stuck < 10) {
-    stuck = 10;
-    stuckWhy = `No update in ${plural(quiet, "day")}`;
-  }
-  if (stuck) {
-    score += stuck;
-    reasons.push(stuckWhy);
+  if (i.lastTouchedAt) {
+    const quiet = daysBetween(todayIST(typeof i.lastTouchedAt === "string" ? new Date(i.lastTouchedAt) : i.lastTouchedAt), today);
+    if (quiet >= 14) {
+      score += 10;
+      reasons.push(`No update in ${plural(quiet, "day")}`);
+    }
   }
   if (i.value >= 2_000_000) {
     score += 5;
@@ -99,8 +99,11 @@ export function scoreItem(i: PriorityInput, today = todayIST()): Scored {
 
   score = Math.max(0, Math.min(100, score));
   const level: Level = score >= 70 ? "urgent" : score >= 45 ? "high" : score >= 20 ? "normal" : "low";
-  const group: Group = dueIn === null ? "later" : dueIn < 0 ? "overdue" : dueIn === 0 ? "today" : dueIn <= 7 ? "week" : "later";
-  return { score, level, group, reasons, dueIn, festIn };
+  // the earlier of the two dates decides where it sits in the queue
+  const dates = [dueIn, targetIn].filter((d): d is number => d !== null);
+  const soonest = dates.length ? Math.min(...dates) : null;
+  const group: Group = soonest === null ? "later" : soonest < 0 ? "overdue" : soonest === 0 ? "today" : soonest <= 7 ? "week" : "later";
+  return { score, level, group, reasons, dueIn, targetIn, festIn };
 }
 
 export const LEVEL_LABEL: Record<Level, string> = { urgent: "Urgent", high: "High", normal: "Normal", low: "Low" };

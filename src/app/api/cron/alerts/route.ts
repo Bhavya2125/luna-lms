@@ -1,36 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
-import { eq, inArray, or } from "drizzle-orm";
-import webpush from "web-push";
+import { eq, or } from "drizzle-orm";
 import { getDb, schema } from "@/db";
 import { computeAlerts } from "@/lib/alerts";
 import { buildHome } from "@/lib/home";
+import { configurePush, pushToUser } from "@/lib/push";
 
 const { alertDispatch, collegeAssignments, pushSubscriptions, users } = schema;
 
-/** Env values pasted into a dashboard often carry spaces, quotes or a "Public Key:" label. */
-const clean = (v?: string) => (v ?? "").replace(/^\s*(public|private)\s*key:?\s*/i, "").replace(/["'\s]/g, "");
-
 /**
  * Daily job, called by a scheduler with "Authorization: Bearer <CRON_SECRET>".
- * Sends each new alert once, to the people assigned to the college (or to admins when nobody is assigned).
+ * 1. Fest alerts, each sent once, to the people assigned to the college (or to admins when nobody is).
+ * 2. A personal summary for everyone with something overdue or due today.
  */
 export async function GET(req: NextRequest) {
   const secret = process.env.CRON_SECRET?.trim();
   if (!secret || req.headers.get("authorization")?.trim() !== `Bearer ${secret}`) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-
-  const pub = clean(process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY);
-  const priv = clean(process.env.VAPID_PRIVATE_KEY);
-  if (!pub || !priv) return NextResponse.json({ sent: 0, note: "Push keys are not configured" });
-  let subject = (process.env.VAPID_SUBJECT ?? "").trim();
-  if (subject && !/^(mailto:|https:)/i.test(subject)) subject = subject.includes("@") ? `mailto:${subject}` : "";
-  try {
-    webpush.setVapidDetails(subject || "mailto:admin@lunawave.example", pub, priv);
-  } catch (e) {
-    return NextResponse.json(
-      { error: `Push keys are not valid: ${(e as Error).message}. Regenerate them with "npx web-push generate-vapid-keys" and paste only the key text into Render.` },
-      { status: 500 },
-    );
-  }
+  const problem = configurePush();
+  if (problem === "Push keys are not configured on the server") return NextResponse.json({ sent: 0, note: "Push keys are not configured" });
+  if (problem) return NextResponse.json({ error: `${problem}. Regenerate them with "npx web-push generate-vapid-keys" and paste only the key text.` }, { status: 500 });
 
   try {
     const db = await getDb();
@@ -44,21 +31,14 @@ export async function GET(req: NextRequest) {
       const recipients = assigned.length
         ? assigned.map((r) => r.id)
         : (await db.select({ id: users.id }).from(users).where(or(eq(users.role, "admin"), eq(users.role, "super_admin")))).map((r) => r.id);
-      const subs = recipients.length ? await db.select().from(pushSubscriptions).where(inArray(pushSubscriptions.userId, recipients)) : [];
-      for (const s of subs) {
-        try {
-          await webpush.sendNotification({ endpoint: s.endpoint, keys: { p256dh: s.p256dh, auth: s.auth } }, JSON.stringify({ title: "Luna Wave", body: a.message, url: `/colleges?open=${a.collegeId}` }));
-          sent++;
-        } catch (e) {
-          failed++;
-          const code = (e as { statusCode?: number }).statusCode;
-          if (code === 404 || code === 410) await db.delete(pushSubscriptions).where(eq(pushSubscriptions.id, s.id));
-        }
+      for (const uid of recipients) {
+        const r = await pushToUser(db, uid, { title: "Luna Wave", body: a.message, url: `/colleges?open=${a.collegeId}` });
+        sent += r.sent;
+        failed += r.failed;
       }
       await db.insert(alertDispatch).values({ collegeId: a.collegeId, festYear: a.festYear, kind: a.kind }).onConflictDoNothing();
     }
 
-    // personal morning summary: one push per person with something overdue or due today
     let digests = 0;
     const subscribers = [...new Set((await db.select({ userId: pushSubscriptions.userId }).from(pushSubscriptions)).map((r) => r.userId))];
     for (const uid of subscribers) {
@@ -70,16 +50,9 @@ export async function GET(req: NextRequest) {
       const top = home.items[0];
       const parts = [overdue && `${overdue} overdue`, today && `${today} due today`].filter(Boolean).join(", ");
       const body = `${parts}${top ? `. Start with ${top.title}${top.nextAction ? `: ${top.nextAction}` : ""}.` : "."}`;
-      for (const s of await db.select().from(pushSubscriptions).where(eq(pushSubscriptions.userId, uid))) {
-        try {
-          await webpush.sendNotification({ endpoint: s.endpoint, keys: { p256dh: s.p256dh, auth: s.auth } }, JSON.stringify({ title: "Your day in Luna Wave", body, url: "/home" }));
-          digests++;
-        } catch (e) {
-          failed++;
-          const code = (e as { statusCode?: number }).statusCode;
-          if (code === 404 || code === 410) await db.delete(pushSubscriptions).where(eq(pushSubscriptions.id, s.id));
-        }
-      }
+      const r = await pushToUser(db, uid, { title: "Your day in Luna Wave", body, url: "/home" });
+      digests += r.sent;
+      failed += r.failed;
     }
     return NextResponse.json({ alerts: alerts.length, sent, digests, failed });
   } catch (e) {

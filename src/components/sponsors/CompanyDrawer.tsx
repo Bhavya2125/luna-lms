@@ -7,7 +7,7 @@ import { DEAL_STAGES, DEAL_STAGE_DESC, MONTHS, STAGE_LABEL, type DealStage } fro
 import type { CompanyDetail, DealDetail, Me } from "@/lib/types";
 import { Drawer, Modal, Seg, Tag, useAction, useToast } from "../ui";
 import { DEAL_NEEDS_FORM, DealMoveDialog, DealModal } from "./DealParts";
-import { DueTag, NextStepModal } from "../NextStep";
+import { DueTag, NextStepModal, TargetModal, TargetTag } from "../NextStep";
 
 type Tab = "col" | "deals" | "contact";
 
@@ -18,6 +18,7 @@ export function CompanyDrawer({ id, me, onClose, onChanged, initialTab }: { id: 
   const [move, setMove] = useState<{ deal: DealDetail; to: DealStage } | null>(null);
   const [rm, setRm] = useState<DealDetail | null>(null);
   const [step, setStep] = useState<{ deal: DealDetail; mode: "done" | "edit" | "snooze" } | null>(null);
+  const [targetFor, setTargetFor] = useState<DealDetail | null>(null);
   const toast = useToast();
   const admin = me.role !== "executive";
   const reload = () => {
@@ -132,6 +133,14 @@ export function CompanyDrawer({ id, me, onClose, onChanged, initialTab }: { id: 
                 {!closed && (
                   <div className="rw" style={{ marginTop: 8 }}>
                     <div>
+                      <b>Target</b> {d.targetDate ? <TargetTag date={d.targetDate} /> : <span className="sub">close by: not set</span>}
+                    </div>
+                    <button className="sm" onClick={() => setTargetFor(d)}>{d.targetDate ? "Change" : "Set target"}</button>
+                  </div>
+                )}
+                {!closed && (
+                  <div className="rw">
+                    <div>
                       <b>Next step</b> <DueTag due={d.nextActionDue} />
                       <div className="sub">{d.nextAction || "No next step written yet."}</div>
                     </div>
@@ -168,6 +177,16 @@ export function CompanyDrawer({ id, me, onClose, onChanged, initialTab }: { id: 
           onClose={() => setStep(null)}
           onDone={() => {
             setStep(null);
+            reload();
+          }}
+        />
+      )}
+      {targetFor && (
+        <TargetModal
+          target={{ kind: "deal", id: targetFor.id, stage: targetFor.stage, title: `${company.name}${targetFor.college ? ` · ${targetFor.college}` : ""}`, nextAction: targetFor.nextAction, nextActionDue: targetFor.nextActionDue, targetDate: targetFor.targetDate }}
+          onClose={() => setTargetFor(null)}
+          onDone={() => {
+            setTargetFor(null);
             reload();
           }}
         />

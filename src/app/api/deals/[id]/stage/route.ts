@@ -3,7 +3,7 @@ import { schema } from "@/db";
 import { api, HttpError, readJson } from "@/lib/api";
 import { getDealOrThrow } from "@/lib/deals";
 import { normPhone } from "@/lib/format";
-import { isClosed, suggestDue } from "@/lib/priority";
+import { isClosed } from "@/lib/priority";
 import { checkDealMove } from "@/lib/rules";
 import { dealMove } from "@/lib/validators";
 
@@ -23,8 +23,8 @@ export const POST = api<{ id: string }>(async ({ req, db, user, params }) => {
     updatedAt: new Date(),
     stageEnteredAt: new Date(),
   };
+  // stages never set dates; a closed deal simply has no next step any more
   if (isClosed(b.to)) Object.assign(patch, { nextAction: "", nextActionDue: null });
-  else Object.assign(patch, { nextAction: b.fields?.nextAction ?? "", nextActionDue: b.fields?.nextActionDue !== undefined ? b.fields.nextActionDue : suggestDue(b.to) });
   if (b.fields?.contactPhone !== undefined) patch.contactPhone = normPhone(b.fields.contactPhone);
   await db.transaction(async (tx) => {
     await tx.update(sponsorDeals).set(patch).where(eq(sponsorDeals.id, id));

@@ -198,10 +198,14 @@ r = await rohan.req("PATCH", `/api/colleges/${target.id}`, { nextAction: "Custom
 check("custom step and date saved", (await rohan.req("GET", `/api/colleges/${target.id}`)).json.college.nextAction === "Custom step");
 // stage moves suggest the next due date unless one is given
 const sc = (await rohan.req("POST", "/api/colleges", { name: `Home Test ${stamp}`, city: "Pune", festMonth: 7 })).json.id;
-check("new college gets a reach-out due date", (await rohan.req("GET", `/api/colleges/${sc}`)).json.college.nextActionDue === plus(3));
+check("new college has no due date until someone sets one", (await rohan.req("GET", `/api/colleges/${sc}`)).json.college.nextActionDue === null);
+await rohan.req("PATCH", `/api/colleges/${sc}`, { nextAction: "Intro call", nextActionDue: plus(5) });
 await rohan.req("POST", `/api/colleges/${sc}/stage`, { to: "initial_connect" });
 const sc1 = (await rohan.req("GET", `/api/colleges/${sc}`)).json.college;
-check("stage move suggests the next due date", sc1.nextActionDue === plus(7) && sc1.nextAction === "", JSON.stringify([sc1.nextActionDue, plus(7)]));
+check("stage moves do not change dates or the next step", sc1.nextActionDue === plus(5) && sc1.nextAction === "Intro call", JSON.stringify([sc1.nextActionDue, sc1.nextAction]));
+r = await rohan.req("PATCH", `/api/colleges/${sc}`, { targetDate: plus(-2) });
+const tgt = (await rohan.req("GET", "/api/home")).json.items.find((i) => i.key === `c${sc}`);
+check("a passed target date puts the college in Overdue", r.status === 200 && tgt.group === "overdue" && tgt.reasons.includes("Target passed 2 days ago"), JSON.stringify(tgt?.reasons));
 await rohan.req("POST", `/api/colleges/${sc}/stage`, { to: "requirements_received", fields: { nextAction: "Get budget", nextActionDue: plus(1) } });
 const sc2 = (await rohan.req("GET", `/api/colleges/${sc}`)).json.college;
 check("stage move keeps a custom next step", sc2.nextAction === "Get budget" && sc2.nextActionDue === plus(1));
@@ -209,7 +213,10 @@ await isha.req("POST", `/api/colleges/${sc}/stage`, { to: "lost", reason: "Budge
 const sc3 = (await rohan.req("GET", `/api/colleges/${sc}`)).json.college;
 check("closing a deal clears its next step", sc3.nextAction === "" && sc3.nextActionDue === null);
 const nd = (await rohan.req("POST", "/api/deals", { companyId: rb.id, collegeId: null })).json.id;
-check("new sponsor deal gets a due date", (await rohan.req("GET", "/api/deals")).json.find((x) => x.id === nd).nextActionDue === plus(3));
+check("new sponsor deal has no due date until someone sets one", (await rohan.req("GET", "/api/deals")).json.find((x) => x.id === nd).nextActionDue === null);
+r = await rohan.req("PATCH", `/api/deals/${nd}`, { targetDate: plus(10) });
+check("sponsor deal target date saved", r.status === 200 && (await rohan.req("GET", "/api/deals")).json.find((x) => x.id === nd).targetDate === plus(10));
+check("test notification needs alerts turned on first", [400, 503].includes((await rohan.req("POST", "/api/push/test")).status));
 r = await rohan.req("POST", `/api/deals/${nd}/stage`, { to: "initial_connect", fields: { nextAction: "Call back", nextActionDue: plus(4) } });
 check("deal stage move saves next step", r.status === 200 && (await rohan.req("GET", "/api/deals")).json.find((x) => x.id === nd).nextAction === "Call back");
 
