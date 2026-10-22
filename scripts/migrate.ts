@@ -20,6 +20,10 @@ async function main() {
 }
 
 main().catch((e) => {
-  console.error(e.message ?? e);
+  // drizzle wraps the driver error; print the real cause (bad password, wrong host, SSL, permissions)
+  const cause = e?.cause ?? e;
+  const url = process.env.DIRECT_DATABASE_URL || process.env.DATABASE_URL || "";
+  const host = url.replace(/^.*@/, "").replace(/[/?].*$/, "");
+  console.error(`Migration failed on ${host || "(no database URL)"}: ${cause?.message ?? cause}${cause?.code ? ` [${cause.code}]` : ""}`);
   process.exit(1);
 });
