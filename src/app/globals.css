@@ -220,9 +220,33 @@ main {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
-  flex-wrap: wrap;
+  margin: -8px -6px 4px 0;
+}
+.icon-btn {
+  position: relative;
+  border: 0;
+  background: none;
+  padding: 8px;
+  min-height: 0;
+  border-radius: 10px;
+  color: var(--mut);
+  display: inline-flex;
+}
+.icon-btn:hover {
+  background: var(--ac2);
+  color: var(--ink);
+}
+.icon-btn .dot {
+  position: absolute;
+  top: 2px;
+  right: 0;
+  background: var(--rd);
+  color: var(--on-rd);
+  border-radius: 9px;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 0 5px;
+  line-height: 16px;
 }
 .who {
   font-size: 13px;

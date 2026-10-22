@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import useSWR, { useSWRConfig } from "swr";
 import { fetcher, patch, post } from "@/lib/client";
 import { useInstall, usePush } from "@/lib/pwa";
+import { useSignOut } from "@/lib/useSignOut";
 import { ROLES, ROLE_DESC, ROLE_LABEL, type Role } from "@/lib/stages";
 import type { Me, TeamUser } from "@/lib/types";
 import { Field, Modal, SelectField, Tag, TextField, useAction, useToast } from "../ui";
@@ -22,9 +23,9 @@ export function SettingsView({ me }: { me: Me }) {
   return (
     <>
       <div className="top"><h2>Settings</h2></div>
+      <Account me={me} />
       <Appearance />
       <Notifications />
-      <Account me={me} />
       {admin && (
         <>
           <div className="top" style={{ marginTop: 18 }}>
@@ -125,12 +126,16 @@ function Notifications() {
 
 function Account({ me }: { me: Me }) {
   const [open, setOpen] = useState(false);
+  const signOut = useSignOut();
   return (
     <div className="box">
       <h3>Your account</h3>
       <div className="sub">{me.name} · @{me.username}</div>
       <p style={{ margin: "6px 0 8px" }}><Tag>{ROLE_LABEL[me.role]}</Tag></p>
-      <button onClick={() => setOpen(true)}>Change password</button>
+      <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+        <button onClick={() => setOpen(true)}>Change password</button>
+        <button onClick={signOut}>Sign out</button>
+      </div>
       {open && <PasswordModal onClose={() => setOpen(false)} />}
     </div>
   );
