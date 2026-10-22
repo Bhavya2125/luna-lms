@@ -3,6 +3,8 @@ import { useState } from "react";
 import { post } from "@/lib/client";
 import { COLLEGE_STAGE_DESC, LOST_REASONS, STAGE_LABEL, type CollegeStage } from "@/lib/stages";
 import type { College } from "@/lib/types";
+import { suggestDue } from "@/lib/priority";
+import { DuePicker } from "../NextStep";
 import { Field, Modal, NumField, TextField, useAction } from "../ui";
 
 /** Stages that need something captured before the deal can move there. */
@@ -21,6 +23,9 @@ export function MoveDialog({ college, to, onClose, onDone }: { college: College;
     dealDeliverables: college.dealDeliverables,
   });
   const [reason, setReason] = useState(LOST_REASONS[0]);
+  const open = to !== "locked" && to !== "lost";
+  const [nextAction, setNextAction] = useState("");
+  const [nextDue, setNextDue] = useState(suggestDue(to) ?? "");
   const { busy, error, run } = useAction();
   const set = <K extends keyof typeof f>(k: K, v: (typeof f)[K]) => setF((p) => ({ ...p, [k]: v }));
 
@@ -62,6 +67,14 @@ export function MoveDialog({ college, to, onClose, onDone }: { college: College;
             </Field>
           </>
         )}
+        {open && (
+          <>
+            <TextField full label="Next step (optional)" value={nextAction} onChange={setNextAction} ph="Send the curated roster, confirm dates…" />
+            <Field full label="Next step due">
+              <DuePicker value={nextDue} onChange={setNextDue} />
+            </Field>
+          </>
+        )}
         {to === "lost" && (
           <Field full label="Why was it lost?">
             <select value={reason} onChange={(e) => setReason(e.target.value)}>
@@ -78,7 +91,8 @@ export function MoveDialog({ college, to, onClose, onDone }: { college: College;
         style={{ width: "100%", marginTop: 14 }}
         disabled={busy}
         onClick={async () => {
-          const ok = await run(() => post(`/api/colleges/${college.id}/stage`, { to, reason: to === "lost" ? reason : undefined, fields }), to === "lost" ? "Marked lost" : `Moved to ${STAGE_LABEL[to]}`);
+          const step = open ? { nextAction: nextAction.trim(), nextActionDue: nextDue || null } : {};
+          const ok = await run(() => post(`/api/colleges/${college.id}/stage`, { to, reason: to === "lost" ? reason : undefined, fields: { ...(fields ?? {}), ...step } }), to === "lost" ? "Marked lost" : `Moved to ${STAGE_LABEL[to]}`);
           if (ok) onDone();
         }}
       >

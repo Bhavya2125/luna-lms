@@ -78,7 +78,7 @@ self.addEventListener("fetch", (event) => {
 });
 
 self.addEventListener("push", (event) => {
-  let data = { title: "Luna Wave", body: "You have a new alert", url: "/colleges" };
+  let data = { title: "Luna Wave", body: "You have a new alert", url: "/home" };
   try {
     data = { ...data, ...event.data.json() };
   } catch {}
@@ -94,7 +94,7 @@ self.addEventListener("push", (event) => {
 
 self.addEventListener("notificationclick", (event) => {
   event.notification.close();
-  const target = (event.notification.data && event.notification.data.url) || "/colleges";
+  const target = (event.notification.data && event.notification.data.url) || "/home";
   event.waitUntil(
     (async () => {
       const all = await self.clients.matchAll({ type: "window", includeUncontrolled: true });

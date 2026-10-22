@@ -7,15 +7,17 @@ import { DEAL_STAGES, DEAL_STAGE_DESC, MONTHS, STAGE_LABEL, type DealStage } fro
 import type { CompanyDetail, DealDetail, Me } from "@/lib/types";
 import { Drawer, Modal, Seg, Tag, useAction, useToast } from "../ui";
 import { DEAL_NEEDS_FORM, DealMoveDialog, DealModal } from "./DealParts";
+import { DueTag, NextStepModal } from "../NextStep";
 
 type Tab = "col" | "deals" | "contact";
 
-export function CompanyDrawer({ id, me, onClose, onChanged }: { id: number; me: Me; onClose: () => void; onChanged: () => void }) {
+export function CompanyDrawer({ id, me, onClose, onChanged, initialTab }: { id: number; me: Me; onClose: () => void; onChanged: () => void; initialTab?: Tab }) {
   const { data, error, mutate } = useSWR<CompanyDetail>(`/api/companies/${id}`, fetcher);
-  const [tab, setTab] = useState<Tab>("col");
+  const [tab, setTab] = useState<Tab>(initialTab ?? "col");
   const [dealModal, setDealModal] = useState<{ deal?: DealDetail } | null>(null);
   const [move, setMove] = useState<{ deal: DealDetail; to: DealStage } | null>(null);
   const [rm, setRm] = useState<DealDetail | null>(null);
+  const [step, setStep] = useState<{ deal: DealDetail; mode: "done" | "edit" | "snooze" } | null>(null);
   const toast = useToast();
   const admin = me.role !== "executive";
   const reload = () => {
@@ -127,6 +129,19 @@ export function CompanyDrawer({ id, me, onClose, onChanged }: { id: number; me: 
                 {!closed && i < 3 && <button onClick={() => request(d, DEAL_STAGES[i + 1])}>Move to {STAGE_LABEL[DEAL_STAGES[i + 1]]} →</button>}
                 {!closed && i === 3 && <button onClick={() => request(d, "locked")}>Mark locked</button>}
                 {closed && !admin && <span className="sub">Only an admin can reopen a closed deal.</span>}
+                {!closed && (
+                  <div className="rw" style={{ marginTop: 8 }}>
+                    <div>
+                      <b>Next step</b> <DueTag due={d.nextActionDue} />
+                      <div className="sub">{d.nextAction || "No next step written yet."}</div>
+                    </div>
+                    <div style={{ display: "flex", gap: 4, flexWrap: "wrap", justifyContent: "flex-end" }}>
+                      <button className="sm" onClick={() => setStep({ deal: d, mode: "done" })}>✓ Done</button>
+                      <button className="sm" onClick={() => setStep({ deal: d, mode: "snooze" })}>Snooze</button>
+                      <button className="sm" onClick={() => setStep({ deal: d, mode: "edit" })}>Edit</button>
+                    </div>
+                  </div>
+                )}
                 {d.notes && <p style={{ margin: "8px 0 0" }}>{d.notes}</p>}
                 {d.log.length > 0 && (
                   <div className="sub" style={{ marginTop: 8 }}>
@@ -146,6 +161,17 @@ export function CompanyDrawer({ id, me, onClose, onChanged }: { id: number; me: 
 
       {tab === "contact" && <ContactTab data={data} reload={reload} />}
 
+      {step && (
+        <NextStepModal
+          target={{ kind: "deal", id: step.deal.id, stage: step.deal.stage, title: `${company.name}${step.deal.college ? ` · ${step.deal.college}` : ""}`, nextAction: step.deal.nextAction, nextActionDue: step.deal.nextActionDue }}
+          mode={step.mode}
+          onClose={() => setStep(null)}
+          onDone={() => {
+            setStep(null);
+            reload();
+          }}
+        />
+      )}
       {dealModal && <DealModal companyId={company.id} companyName={company.name} deal={dealModal.deal} contacts={contacts} onClose={() => setDealModal(null)} onDone={() => { setDealModal(null); setTab("deals"); reload(); }} />}
       {move && <DealMoveDialog deal={move.deal} name={company.name} to={move.to} onClose={() => setMove(null)} onDone={() => { setMove(null); reload(); }} />}
       {rm && <DeleteDeal deal={rm} onClose={() => setRm(null)} onDone={() => { setRm(null); reload(); }} />}

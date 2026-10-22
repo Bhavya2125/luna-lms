@@ -15,6 +15,13 @@
       "when": 1792642188938,
       "tag": "0001_pitch_company",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1792650424205,
+      "tag": "0002_next_steps",
+      "breakpoints": true
     }
   ]
 }

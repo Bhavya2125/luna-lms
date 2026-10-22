@@ -6,7 +6,7 @@ export default function manifest(): MetadataRoute.Manifest {
     short_name: "Luna Wave",
     description: "Colleges, sponsors and artists in one pipeline.",
     id: "/",
-    start_url: "/colleges",
+    start_url: "/home",
     scope: "/",
     display: "standalone",
     orientation: "portrait",
@@ -19,6 +19,7 @@ export default function manifest(): MetadataRoute.Manifest {
       { src: "/icons/maskable-512.png", sizes: "512x512", type: "image/png", purpose: "maskable" },
     ],
     shortcuts: [
+      { name: "Home", url: "/home" },
       { name: "Colleges", url: "/colleges" },
       { name: "Sponsors", url: "/sponsors" },
       { name: "Artist roster", url: "/roster" },

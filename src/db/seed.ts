@@ -6,7 +6,9 @@
 import { loadEnvConfig } from "@next/env";
 import bcrypt from "bcryptjs";
 import { getDb, schema } from "./connect";
+import { eq } from "drizzle-orm";
 import { collegeKey, nameKey, normPhone } from "../lib/format";
+import { addDays, todayIST } from "../lib/priority";
 
 loadEnvConfig(process.cwd()); // read .env.local like the app does
 
@@ -159,6 +161,32 @@ async function main() {
     { dealId: deal.id, fromStage: "new", toStage: "reach_out", byUserId: isha.id },
     { dealId: deal.id, fromStage: "reach_out", toStage: "initial_connect", byUserId: isha.id },
     { dealId: deal.id, fromStage: "initial_connect", toStage: "requirements_received", byUserId: isha.id },
+  ]);
+
+  // next steps so the Home page has realistic work: some overdue, some today, some later
+  const t = todayIST();
+  const steps: [string, string, number, number][] = [
+    ["IIT Bombay", "Call the convenor to confirm Mood Indigo dates", -2, 9],
+    ["Delhi University – SRCC", "Send the curated roster and rate card", 0, 6],
+    ["MNIT Jaipur", "Collect artist budget and wishlist", 3, 4],
+    ["BITS Pilani", "First call with the Oasis convenor", -1, 12],
+    ["IIM Ahmedabad", "Follow up on the proposal", 5, 3],
+    ["LNMIIT Jaipur", "Introduce Luna Wave on WhatsApp", 9, 1],
+  ];
+  for (const [n, action, dueIn, daysInStage] of steps) {
+    await db
+      .update(s.colleges)
+      .set({ nextAction: action, nextActionDue: addDays(t, dueIn), stageEnteredAt: new Date(Date.now() - daysInStage * 864e5) })
+      .where(eq(s.colleges.id, col[n]));
+  }
+  await db.update(s.sponsorDeals).set({ nextAction: "Send the 3-fest sponsorship deck", nextActionDue: addDays(t, 1), stageEnteredAt: new Date(Date.now() - 4 * 864e5) }).where(eq(s.sponsorDeals.id, deal.id));
+  const [boatDeal] = await db
+    .insert(s.sponsorDeals)
+    .values({ companyId: boat, collegeId: col["MNIT Jaipur"], year: now.getFullYear() + 1, stage: "initial_connect", amount: 0, contactName: "Dev Malhotra", contactPhone: normPhone("98100 00003"), nextAction: "Share Blitzschlag footfall numbers", nextActionDue: addDays(t, -3), createdBy: rohan.id, stageEnteredAt: new Date(Date.now() - 10 * 864e5) })
+    .returning({ id: s.sponsorDeals.id });
+  await db.insert(s.sponsorDealLog).values([
+    { dealId: boatDeal.id, fromStage: "new", toStage: "reach_out", byUserId: rohan.id },
+    { dealId: boatDeal.id, fromStage: "reach_out", toStage: "initial_connect", byUserId: rohan.id },
   ]);
 
   console.log("Seeded demo data. Sign in as aarav (Super Admin), isha (Admin), rohan or meera (Executives) with SEED_PASSWORD.");

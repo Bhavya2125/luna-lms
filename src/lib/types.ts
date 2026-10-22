@@ -31,6 +31,9 @@ export type College = {
   dealAmount: number;
   dealDeliverables: string;
   pitchCompany: string;
+  nextAction: string;
+  nextActionDue: string | null;
+  stageEnteredAt: string;
   lastTouchedAt: string | null;
 };
 export type CollegeRow = College & { assignees: Person[]; previousAgency: string };
@@ -115,6 +118,8 @@ export type Deal = {
   exclusive: boolean;
   lostReason: string;
   notes: string;
+  nextAction: string;
+  nextActionDue: string | null;
   createdBy: number | null;
   updatedAt: string;
   company?: string;

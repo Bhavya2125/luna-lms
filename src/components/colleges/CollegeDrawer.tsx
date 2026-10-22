@@ -9,6 +9,7 @@ import { GeoFields } from "../GeoFields";
 import { Drawer, Field, NumField, Seg, SelectField, Tag, TextField, useAction, useToast } from "../ui";
 import { HistoryTabs } from "./HistoryTabs";
 import { MoveDialog, NEEDS_FORM } from "./MoveDialog";
+import { DueTag, NextStepModal } from "../NextStep";
 
 const tone = (s: string) => (s === "locked" ? "g" : s === "lost" ? "r" : undefined);
 
@@ -85,6 +86,7 @@ function DealTab({ detail, admin, onMove, reload, onAssign, phoneLinks }: { deta
   const closed = c.stage === "locked" || c.stage === "lost";
   const next = !closed && idx < 3 ? COLLEGE_STAGES[idx + 1] : null;
   const [note, setNote] = useState("");
+  const [step, setStep] = useState<"done" | "edit" | "snooze" | null>(null);
   const { busy, run } = useAction();
 
   async function direct(to: CollegeStage) {
@@ -143,6 +145,32 @@ function DealTab({ detail, admin, onMove, reload, onAssign, phoneLinks }: { deta
           {closed && (admin ? <button onClick={() => direct("rates_proposed")}>Reopen deal</button> : <span className="sub">Only an admin can reopen a closed deal.</span>)}
         </div>
       </div>
+
+      {!closed && (
+        <div className="box">
+          <div className="top" style={{ marginBottom: 4 }}>
+            <h3>Next step</h3>
+            <DueTag due={c.nextActionDue} />
+          </div>
+          <p style={{ margin: "4px 0 10px" }}>{c.nextAction || <span className="sub">No next step written yet{c.nextActionDue ? "" : " and no due date"}.</span>}</p>
+          <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+            <button className="sm" onClick={() => setStep("done")}>✓ Done</button>
+            <button className="sm" onClick={() => setStep("snooze")}>Snooze</button>
+            <button className="sm" onClick={() => setStep("edit")}>Edit</button>
+          </div>
+        </div>
+      )}
+      {step && (
+        <NextStepModal
+          target={{ kind: "college", id: c.id, stage: c.stage, title: c.name, nextAction: c.nextAction, nextActionDue: c.nextActionDue }}
+          mode={step}
+          onClose={() => setStep(null)}
+          onDone={() => {
+            setStep(null);
+            reload();
+          }}
+        />
+      )}
 
       <div className="box">
         <label className="f">

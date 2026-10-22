@@ -169,6 +169,50 @@ check("restored user signs in", (await new Client().login(`temp.${stamp}`, "temp
 check("cannot revoke self", (await aarav.req("PATCH", "/api/users/1", { active: false })).status === 400);
 check("cannot demote last super admin", (await aarav.req("PATCH", "/api/users/1", { role: "admin" })).status === 400);
 
+// home page
+const istToday = new Date(Date.now() + 5.5 * 3600e3).toISOString().slice(0, 10);
+const plus = (n) => new Date(Date.parse(istToday + "T00:00:00Z") + n * 864e5).toISOString().slice(0, 10);
+const rh = (await rohan.req("GET", "/api/home")).json;
+check("home: exec sees own queue only", rh.viewing.name === "Rohan Verma" && rh.items.length > 0 && !rh.team, JSON.stringify(rh.viewing));
+let mineOk = true;
+for (const it of rh.items.filter((i) => i.kind === "college")) if ((await rohan.req("GET", `/api/colleges/${it.id}`)).status !== 200) mineOk = false;
+check("home: every college item is assigned to the viewer", mineOk);
+check("home: sorted by priority", rh.items.every((it, i, a) => i === 0 || a[i - 1].score >= it.score));
+check("home: summary matches items", rh.summary.overdue === rh.items.filter((i) => i.group === "overdue").length && rh.summary.today === rh.items.filter((i) => i.group === "today").length);
+check("home: items explain their priority", rh.items.every((i) => Array.isArray(i.reasons) && typeof i.level === "string"));
+check("home: closed deals are left out", rh.items.every((i) => !["locked", "lost"].includes(i.stage)));
+const ih = (await isha.req("GET", "/api/home")).json;
+check("home: admin gets team pulse and pipeline", Array.isArray(ih.team) && !!ih.pipeline && Array.isArray(ih.unassigned));
+const ias = (await isha.req("GET", "/api/home?as=3")).json;
+check("home: admin can view a teammate's queue", ias.viewing.id === 3 && ias.items.map((i) => i.key).join() === rh.items.map((i) => i.key).join() && !ias.team);
+check("home: exec cannot view a teammate", (await rohan.req("GET", "/api/home?as=4")).status === 403);
+// snooze changes the due date but does not count as an update
+const target = rh.items.find((i) => i.kind === "college");
+const before = (await rohan.req("GET", `/api/colleges/${target.id}`)).json.college;
+r = await rohan.req("PATCH", `/api/colleges/${target.id}`, { nextActionDue: plus(20) });
+const after = (await rohan.req("GET", `/api/colleges/${target.id}`)).json.college;
+check("snooze sets the new date", r.status === 200 && after.nextActionDue === plus(20), JSON.stringify(after.nextActionDue));
+check("snooze is not counted as an update", after.lastTouchedAt === before.lastTouchedAt);
+check("snoozed item moves to Later", (await rohan.req("GET", "/api/home")).json.items.find((i) => i.key === target.key).group === "later");
+r = await rohan.req("PATCH", `/api/colleges/${target.id}`, { nextAction: "Custom step", nextActionDue: plus(2) });
+check("custom step and date saved", (await rohan.req("GET", `/api/colleges/${target.id}`)).json.college.nextAction === "Custom step");
+// stage moves suggest the next due date unless one is given
+const sc = (await rohan.req("POST", "/api/colleges", { name: `Home Test ${stamp}`, city: "Pune", festMonth: 7 })).json.id;
+check("new college gets a reach-out due date", (await rohan.req("GET", `/api/colleges/${sc}`)).json.college.nextActionDue === plus(3));
+await rohan.req("POST", `/api/colleges/${sc}/stage`, { to: "initial_connect" });
+const sc1 = (await rohan.req("GET", `/api/colleges/${sc}`)).json.college;
+check("stage move suggests the next due date", sc1.nextActionDue === plus(7) && sc1.nextAction === "", JSON.stringify([sc1.nextActionDue, plus(7)]));
+await rohan.req("POST", `/api/colleges/${sc}/stage`, { to: "requirements_received", fields: { nextAction: "Get budget", nextActionDue: plus(1) } });
+const sc2 = (await rohan.req("GET", `/api/colleges/${sc}`)).json.college;
+check("stage move keeps a custom next step", sc2.nextAction === "Get budget" && sc2.nextActionDue === plus(1));
+await isha.req("POST", `/api/colleges/${sc}/stage`, { to: "lost", reason: "Budget gap" });
+const sc3 = (await rohan.req("GET", `/api/colleges/${sc}`)).json.college;
+check("closing a deal clears its next step", sc3.nextAction === "" && sc3.nextActionDue === null);
+const nd = (await rohan.req("POST", "/api/deals", { companyId: rb.id, collegeId: null })).json.id;
+check("new sponsor deal gets a due date", (await rohan.req("GET", "/api/deals")).json.find((x) => x.id === nd).nextActionDue === plus(3));
+r = await rohan.req("POST", `/api/deals/${nd}/stage`, { to: "initial_connect", fields: { nextAction: "Call back", nextActionDue: plus(4) } });
+check("deal stage move saves next step", r.status === 200 && (await rohan.req("GET", "/api/deals")).json.find((x) => x.id === nd).nextAction === "Call back");
+
 // csrf
 r = await rohan.req("POST", `/api/colleges/${tcId}/notes`, { text: "hi" }, { origin: "https://evil.example" });
 check("cross-site write blocked", r.status === 403);

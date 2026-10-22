@@ -2,6 +2,7 @@ import { and, desc, eq, inArray, ilike, or, sql } from "drizzle-orm";
 import { schema } from "@/db";
 import { api, HttpError, isAdmin, readJson } from "@/lib/api";
 import { collegeKey } from "@/lib/format";
+import { suggestDue } from "@/lib/priority";
 import { assigneesFor, collegeScope, nextFestYear } from "@/lib/queries";
 import { collegeCreate } from "@/lib/validators";
 
@@ -78,6 +79,7 @@ export const POST = api(async ({ req, db, user }) => {
       festStart: start,
       festEnd: b.festEnd,
       days: b.days,
+      nextActionDue: suggestDue("reach_out"),
       createdBy: user.id,
     })
     .returning({ id: colleges.id });

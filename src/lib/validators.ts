@@ -50,6 +50,8 @@ export const collegeFields = z.object({
   dealAmount: money,
   dealDeliverables: text(2000),
   pitchCompany: text(120),
+  nextAction: text(300),
+  nextActionDue: optDate,
 });
 export const collegeUpdate = collegeFields.partial();
 export const collegeCreate = z.object({
@@ -74,7 +76,7 @@ export const dealMove = z.object({
   to: z.enum(DEAL_STAGES),
   reason: text(200).optional(),
   fields: z
-    .object({ amount: money, deliverables: text(2000), contactName: text(120), contactPhone: phone, notes: text(2000) })
+    .object({ amount: money, deliverables: text(2000), contactName: text(120), contactPhone: phone, notes: text(2000), nextAction: text(300), nextActionDue: optDate })
     .partial()
     .optional(),
 });
@@ -165,6 +167,8 @@ export const dealCreate = z.object({
   contactPhone: phone.default(""),
   exclusive: z.boolean().default(false),
   notes: text(2000).default(""),
+  nextAction: text(300).default(""),
+  nextActionDue: optDate,
 });
 export const dealUpdate = z.object({
   collegeId: z.number().int().nullable().optional(),
@@ -175,6 +179,8 @@ export const dealUpdate = z.object({
   contactPhone: phone.optional(),
   exclusive: z.boolean().optional(),
   notes: text(2000).optional(),
+  nextAction: text(300).optional(),
+  nextActionDue: optDate,
 });
 
 const url = z

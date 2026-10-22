@@ -3,6 +3,7 @@ import { eq, inArray, or } from "drizzle-orm";
 import webpush from "web-push";
 import { getDb, schema } from "@/db";
 import { computeAlerts } from "@/lib/alerts";
+import { buildHome } from "@/lib/home";
 
 const { alertDispatch, collegeAssignments, pushSubscriptions, users } = schema;
 
@@ -56,7 +57,31 @@ export async function GET(req: NextRequest) {
       }
       await db.insert(alertDispatch).values({ collegeId: a.collegeId, festYear: a.festYear, kind: a.kind }).onConflictDoNothing();
     }
-    return NextResponse.json({ alerts: alerts.length, sent, failed });
+
+    // personal morning summary: one push per person with something overdue or due today
+    let digests = 0;
+    const subscribers = [...new Set((await db.select({ userId: pushSubscriptions.userId }).from(pushSubscriptions)).map((r) => r.userId))];
+    for (const uid of subscribers) {
+      const [u] = await db.select({ id: users.id, name: users.name, role: users.role, active: users.active }).from(users).where(eq(users.id, uid)).limit(1);
+      if (!u?.active) continue;
+      const home = await buildHome(db, u, u);
+      const { overdue, today } = home.summary;
+      if (!overdue && !today) continue;
+      const top = home.items[0];
+      const parts = [overdue && `${overdue} overdue`, today && `${today} due today`].filter(Boolean).join(", ");
+      const body = `${parts}${top ? `. Start with ${top.title}${top.nextAction ? `: ${top.nextAction}` : ""}.` : "."}`;
+      for (const s of await db.select().from(pushSubscriptions).where(eq(pushSubscriptions.userId, uid))) {
+        try {
+          await webpush.sendNotification({ endpoint: s.endpoint, keys: { p256dh: s.p256dh, auth: s.auth } }, JSON.stringify({ title: "Your day in Luna Wave", body, url: "/home" }));
+          digests++;
+        } catch (e) {
+          failed++;
+          const code = (e as { statusCode?: number }).statusCode;
+          if (code === 404 || code === 410) await db.delete(pushSubscriptions).where(eq(pushSubscriptions.id, s.id));
+        }
+      }
+    }
+    return NextResponse.json({ alerts: alerts.length, sent, digests, failed });
   } catch (e) {
     console.error("cron/alerts failed", e);
     const cause = (e as { cause?: Error }).cause ?? (e as Error);

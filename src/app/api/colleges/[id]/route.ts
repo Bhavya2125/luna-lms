@@ -51,7 +51,8 @@ export const PATCH = api<{ id: string }>(async ({ req, db, user, params }) => {
   const id = Number(params.id);
   const cur = await getCollegeOrThrow(db, user, id);
   const b = collegeUpdate.parse(await readJson(req));
-  const patch: Record<string, unknown> = { ...b, updatedAt: new Date(), lastTouchedAt: new Date() };
+  const onlyNextStep = Object.keys(b).every((k) => k === "nextAction" || k === "nextActionDue");
+  const patch: Record<string, unknown> = { ...b, updatedAt: new Date(), ...(onlyNextStep ? {} : { lastTouchedAt: new Date() }) };
   if (b.festStart) {
     patch.festMonth = Number(b.festStart.slice(5, 7)) - 1;
     patch.festYear = Number(b.festStart.slice(0, 4));

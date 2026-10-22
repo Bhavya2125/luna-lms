@@ -10,6 +10,7 @@ import { GeoFields } from "../GeoFields";
 import { Modal, Seg, SelectField, Tag, TextField, useAction, useToast } from "../ui";
 import { CollegeDrawer } from "./CollegeDrawer";
 import { MoveDialog, NEEDS_FORM } from "./MoveDialog";
+import { DueTag } from "../NextStep";
 
 type Filters = { q: string; month: string; agency: string; assignee: string; stage: string; budget: string; days: string };
 const EMPTY: Filters = { q: "", month: "", agency: "", assignee: "", stage: "", budget: "", days: "" };
@@ -304,6 +305,11 @@ export function CollegesView({ me }: { me: Me }) {
                     <div className="sub">
                       {c.festName} · {MONTHS[c.festMonth]}
                     </div>
+                    {c.nextActionDue && (
+                      <div style={{ marginTop: 4 }}>
+                        <DueTag due={c.nextActionDue} />
+                      </div>
+                    )}
                     <div style={{ marginTop: 6 }}>
                       <Assignees c={c} />
                     </div>
@@ -480,7 +486,7 @@ function ImportCsv({ onClose, onDone }: { onClose: () => void; onDone: () => voi
   );
 }
 
-function AssignModal({ college, pitchOptions, onClose, onDone }: { college: CollegeRow; pitchOptions: string[]; onClose: () => void; onDone: () => void }) {
+export function AssignModal({ college, pitchOptions, onClose, onDone }: { college: CollegeRow; pitchOptions: string[]; onClose: () => void; onDone: () => void }) {
   const { data: team } = useSWR<TeamUser[]>("/api/users", fetcher);
   const [sel, setSel] = useState<number[]>(college.assignees.map((a) => a.id));
   const [pitch, setPitch] = useState(college.pitchCompany ?? "");

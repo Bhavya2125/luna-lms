@@ -8,6 +8,7 @@ import type { CompanyRow, Contact, Deal, Me } from "@/lib/types";
 import { Modal, Seg, Tag, TextField, useAction, useToast } from "../ui";
 import { CompanyDrawer } from "./CompanyDrawer";
 import { DEAL_NEEDS_FORM, DealMoveDialog, DealModal, dealTone } from "./DealParts";
+import { DueTag } from "../NextStep";
 
 export function SponsorsView({ me }: { me: Me }) {
   const toast = useToast();
@@ -198,6 +199,7 @@ export function SponsorsView({ me }: { me: Me }) {
                     <b>{byId.get(d.companyId)?.name ?? d.company}</b>
                     <div className="sub">{d.college ?? "Overall"}{d.year ? ` · ${d.year}` : ""}</div>
                     <div className="sub">{d.amount ? inr(d.amount) : "Amount not set"}{d.exclusive ? " · Exclusive" : ""}</div>
+                    {d.nextActionDue && <div style={{ marginTop: 4 }}><DueTag due={d.nextActionDue} /></div>}
                     <div className="mv" onClick={(e) => e.stopPropagation()}>
                       <button aria-label="Move back" disabled={!admin} title={admin ? "Move back" : "Only an admin can move a deal backward"} onClick={() => step(d, -1)}>◀</button>
                       <button aria-label="Move forward" onClick={() => step(d, 1)}>▶</button>

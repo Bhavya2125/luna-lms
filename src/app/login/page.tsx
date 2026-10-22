@@ -18,7 +18,7 @@ export default function LoginPage() {
     setError("");
     try {
       await post("/api/auth/login", { username, password });
-      router.replace("/colleges");
+      router.replace("/home");
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Couldn't sign in");

@@ -12,6 +12,7 @@ import { UpdateBanner } from "./UpdateBanner";
 import { Overlay, ToastProvider } from "./ui";
 
 const I = {
+  home: <path d="M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3z" />,
   bell: <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.94 1.94 0 0 0 3.4 0" />,
   colleges: <path d="M3 21h18M5 21V8l7-4 7 4v13M9 21v-6h6v6M9 11h.01M15 11h.01" />,
   sponsors: <path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.9L12 3z" />,
@@ -25,6 +26,7 @@ const Icon = ({ k }: { k: keyof typeof I }) => (
 );
 
 const PAGES = [
+  { href: "/home", k: "home", label: "Home" },
   { href: "/colleges", k: "colleges", label: "Colleges" },
   { href: "/sponsors", k: "sponsors", label: "Sponsors" },
   { href: "/roster", k: "roster", label: "Roster" },

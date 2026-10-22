@@ -4,7 +4,7 @@ import useSWR, { useSWRConfig } from "swr";
 import { fetcher, patch, post } from "@/lib/client";
 import { useInstall, usePush } from "@/lib/pwa";
 import { useSignOut } from "@/lib/useSignOut";
-import { ROLES, ROLE_DESC, ROLE_LABEL, type Role } from "@/lib/stages";
+import { ROLES, ROLE_LABEL, type Role } from "@/lib/stages";
 import type { Me, TeamUser } from "@/lib/types";
 import { Field, Modal, SelectField, Tag, TextField, useAction, useToast } from "../ui";
 
@@ -48,10 +48,6 @@ export function SettingsView({ me }: { me: Me }) {
               </span>
             </div>
           ))}
-          <div className="box" style={{ marginTop: 12 }}>
-            <h3>What each role can do</h3>
-            {ROLES.map((r) => <p className="sub" key={r}><b>{ROLE_LABEL[r]}</b>: {ROLE_DESC[r]}</p>)}
-          </div>
         </>
       )}
       {edit && <UserModal me={me} user={edit === "new" ? null : edit} onClose={() => setEdit(null)} onDone={() => { setEdit(null); refresh(); }} />}
@@ -176,7 +172,6 @@ function UserModal({ me, user, onClose, onDone }: { me: Me; user: TeamUser | nul
           {self && <div className="sub">You can't change your own role.</div>}
         </div>
       </div>
-      <p className="sub">{ROLE_DESC[f.role]}</p>
       {error && <p className="err" role="alert">{error}</p>}
       <button
         className="p"
