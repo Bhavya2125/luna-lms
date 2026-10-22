@@ -1,0 +1,51 @@
+# Render Blueprint: the web app plus the daily alerts job. The database is on Neon.
+# In Render: New → Blueprint → pick this repo. Fill in the values marked sync: false when asked.
+services:
+  - type: web
+    name: luna-wave
+    runtime: node
+    region: singapore
+    plan: starter # free instances sleep after 15 minutes idle; use starter or above for the beta
+    buildCommand: npm ci && npm run db:migrate && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: DATABASE_URL # Neon pooled connection string
+        sync: false
+      - key: DIRECT_DATABASE_URL # Neon direct connection string (migrations)
+        sync: false
+      - key: DATABASE_POOL_MAX
+        value: "5"
+      - key: BOOTSTRAP_ADMIN_USERNAME
+        sync: false
+      - key: BOOTSTRAP_ADMIN_NAME
+        sync: false
+      - key: BOOTSTRAP_ADMIN_PASSWORD
+        sync: false
+      - key: NEXT_PUBLIC_VAPID_PUBLIC_KEY
+        sync: false
+      - key: VAPID_PRIVATE_KEY
+        sync: false
+      - key: VAPID_SUBJECT
+        sync: false
+      - key: CRON_SECRET
+        generateValue: true
+
+  - type: cron
+    name: luna-wave-alerts
+    runtime: node
+    region: singapore
+    plan: starter
+    schedule: "30 3 * * *" # 09:00 IST daily
+    buildCommand: "true"
+    startCommand: curl -fsS -H "Authorization: Bearer $CRON_SECRET" "$APP_URL/api/cron/alerts"
+    envVars:
+      - key: APP_URL # e.g. https://luna-wave.onrender.com
+        sync: false
+      - key: CRON_SECRET
+        fromService:
+          type: web
+          name: luna-wave
+          envVarKey: CRON_SECRET

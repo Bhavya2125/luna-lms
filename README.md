@@ -42,13 +42,19 @@ With no `DATABASE_URL`, development uses an embedded Postgres (PGlite) stored in
 
 Demo accounts (all use `SEED_PASSWORD`): `aarav` Super Admin, `isha` Admin, `rohan` and `meera` Executives.
 
-## Deploy (Vercel + Postgres)
+## Deploy (Render + Neon)
 
-1. Create a Postgres database (Neon through the Vercel Marketplace works well) and add `DATABASE_URL` to the Vercel project.
-2. Add `BOOTSTRAP_ADMIN_USERNAME`, `BOOTSTRAP_ADMIN_NAME` and `BOOTSTRAP_ADMIN_PASSWORD` (8+ characters). On an empty database the app creates this Super Admin on first request; once any account exists it does nothing.
-3. For push alerts run `npx web-push generate-vapid-keys` and add `NEXT_PUBLIC_VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `VAPID_SUBJECT` and a random `CRON_SECRET`. `vercel.json` runs `/api/cron/alerts` daily.
-4. Deploy. Vercel runs `npm run vercel-build`, which applies database migrations before building, so schema changes ship with the code.
-5. Sign in as the bootstrap Super Admin, change the password in Settings, then remove `BOOTSTRAP_ADMIN_PASSWORD` from Vercel. Create everyone else's accounts in Settings → Team.
+The pages and the API are one Next.js app, so it runs as a single Render web service. The database is Neon Postgres.
+
+1. **Neon**: create a project (region: Singapore / `aws-ap-southeast-1`). From **Connect**, copy two connection strings: the **pooled** one (host contains `-pooler`) for `DATABASE_URL` and the **direct** one for `DIRECT_DATABASE_URL`. Both end in `?sslmode=require`.
+2. **Push keys**: run `npx web-push generate-vapid-keys` once.
+3. **Render**: New → **Blueprint** → choose this repo. `render.yaml` creates the web service (Singapore) and a daily alerts job. Fill in the values it asks for: the two Neon URLs, `BOOTSTRAP_ADMIN_USERNAME` / `NAME` / `PASSWORD` (8+ characters), the two VAPID keys, `VAPID_SUBJECT` (`mailto:you@example.com`), and for the cron job `APP_URL` (the web service URL, e.g. `https://luna-wave.onrender.com`). `CRON_SECRET` is generated and shared automatically.
+4. Each deploy runs `npm run db:migrate` before building, so schema changes ship with the code. `/api/health` is the health check.
+5. Open the app, sign in as the bootstrap Super Admin, change the password in Settings, then delete `BOOTSTRAP_ADMIN_PASSWORD` in Render. Create everyone else in Settings → Team.
+
+Use the Starter plan or above: free Render instances sleep after 15 minutes idle, which makes the first open slow and can delay alerts.
+
+Vercel also works (`vercel.json` and the `vercel-build` script are included): import the repo and set the same environment variables.
 
 Locked out? `ADMIN_USERNAME=… ADMIN_NAME=… ADMIN_PASSWORD=… DATABASE_URL=… npm run create-admin` creates or resets a Super Admin and signs that account out everywhere.
 
