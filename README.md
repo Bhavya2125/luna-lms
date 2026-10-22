@@ -53,7 +53,7 @@ The pages and the API are one Next.js app, so it runs as a single Render web ser
 5. **Daily alerts**: on cron-job.org (free) create a job that runs daily at 09:00 Asia/Kolkata, calls `https://YOUR-APP.onrender.com/api/cron/alerts` with method GET, and adds the header `Authorization: Bearer <CRON_SECRET>` (copy the value from the service's Environment tab in Render). A successful run returns `{"alerts":…,"sent":…}`.
 6. Open the app, sign in as the bootstrap Super Admin, change the password in Settings, then delete `BOOTSTRAP_ADMIN_PASSWORD` in Render. Create everyone else in Settings → Team.
 
-Use the Starter plan or above: free Render instances sleep after 15 minutes idle, which makes the first open slow and can delay alerts.
+The blueprint uses Render's free plan. Free services sleep after 15 minutes without traffic and take about a minute to wake. To keep it awake, add a second cron-job.org job that opens `https://YOUR-APP.onrender.com/api/health` every 10 minutes (one free service running all month fits inside Render's free hours). Move to the Starter plan when the beta becomes daily use.
 
 Vercel also works (`vercel.json` and the `vercel-build` script are included): import the repo and set the same environment variables.
 

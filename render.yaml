@@ -7,7 +7,7 @@ services:
     name: luna-wave
     runtime: node
     region: singapore
-    plan: starter # free instances sleep after 15 minutes idle; use starter or above for the beta
+    plan: free # sleeps after 15 minutes idle; a 10-minute ping keeps it awake (see README)
     buildCommand: npm ci && npm run db:migrate && npm run build
     startCommand: npm start
     healthCheckPath: /api/health
