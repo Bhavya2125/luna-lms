@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Offline · Luna Wave</title>
+<style>
+  :root{color-scheme:light dark;--bg:#f5f5f4;--ink:#0a0a0a;--mut:#66666a}
+  @media (prefers-color-scheme:dark){:root{--bg:#000;--ink:#f5f5f5;--mut:#a0a0a4}}
+  body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,sans-serif;padding:24px;text-align:center}
+  img{width:160px;height:auto;filter:invert(1)}
+  @media (prefers-color-scheme:dark){img{filter:none}}
+  p{color:var(--mut);max-width:32ch;margin:8px auto 20px}
+  button{font:inherit;padding:10px 18px;border-radius:10px;border:1px solid currentColor;background:none;color:inherit;cursor:pointer}
+</style>
+</head>
+<body>
+  <main>
+    <img src="/logo.png" alt="Luna Wave">
+    <h1 style="font-size:22px;margin:16px 0 0">You're offline</h1>
+    <p>Pages you opened recently still work. Changes need a connection, so reconnect to save anything new.</p>
+    <button onclick="location.reload()">Try again</button>
+  </main>
+</body>
+</html>

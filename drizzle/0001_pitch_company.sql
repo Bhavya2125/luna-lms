@@ -1,0 +1,1 @@
+ALTER TABLE "colleges" ADD COLUMN "pitch_company" text DEFAULT '' NOT NULL;
