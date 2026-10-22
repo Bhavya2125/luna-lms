@@ -46,7 +46,7 @@ self.addEventListener("fetch", (event) => {
   if (url.origin !== self.location.origin) return;
 
   // never cache sign-in, session or cron endpoints
-  if (url.pathname.startsWith("/api/auth") || url.pathname.startsWith("/api/me") || url.pathname.startsWith("/api/cron")) return;
+  if (url.pathname.startsWith("/api/auth") || url.pathname.startsWith("/api/me") || url.pathname.startsWith("/api/cron") || url.pathname === "/api/version") return;
 
   if (url.pathname.startsWith("/api/")) {
     event.respondWith(

@@ -1,6 +1,10 @@
 import type { NextConfig } from "next";
 
+// Identifies this deploy, so open tabs and installed apps can tell when a newer version is live.
+const buildId = process.env.RENDER_GIT_COMMIT || process.env.VERCEL_GIT_COMMIT_SHA || `local-${Date.now()}`;
+
 const nextConfig: NextConfig = {
+  env: { NEXT_PUBLIC_BUILD_ID: buildId },
   serverExternalPackages: ["@electric-sql/pglite", "pg", "web-push", "bcryptjs"],
   async headers() {
     return [

@@ -8,6 +8,7 @@ import { fetcher } from "@/lib/client";
 import { useOnline } from "@/lib/pwa";
 import type { AlertItem } from "@/lib/types";
 import { InstallBanner } from "./InstallBanner";
+import { UpdateBanner } from "./UpdateBanner";
 import { Overlay, ToastProvider } from "./ui";
 
 const I = {
@@ -58,6 +59,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               {alerts && alerts.length > 0 && <span className="dot">{alerts.length}</span>}
             </button>
           </div>
+          <UpdateBanner />
           <InstallBanner />
           {children}
         </main>
