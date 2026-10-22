@@ -54,7 +54,8 @@ function keyToBytes(b64: string) {
 }
 
 export function usePush() {
-  const key = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;
+  // tolerate a pasted "Public Key:" label, quotes or spaces
+  const key = (process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY ?? "").replace(/^\s*public\s*key:?\s*/i, "").replace(/["'\s]/g, "");
   const [supported, setSupported] = useState(false);
   const [on, setOn] = useState(false);
   const [busy, setBusy] = useState(false);
