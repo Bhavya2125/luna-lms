@@ -48,9 +48,10 @@ The pages and the API are one Next.js app, so it runs as a single Render web ser
 
 1. **Neon**: create a project (region: Singapore / `aws-ap-southeast-1`). From **Connect**, copy two connection strings: the **pooled** one (host contains `-pooler`) for `DATABASE_URL` and the **direct** one for `DIRECT_DATABASE_URL`. Both end in `?sslmode=require`.
 2. **Push keys**: run `npx web-push generate-vapid-keys` once.
-3. **Render**: New → **Blueprint** → choose this repo. `render.yaml` creates the web service (Singapore) and a daily alerts job. Fill in the values it asks for: the two Neon URLs, `BOOTSTRAP_ADMIN_USERNAME` / `NAME` / `PASSWORD` (8+ characters), the two VAPID keys, `VAPID_SUBJECT` (`mailto:you@example.com`), and for the cron job `APP_URL` (the web service URL, e.g. `https://luna-wave.onrender.com`). `CRON_SECRET` is generated and shared automatically.
+3. **Render**: New → **Blueprint** → choose this repo. `render.yaml` creates the web service in Singapore. Fill in the values it asks for: the Neon URL(s), `BOOTSTRAP_ADMIN_USERNAME` / `NAME` / `PASSWORD` (8+ characters), the two VAPID keys and `VAPID_SUBJECT` (`mailto:you@example.com`). `CRON_SECRET` is generated for you.
 4. Each deploy runs `npm run db:migrate` before building, so schema changes ship with the code. `/api/health` is the health check.
-5. Open the app, sign in as the bootstrap Super Admin, change the password in Settings, then delete `BOOTSTRAP_ADMIN_PASSWORD` in Render. Create everyone else in Settings → Team.
+5. **Daily alerts**: on cron-job.org (free) create a job that runs daily at 09:00 Asia/Kolkata, calls `https://YOUR-APP.onrender.com/api/cron/alerts` with method GET, and adds the header `Authorization: Bearer <CRON_SECRET>` (copy the value from the service's Environment tab in Render). A successful run returns `{"alerts":…,"sent":…}`.
+6. Open the app, sign in as the bootstrap Super Admin, change the password in Settings, then delete `BOOTSTRAP_ADMIN_PASSWORD` in Render. Create everyone else in Settings → Team.
 
 Use the Starter plan or above: free Render instances sleep after 15 minutes idle, which makes the first open slow and can delay alerts.
 
