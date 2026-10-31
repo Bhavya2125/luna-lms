@@ -1,7 +1,8 @@
 import { and, asc, desc, eq, ne } from "drizzle-orm";
 import { schema } from "@/db";
 import { api, HttpError, readJson } from "@/lib/api";
-import { collegeKey } from "@/lib/format";
+import { collegeKey, fmtDate } from "@/lib/format";
+import { collegePeople, firstName, notifyLater } from "@/lib/notify";
 import { assigneesFor, getCollegeOrThrow } from "@/lib/queries";
 import { collegeUpdate } from "@/lib/validators";
 
@@ -51,7 +52,8 @@ export const PATCH = api<{ id: string }>(async ({ req, db, user, params }) => {
   const id = Number(params.id);
   const cur = await getCollegeOrThrow(db, user, id);
   const b = collegeUpdate.parse(await readJson(req));
-  const onlyNextStep = Object.keys(b).every((k) => k === "nextAction" || k === "nextActionDue");
+  const planning = ["nextAction", "nextActionDue", "targetDate"];
+  const onlyNextStep = Object.keys(b).every((k) => planning.includes(k));
   const patch: Record<string, unknown> = { ...b, updatedAt: new Date(), ...(onlyNextStep ? {} : { lastTouchedAt: new Date() }) };
   if (b.festStart) {
     patch.festMonth = Number(b.festStart.slice(5, 7)) - 1;
@@ -67,5 +69,11 @@ export const PATCH = api<{ id: string }>(async ({ req, db, user, params }) => {
     patch.nameKey = key;
   }
   await db.update(colleges).set(patch).where(eq(colleges.id, id));
+  // tell the team when someone else changes the plan for this college
+  const changed: string[] = [];
+  if (b.nextAction && b.nextAction !== cur.nextAction) changed.push(`next step "${b.nextAction}"`);
+  if (b.nextActionDue && b.nextActionDue !== cur.nextActionDue) changed.push(`due ${fmtDate(b.nextActionDue)}`);
+  if (b.targetDate !== undefined && b.targetDate !== cur.targetDate) changed.push(b.targetDate ? `target ${fmtDate(b.targetDate)}` : "target removed");
+  if (changed.length) notifyLater(db, await collegePeople(db, id), user.id, { title: cur.name, body: `${firstName(user.name)} set ${changed.join(", ")}.`, url: `/colleges?open=${id}` });
   return { ok: true };
 });

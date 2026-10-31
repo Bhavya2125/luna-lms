@@ -97,7 +97,15 @@ function Notifications() {
   return (
     <div className="box">
       <h3>Alerts and app</h3>
-      <p className="sub">Get push alerts on this device: a morning summary of what's due, and fests a month away.</p>
+      <p className="sub" style={{ marginBottom: 4 }}>With alerts on, this device gets a notification when:</p>
+      <ul className="sub" style={{ margin: "0 0 10px", paddingLeft: 18, display: "grid", gap: 2 }}>
+        <li>you're assigned a college</li>
+        <li>someone else moves your college or sponsor deal to a new stage</li>
+        <li>a deal you're on is locked or lost (admins hear about every one)</li>
+        <li>someone else adds a note, or sets a next step or target date, on your work</li>
+        <li>every morning at 9: what's overdue or due today, and fests a month away</li>
+      </ul>
+      <p className="sub" style={{ marginTop: 0 }}>You're never notified about your own changes.</p>
       {push.supported ? (
         <p>
           <button className={push.on ? "" : "p"} disabled={push.busy} onClick={push.on ? push.disable : push.enable}>

@@ -2,8 +2,10 @@ import { eq } from "drizzle-orm";
 import { schema } from "@/db";
 import { api, HttpError, readJson } from "@/lib/api";
 import { getDealOrThrow } from "@/lib/deals";
-import { normPhone } from "@/lib/format";
 import { isClosed } from "@/lib/priority";
+import { inr, normPhone } from "@/lib/format";
+import { adminIds, dealPeople, firstName, notifyLater } from "@/lib/notify";
+import { STAGE_LABEL } from "@/lib/stages";
 import { checkDealMove } from "@/lib/rules";
 import { dealMove } from "@/lib/validators";
 
@@ -30,5 +32,18 @@ export const POST = api<{ id: string }>(async ({ req, db, user, params }) => {
     await tx.update(sponsorDeals).set(patch).where(eq(sponsorDeals.id, id));
     await tx.insert(sponsorDealLog).values({ dealId: id, fromStage: cur.stage, toStage: b.to, reason: b.reason ?? "", byUserId: user.id });
   });
+  const [co] = await db.select({ name: schema.companies.name }).from(schema.companies).where(eq(schema.companies.id, cur.companyId)).limit(1);
+  const [cl] = cur.collegeId ? await db.select({ name: schema.colleges.name }).from(schema.colleges).where(eq(schema.colleges.id, cur.collegeId)).limit(1) : [];
+  const label = `${co?.name ?? "Sponsor"}${cl ? ` · ${cl.name}` : ""}`;
+  const who = firstName(user.name);
+  const people = await dealPeople(db, cur);
+  if (b.to === "locked") {
+    const amount = (b.fields?.amount ?? cur.amount) || 0;
+    notifyLater(db, [...people, ...(await adminIds(db))], user.id, { title: `Sponsor locked: ${label}`, body: `${who} locked ${label}${amount ? ` for ${inr(amount)}` : ""}.`, url: "/home" });
+  } else if (b.to === "lost") {
+    notifyLater(db, [...people, ...(await adminIds(db))], user.id, { title: `Sponsor lost: ${label}`, body: `${who} marked ${label} as lost: ${b.reason}.`, url: "/home" });
+  } else {
+    notifyLater(db, people, user.id, { title: label, body: `${who} moved ${label} to ${STAGE_LABEL[b.to]}.`, url: "/home" });
+  }
   return { ok: true };
 });
