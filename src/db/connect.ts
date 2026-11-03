@@ -23,6 +23,7 @@ async function create(): Promise<Db> {
     if (process.env.AUTO_MIGRATE === "1") {
       const { migrate } = await import("drizzle-orm/node-postgres/migrator");
       await migrate(db, { migrationsFolder: migrationsFolder() });
+      await (await import("./dataImports")).runDataImports(db);
     }
   } else {
     if (process.env.NODE_ENV === "production" && process.env.USE_EMBEDDED_DB !== "1") {
@@ -35,6 +36,7 @@ async function create(): Promise<Db> {
     const local = drizzle(client, { schema });
     await migrate(local, { migrationsFolder: migrationsFolder() });
     db = local as unknown as Db;
+    await (await import("./dataImports")).runDataImports(db);
   }
   await bootstrapAdmin(db);
   return db;

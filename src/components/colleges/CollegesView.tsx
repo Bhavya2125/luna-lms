@@ -3,17 +3,19 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import useSWR, { useSWRConfig } from "swr";
 import { fetcher, initials, post } from "@/lib/client";
-import { fmtRange } from "@/lib/format";
+import { festWhen, fmtRange } from "@/lib/format";
 import { COLLEGE_STAGES, COLLEGE_STAGE_DESC, MONTHS, STAGE_LABEL, type CollegeStage } from "@/lib/stages";
 import type { CollegeRow, Me, TeamUser } from "@/lib/types";
 import { GeoFields } from "../GeoFields";
 import { Modal, Seg, SelectField, Tag, TextField, useAction, useToast } from "../ui";
-import { CollegeDrawer } from "./CollegeDrawer";
+import { COLLEGE_TYPES, CollegeDrawer, IgLinks, TIERS } from "./CollegeDrawer";
 import { MoveDialog, NEEDS_FORM } from "./MoveDialog";
 import { DueTag, TargetTag } from "../NextStep";
 
-type Filters = { q: string; month: string; agency: string; assignee: string; stage: string; budget: string; days: string };
-const EMPTY: Filters = { q: "", month: "", agency: "", assignee: "", stage: "", budget: "", days: "" };
+type Filters = { q: string; month: string; state: string; tier: string; ig: string; agency: string; assignee: string; stage: string; budget: string; days: string };
+const EMPTY: Filters = { q: "", month: "", state: "", tier: "", ig: "", agency: "", assignee: "", stage: "", budget: "", days: "" };
+const PAGE = 100; // rows drawn at a time; the full list can run to a thousand colleges or more
+const BOARD_PAGE = 30;
 
 export const stageTone = (s: string) => (s === "locked" ? "g" : s === "lost" ? "r" : undefined);
 const isAdm = (me: Me) => me.role !== "executive";
@@ -32,6 +34,8 @@ export function CollegesView({ me }: { me: Me }) {
   const [modal, setModal] = useState<"add" | "import" | null>(null);
   const [assign, setAssign] = useState<CollegeRow | null>(null);
   const [move, setMove] = useState<{ college: CollegeRow; to: CollegeStage } | null>(null);
+  const [shown, setShown] = useState(PAGE);
+  const [boardAll, setBoardAll] = useState<string[]>([]);
 
   useEffect(() => {
     try {
@@ -60,6 +64,11 @@ export function CollegesView({ me }: { me: Me }) {
   const { data, error, isLoading } = useSWR<CollegeRow[]>(key, fetcher, { keepPreviousData: true });
   const { data: team } = useSWR<TeamUser[]>(isAdm(me) ? "/api/users" : null, fetcher);
   const { data: all } = useSWR<CollegeRow[]>("/api/colleges?tab=all", fetcher);
+  const states = useMemo(() => [...new Set((all ?? []).map((c) => c.state).filter(Boolean))].sort(), [all]);
+  useEffect(() => {
+    setShown(PAGE);
+    setBoardAll([]);
+  }, [key]);
   const agencies = useMemo(() => [...new Set((all ?? []).map((c) => c.previousAgency).filter(Boolean))].sort(), [all]);
   const pitchOptions = useMemo(() => [...new Set(["Luna Wave", ...(all ?? []).map((c) => c.pitchCompany)].filter(Boolean))].sort(), [all]);
   // colleges, sponsors and the roster share data (history creates companies and shows), so refresh every list after a save
@@ -137,7 +146,7 @@ export function CollegesView({ me }: { me: Me }) {
       </div>
 
       <div className={`bar${showFilters ? "" : " collapsed"}`}>
-        <input aria-label="Search" placeholder="Search college, city, fest" value={q} onChange={(e) => setQ(e.target.value)} />
+        <input aria-label="Search" placeholder="Search college, city, fest, Instagram" value={q} onChange={(e) => setQ(e.target.value)} />
         <select aria-label="Fest month" value={f.month} onChange={(e) => set("month", e.target.value)}>
           <option value="">Fest month</option>
           {MONTHS.map((m, i) => (
@@ -145,6 +154,26 @@ export function CollegesView({ me }: { me: Me }) {
               {m}
             </option>
           ))}
+          <option value="none">Month not set</option>
+        </select>
+        <select aria-label="State" value={f.state} onChange={(e) => set("state", e.target.value)}>
+          <option value="">State</option>
+          {states.map((s) => (
+            <option key={s}>{s}</option>
+          ))}
+        </select>
+        <select aria-label="Tier" value={f.tier} onChange={(e) => set("tier", e.target.value)}>
+          <option value="">Tier</option>
+          {TIERS.map((t) => (
+            <option key={t}>{t}</option>
+          ))}
+          <option value="none">Tier not set</option>
+        </select>
+        <select aria-label="Instagram" value={f.ig} onChange={(e) => set("ig", e.target.value)}>
+          <option value="">Instagram</option>
+          <option value="college">Has college Instagram</option>
+          <option value="fest">Has fest Instagram</option>
+          <option value="none">No Instagram yet</option>
         </select>
         <select aria-label="Previous company" value={f.agency} onChange={(e) => set("agency", e.target.value)}>
           <option value="">Previous company</option>
@@ -220,16 +249,22 @@ export function CollegesView({ me }: { me: Me }) {
             <span>Assigned to</span>
             <span />
           </div>
-          {rows.map((c) => (
+          {rows.slice(0, shown).map((c) => (
             <div className="row" key={c.id}>
-              <div>
+              <div style={{ minWidth: 0 }}>
                 <button className="lnk" onClick={() => setOpenId(c.id)}>
                   {c.name}
                 </button>
                 <div className="sub">
                   {c.city}
                   {c.state ? `, ${c.state}` : ""}
+                  {c.tier ? ` · ${c.tier}` : ""}
                 </div>
+                {(c.collegeInstagram || c.festInstagram) && (
+                  <div className="iglinks">
+                    <IgLinks college={c} small />
+                  </div>
+                )}
               </div>
               <span>
                 <Tag>{c.festType[0].toUpperCase() + c.festType.slice(1)}</Tag>
@@ -238,8 +273,8 @@ export function CollegesView({ me }: { me: Me }) {
                   {c.days}-day
                 </div>
               </span>
-              <span>
-                {MONTHS[c.festMonth]} {c.festYear}
+              <span className={c.festMonth == null ? "sub" : undefined}>
+                {festWhen(c)}
                 {c.festStart && <div className="sub">{fmtRange(c.festStart, c.festEnd)}</div>}
               </span>
               <span>
@@ -270,6 +305,15 @@ export function CollegesView({ me }: { me: Me }) {
               </span>
             </div>
           ))}
+          {rows.length > shown && (
+            <div style={{ display: "flex", gap: 8, alignItems: "center", justifyContent: "center", margin: "12px 0", flexWrap: "wrap" }}>
+              <span className="sub">
+                Showing {shown} of {rows.length}
+              </span>
+              <button onClick={() => setShown((n) => n + PAGE)}>Show {Math.min(PAGE, rows.length - shown)} more</button>
+              <button onClick={() => setShown(rows.length)}>Show all</button>
+            </div>
+          )}
         </>
       )}
 
@@ -299,12 +343,10 @@ export function CollegesView({ me }: { me: Me }) {
                 <div className="sub" style={{ padding: "0 4px 8px" }}>
                   {COLLEGE_STAGE_DESC[s]}
                 </div>
-                {L.map((c) => (
+                {(boardAll.includes(s) ? L : L.slice(0, BOARD_PAGE)).map((c) => (
                   <div key={c.id} className="card" draggable onDragStart={(e) => e.dataTransfer.setData("text/plain", String(c.id))} onClick={() => setOpenId(c.id)}>
                     <b>{c.name}</b>
-                    <div className="sub">
-                      {c.festName} · {MONTHS[c.festMonth]}
-                    </div>
+                    <div className="sub">{[c.festName, c.festMonth == null ? "" : MONTHS[c.festMonth], c.city].filter(Boolean).join(" · ")}</div>
                     {(c.nextActionDue || c.targetDate) && (
                       <div style={{ marginTop: 4, display: "flex", gap: 4, flexWrap: "wrap" }}>
                         <DueTag due={c.nextActionDue} />
@@ -324,6 +366,11 @@ export function CollegesView({ me }: { me: Me }) {
                     </div>
                   </div>
                 ))}
+                {L.length > BOARD_PAGE && !boardAll.includes(s) && (
+                  <button className="sm" style={{ width: "100%" }} onClick={() => setBoardAll((p) => [...p, s])}>
+                    Show {L.length - BOARD_PAGE} more
+                  </button>
+                )}
               </div>
             );
           })}
@@ -376,7 +423,7 @@ export function CollegesView({ me }: { me: Me }) {
 }
 
 function AddCollege({ onClose, onDone }: { onClose: () => void; onDone: (id: number) => void }) {
-  const [f, setF] = useState({ name: "", city: "", state: "", festMonth: "", festYear: "", festStart: "", days: 2, festType: "cultural", festName: "" });
+  const [f, setF] = useState({ name: "", city: "", state: "", festMonth: "", festYear: "", festStart: "", days: 2, festType: "cultural", festName: "", tier: "", collegeType: "", collegeInstagram: "", festInstagram: "" });
   const { busy, error, run } = useAction();
   const set = (k: keyof typeof f, v: string | number) => setF((p) => ({ ...p, [k]: v }));
   const y = new Date().getFullYear();
@@ -387,10 +434,19 @@ function AddCollege({ onClose, onDone }: { onClose: () => void; onDone: (id: num
         <GeoFields state={f.state} city={f.city} onChange={(s, c) => setF((p) => ({ ...p, state: s, city: c }))} />
         <TextField label="Fest name" value={f.festName} onChange={(v) => set("festName", v)} />
         <SelectField label="Fest type" value={f.festType} onChange={(v) => set("festType", v)} options={[["cultural", "Cultural"], ["technical", "Technical"], ["other", "Other"]]} />
-        <SelectField label="Expected month" value={f.festMonth} onChange={(v) => set("festMonth", v)} options={[["", "Select month"], ...MONTHS.map((m, i) => [String(i), m] as [string, string])]} />
+        <SelectField label="Expected month" value={f.festMonth} onChange={(v) => set("festMonth", v)} options={[["", "Not known yet"], ...MONTHS.map((m, i) => [String(i), m] as [string, string])]} />
         <SelectField label="Fest year" value={f.festYear} onChange={(v) => set("festYear", v)} options={[["", "Auto (next fest)"], ...[0, 1, 2].map((k) => [String(y + k), String(y + k)] as [string, string])]} />
         <TextField type="date" label="Exact start date (optional)" value={f.festStart} onChange={(v) => set("festStart", v)} />
         <SelectField label="Number of days" value={f.days} onChange={(v) => set("days", +v)} options={[1, 2, 3, 4, 5, 6, 7].map((n) => [n, `${n} day${n > 1 ? "s" : ""}`] as [number, string])} />
+        <TextField label="College Instagram (optional)" value={f.collegeInstagram} ph="@college" onChange={(v) => set("collegeInstagram", v)} />
+        <TextField label="Fest Instagram (optional)" value={f.festInstagram} ph="@fest" onChange={(v) => set("festInstagram", v)} />
+        <SelectField label="Tier" value={f.tier} onChange={(v) => set("tier", v)} options={[["", "Not set"], ...TIERS.map((t) => [t, t] as [string, string])]} />
+        <TextField label="College type (optional)" value={f.collegeType} list="add-college-types" ph="e.g. State University" onChange={(v) => set("collegeType", v)} />
+        <datalist id="add-college-types">
+          {COLLEGE_TYPES.map((t) => (
+            <option key={t}>{t}</option>
+          ))}
+        </datalist>
       </div>
       {error && <p className="err" role="alert">{error}</p>}
       <button
@@ -402,7 +458,6 @@ function AddCollege({ onClose, onDone }: { onClose: () => void; onDone: (id: num
           const ok = await run(async () => {
             if (!f.name.trim()) throw new Error("Enter the college name");
             if (!f.city.trim()) throw new Error("Pick a state and city (use Other to type a city that isn't listed)");
-            if (f.festMonth === "" && !f.festStart) throw new Error("Pick the expected month or an exact start date");
             const r = await post<{ id: number }>("/api/colleges", {
               name: f.name,
               city: f.city,
@@ -413,6 +468,10 @@ function AddCollege({ onClose, onDone }: { onClose: () => void; onDone: (id: num
               festYear: f.festYear ? +f.festYear : undefined,
               festStart: f.festStart || null,
               days: f.days,
+              tier: f.tier,
+              collegeType: f.collegeType,
+              collegeInstagram: f.collegeInstagram,
+              festInstagram: f.festInstagram,
             });
             id = r.id;
           }, "College added");
@@ -427,14 +486,14 @@ function AddCollege({ onClose, onDone }: { onClose: () => void; onDone: (id: num
 
 function ImportCsv({ onClose, onDone }: { onClose: () => void; onDone: () => void }) {
   const [csv, setCsv] = useState("");
-  const [res, setRes] = useState<{ added: number; duplicates: string[]; notImported: string[] } | null>(null);
+  const [res, setRes] = useState<{ added: number; updated: number; duplicates: string[]; notImported: string[] } | null>(null);
   const { busy, error, run } = useAction();
   return (
     <Modal onClose={onClose} title="Import colleges" wide>
       {res ? (
         <>
           <p>
-            <Tag tone="g">{res.added} added</Tag> <Tag tone="w">{res.duplicates.length} duplicates skipped</Tag> <Tag tone="r">{res.notImported.length} not imported</Tag>
+            <Tag tone="g">{res.added} added</Tag> {res.updated > 0 && <Tag tone="g">{res.updated} filled in</Tag>} <Tag tone="w">{res.duplicates.length} already listed</Tag> <Tag tone="r">{res.notImported.length} not imported</Tag>
           </p>
           {res.duplicates.length > 0 && <p className="sub">Duplicates: {res.duplicates.slice(0, 8).join(", ")}{res.duplicates.length > 8 ? "…" : ""}</p>}
           {res.notImported.length > 0 && (
@@ -455,7 +514,7 @@ function ImportCsv({ onClose, onDone }: { onClose: () => void; onDone: () => voi
       ) : (
         <>
           <p className="sub" style={{ marginTop: 0 }}>
-            Columns in this order: College Name, City, State, Month or Date, Days, Fest Type. A header row is optional and columns are matched by name. Duplicates are skipped.
+            Columns are matched by their header: College, City, State, Fest Name, Fest Type, Fest Month (or date), Days, Tier, College Type, College Instagram, Fest Instagram. Only College and City are required. Without a header the order is College, City, State, Month, Days, Fest Type. A college already in the list only gets its blank fields filled in.
           </p>
           <input
             type="file"

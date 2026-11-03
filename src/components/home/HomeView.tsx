@@ -64,6 +64,7 @@ export function HomeView({ me }: { me: Me }) {
   const [openCompany, setOpenCompany] = useState<number | null>(null);
   const [step, setStep] = useState<{ item: QueueItem; mode: "done" | "snooze" } | null>(null);
   const [assign, setAssign] = useState<CollegeRow | null>(null);
+  const [ownersAll, setOwnersAll] = useState(false);
   const refresh = () => mutate((k) => typeof k === "string" && k.startsWith("/api/"));
   const admin = me.role !== "executive";
   const viewingOther = !!as && data?.viewing && data.viewing.id !== me.id;
@@ -301,7 +302,7 @@ export function HomeView({ me }: { me: Me }) {
                 </h2>
               </div>
               <div className="qlist">
-                {data.unassigned.map((u) => (
+                {data.unassigned.slice(0, ownersAll ? undefined : 6).map((u) => (
                   <div className="qrow lv-high" key={u.collegeId}>
                     <span className="qdot" />
                     <div style={{ minWidth: 0 }}>
@@ -309,7 +310,8 @@ export function HomeView({ me }: { me: Me }) {
                         {u.name}
                       </button>
                       <div className="sub">
-                        Fest {fmtDate(u.fest)} · in {u.days} day{u.days === 1 ? "" : "s"} · {STAGE_LABEL[u.stage]}
+                        {u.festName ? `${u.festName} · ` : "Fest "}
+                        {fmtDate(u.fest)} · in {u.days} day{u.days === 1 ? "" : "s"} · {STAGE_LABEL[u.stage]}
                       </div>
                     </div>
                     <div className="qside">
@@ -320,6 +322,11 @@ export function HomeView({ me }: { me: Me }) {
                   </div>
                 ))}
               </div>
+              {data.unassigned.length > 6 && (
+                <button className="sm" style={{ marginTop: 8 }} onClick={() => setOwnersAll((v) => !v)}>
+                  {ownersAll ? "Show fewer" : `Show all ${data.unassigned.length}`}
+                </button>
+              )}
             </>
           )}
 

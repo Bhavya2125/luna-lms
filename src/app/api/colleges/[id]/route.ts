@@ -1,9 +1,9 @@
-import { and, asc, desc, eq, ne } from "drizzle-orm";
+import { asc, desc, eq } from "drizzle-orm";
 import { schema } from "@/db";
 import { api, HttpError, readJson } from "@/lib/api";
-import { collegeKey, fmtDate } from "@/lib/format";
+import { fmtDate } from "@/lib/format";
 import { collegePeople, firstName, notifyLater } from "@/lib/notify";
-import { assigneesFor, getCollegeOrThrow } from "@/lib/queries";
+import { assigneesFor, findSameCollege, freeCollegeKey, getCollegeOrThrow } from "@/lib/queries";
 import { collegeUpdate } from "@/lib/validators";
 
 const { colleges, collegeNotes, collegeStageLog, users, collegeYears, collegeSponsorships, companies, collegeArtistEntries, collegeProductionEntries } = schema;
@@ -59,14 +59,15 @@ export const PATCH = api<{ id: string }>(async ({ req, db, user, params }) => {
     patch.festMonth = Number(b.festStart.slice(5, 7)) - 1;
     patch.festYear = Number(b.festStart.slice(0, 4));
   }
-  if (b.name !== undefined || b.city !== undefined) {
+  if (b.name !== undefined || b.city !== undefined || b.festName !== undefined) {
     const name = (b.name ?? cur.name).replace(/\s+/g, " ");
     const city = b.city ?? cur.city;
-    const key = collegeKey(name, city);
-    const [dup] = await db.select({ name: colleges.name }).from(colleges).where(and(eq(colleges.nameKey, key), ne(colleges.id, id))).limit(1);
-    if (dup) throw new HttpError(409, `${dup.name} already exists in ${city}`);
+    const festName = b.festName ?? cur.festName;
+    const same = await findSameCollege(db, name, city, festName, id);
+    if (same.clash) throw new HttpError(409, `${same.clash.name}${festName ? ` (${festName})` : ""} already exists in ${city}`);
     patch.name = name;
-    patch.nameKey = key;
+    // keep the key while the college and city stay the same; renaming moves it to a free key
+    if (!(cur.nameKey === same.base || cur.nameKey.startsWith(`${same.base}|`))) patch.nameKey = freeCollegeKey(same);
   }
   await db.update(colleges).set(patch).where(eq(colleges.id, id));
   // tell the team when someone else changes the plan for this college

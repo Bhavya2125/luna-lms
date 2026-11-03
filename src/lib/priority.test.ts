@@ -11,6 +11,7 @@ test("date helpers", () => {
   assert.equal(addDays("2026-12-30", 3), "2027-01-02");
   assert.equal(festDate({ festStart: null, festMonth: 1, festYear: 2027 }), "2027-02-01");
   assert.equal(festDate({ festStart: "2027-02-14", festMonth: 1, festYear: 2027 }), "2027-02-14");
+  assert.equal(festDate({ festStart: null, festMonth: null, festYear: 2027 }), null);
   // 20:00 UTC on 31 Oct is already 1 Nov in India
   assert.equal(todayIST(new Date("2026-10-31T20:00:00Z")), "2026-11-01");
 });

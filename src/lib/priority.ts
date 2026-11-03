@@ -29,9 +29,15 @@ export const todayIST = (now = new Date()) => new Date(now.getTime() + 5.5 * 360
 const dayNum = (iso: string) => Date.UTC(+iso.slice(0, 4), +iso.slice(5, 7) - 1, +iso.slice(8, 10)) / DAY;
 export const daysBetween = (fromIso: string, toIso: string) => Math.round(dayNum(toIso) - dayNum(fromIso));
 export const addDays = (iso: string, n: number) => new Date((dayNum(iso) + n) * DAY).toISOString().slice(0, 10);
-/** When a fest starts: its exact start date, else the first of its month. */
-export const festDate = (c: { festStart: string | null; festMonth: number; festYear: number }) =>
-  c.festStart ?? `${c.festYear}-${String(c.festMonth + 1).padStart(2, "0")}-01`;
+/** When a fest starts: its exact start date, else the first of its month, else null when the month isn't known. */
+export const festDate = (c: { festStart: string | null; festMonth: number | null; festYear: number }): string | null =>
+  c.festStart ?? (c.festMonth == null ? null : `${c.festYear}-${String(c.festMonth + 1).padStart(2, "0")}-01`);
+
+/** The fest year for a month: this year if the month is still ahead, else next year. Unknown month: the coming season (Jun onward → next year). */
+export function nextFestYear(month: number | null, now = new Date()) {
+  if (month == null) return now.getMonth() >= 5 ? now.getFullYear() + 1 : now.getFullYear();
+  return month >= now.getMonth() ? now.getFullYear() : now.getFullYear() + 1;
+}
 
 const plural = (n: number, w: string) => `${n} ${w}${n === 1 ? "" : "s"}`;
 

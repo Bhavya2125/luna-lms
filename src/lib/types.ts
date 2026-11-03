@@ -10,11 +10,15 @@ export type College = {
   state: string;
   festName: string;
   festType: "cultural" | "technical" | "other";
-  festMonth: number;
+  festMonth: number | null;
   festYear: number;
   festStart: string | null;
   festEnd: string | null;
   days: number;
+  tier: string;
+  collegeType: string;
+  collegeInstagram: string;
+  festInstagram: string;
   stage: string;
   lostReason: string;
   convenorName: string;

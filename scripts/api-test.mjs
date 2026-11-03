@@ -95,6 +95,24 @@ check("exec cannot import", (await rohan.req("POST", "/api/colleges/import", { c
 r = await isha.req("POST", "/api/colleges/import", { csv: `College Name,City,State,Month,Days,Fest Type\nJadavpur ${stamp},Kolkata,West Bengal,Feb,3,Cultural\nTest College ${stamp},Kolkata,West Bengal,3,2,Cultural\nBad Row ${stamp},Pune,Maharashtra,notamonth,2,Cultural` });
 check("csv import counts", r.json.added === 1 && r.json.duplicates.length === 1 && r.json.notImported.length === 1, JSON.stringify(r.json));
 
+// instagram, tier, multi-fest colleges and colleges without a month
+r = await rohan.req("POST", "/api/colleges", { name: `Insta U ${stamp}`, city: "Pune", festName: "Spring", collegeInstagram: "https://www.instagram.com/insta.u/", festInstagram: "@spring_fest", tier: "Tier 2" });
+check("college without a month can be added", r.status === 200, JSON.stringify(r.json));
+const igId = r.json.id;
+let c = (await rohan.req("GET", `/api/colleges/${igId}`)).json.college;
+check("instagram links and @ are stored as handles", c.collegeInstagram === "insta.u" && c.festInstagram === "spring_fest" && c.tier === "Tier 2" && c.festMonth === null, JSON.stringify(c));
+check("bad instagram handle rejected", (await rohan.req("PATCH", `/api/colleges/${igId}`, { festInstagram: "not a handle!" })).status === 400);
+check("second fest at the same college allowed", (await rohan.req("POST", "/api/colleges", { name: `Insta U ${stamp}`, city: "Pune", festName: "Techfest" })).status === 200);
+check("same college and fest rejected", (await rohan.req("POST", "/api/colleges", { name: `insta u ${stamp}`, city: "pune", festName: "spring" })).status === 409);
+check("search finds instagram handle", (await rohan.req("GET", `/api/colleges?q=spring_fest`)).json.some((x) => x.id === igId));
+check("month-not-set filter", (await rohan.req("GET", `/api/colleges?month=none`)).json.some((x) => x.id === igId));
+r = await isha.req("POST", "/api/colleges/import", { csv: `College,City,State,Tier,College Type,Fest Name,Fest Type,Fest Month,College Instagram,College Instagram Link,Fest Instagram
+Insta U ${stamp},Pune,Maharashtra,Tier 1,Private University,Spring,Cultural,March,@other,https://www.instagram.com/other/,@other_fest
+New Lead ${stamp},Pune,Maharashtra,Tier 3,,,,,@newlead,,` });
+check("import fills blanks only", r.json.added === 1 && r.json.updated === 1, JSON.stringify(r.json));
+c = (await rohan.req("GET", `/api/colleges/${igId}`)).json.college;
+check("import kept typed values and filled the month", c.collegeInstagram === "insta.u" && c.tier === "Tier 2" && c.state === "Maharashtra" && c.collegeType === "Private University" && c.festMonth === 2, JSON.stringify(c));
+
 // history
 r = await rohan.req("POST", `/api/colleges/${tcId}/history`, { section: "sponsor", data: { brand: "red bull", year: 2025, title: "Title sponsor", amount: 500000, deliverables: "Stall", exclusive: true } });
 check("history sponsor joins existing company", r.status === 200);

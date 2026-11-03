@@ -1,3 +1,5 @@
+import { MONTHS } from "./stages";
+
 /** Whole rupees → "₹12L", "₹1.5Cr", "₹45,000". */
 export function inr(n: number | null | undefined): string {
   if (!n) return "—";
@@ -21,6 +23,20 @@ export const nameKey = (s: string) =>
     .replace(/[^a-z0-9]/g, "");
 
 export const collegeKey = (name: string, city: string) => `${nameKey(name)}|${nameKey(city)}`;
+
+/** "@luna.wave", "luna.wave" or an instagram.com link → "luna.wave". Anything else → "". */
+export function igHandle(v: string | null | undefined): string {
+  const s = String(v ?? "")
+    .trim()
+    .replace(/^https?:\/\/(www\.)?instagram\.com\//i, "")
+    .replace(/^@/, "")
+    .replace(/[/?#].*$/, "");
+  return /^[A-Za-z0-9._]{1,30}$/.test(s) ? s : "";
+}
+export const igUrl = (handle: string) => `https://www.instagram.com/${handle}/`;
+
+/** "March 2027", or "Month not set" while the fest month is unknown. */
+export const festWhen = (c: { festMonth: number | null; festYear: number }) => (c.festMonth == null ? "Month not set" : `${MONTHS[c.festMonth]} ${c.festYear}`);
 
 export function fmtDate(d: string | Date | null | undefined): string {
   if (!d) return "";

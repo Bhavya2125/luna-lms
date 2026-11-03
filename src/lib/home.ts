@@ -28,7 +28,7 @@ export type HomeData = {
   items: QueueItem[];
   timeline: TimelineFest[];
   team?: TeamRow[];
-  unassigned?: { collegeId: number; name: string; fest: string; days: number; stage: string }[];
+  unassigned?: { collegeId: number; name: string; festName: string; fest: string; days: number; stage: string }[];
   pipeline?: { colleges: Record<string, number>; deals: Record<string, number>; lockedValue: number };
 };
 
@@ -101,11 +101,14 @@ export async function buildHome(db: Db, viewer: { id: number; role: Role }, targ
   const mine = assignedTo(target.id);
   const showAll = isAdminRole(target.role) && viewer.id === target.id;
   const month = today.slice(0, 7);
+  const assignedAny = new Set(assignments.map((a) => a.collegeId));
+  // the team-wide timeline shows colleges someone is working on, not every lead in the list
+  const working = (c: (typeof allColleges)[number]) => assignedAny.has(c.id) || !!c.lastTouchedAt || c.stage !== "reach_out";
   const timeline: TimelineFest[] = allColleges
-    .filter((c) => c.stage !== "lost" && (showAll || mine.has(c.id)))
-    .map((c) => {
+    .filter((c) => c.stage !== "lost" && (mine.has(c.id) || (showAll && working(c))))
+    .flatMap((c) => {
       const fest = festDate(c);
-      return { collegeId: c.id, name: c.name, fest, days: daysBetween(today, fest), stage: c.stage, behind: ["reach_out", "initial_connect"].includes(c.stage), mine: mine.has(c.id) };
+      return fest ? [{ collegeId: c.id, name: c.name, fest, days: daysBetween(today, fest), stage: c.stage, behind: ["reach_out", "initial_connect"].includes(c.stage), mine: mine.has(c.id) }] : [];
     })
     .filter((f) => f.days >= 0 && f.days <= 60)
     .sort((a, b) => a.days - b.days);
@@ -133,10 +136,12 @@ export async function buildHome(db: Db, viewer: { id: number; role: Role }, targ
       })
       .filter((t) => t.open > 0)
       .sort((a, b) => b.urgent - a.urgent || b.overdue - a.overdue || a.name.localeCompare(b.name));
-    const assigned = new Set(assignments.map((a) => a.collegeId));
     data.unassigned = allColleges
-      .filter((c) => !assigned.has(c.id) && !isClosed(c.stage))
-      .map((c) => ({ collegeId: c.id, name: c.name, fest: festDate(c), days: daysBetween(today, festDate(c)), stage: c.stage }))
+      .filter((c) => !assignedAny.has(c.id) && !isClosed(c.stage))
+      .flatMap((c) => {
+        const fest = festDate(c);
+        return fest ? [{ collegeId: c.id, name: c.name, festName: c.festName, fest, days: daysBetween(today, fest), stage: c.stage }] : [];
+      })
       .filter((u) => u.days >= 0 && u.days <= 60)
       .sort((a, b) => a.days - b.days);
     const count = (stages: string[]) => stages.reduce<Record<string, number>>((m, s) => ((m[s] = (m[s] ?? 0) + 1), m), {});

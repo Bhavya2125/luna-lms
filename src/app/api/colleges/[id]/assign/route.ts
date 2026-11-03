@@ -1,9 +1,8 @@
 import { eq, inArray } from "drizzle-orm";
 import { schema } from "@/db";
 import { api, readJson } from "@/lib/api";
-import { fmtDate } from "@/lib/format";
+import { festWhen, fmtDate } from "@/lib/format";
 import { firstName, notifyLater } from "@/lib/notify";
-import { MONTHS } from "@/lib/stages";
 import { assignSchema } from "@/lib/validators";
 
 const { collegeAssignments, colleges, users } = schema;
@@ -23,8 +22,8 @@ export const POST = api<{ id: string }>(
     const added = valid.map((u) => u.id).filter((u) => !before.has(u));
     if (added.length) {
       const [c] = await db.select().from(colleges).where(eq(colleges.id, id)).limit(1);
-      const when = c.festStart ? fmtDate(c.festStart) : `${MONTHS[c.festMonth]} ${c.festYear}`;
-      notifyLater(db, added, user.id, { title: `New college: ${c.name}`, body: `${firstName(user.name)} assigned you ${c.name}${c.festName ? ` (${c.festName})` : ""}, fest ${when}.`, url: `/colleges?open=${id}` });
+      const when = c.festStart ? `fest ${fmtDate(c.festStart)}` : c.festMonth == null ? "fest month not set yet" : `fest ${festWhen(c)}`;
+      notifyLater(db, added, user.id, { title: `New college: ${c.name}`, body: `${firstName(user.name)} assigned you ${c.name}${c.festName ? ` (${c.festName})` : ""}, ${when}.`, url: `/colleges?open=${id}` });
     }
     return { ok: true };
   },

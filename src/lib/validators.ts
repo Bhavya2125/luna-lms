@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { igHandle } from "./format";
 import { COLLEGE_STAGES, DEAL_STAGES, FEST_TYPES, ROLES, TRAVEL } from "./stages";
 
 const money = z.coerce.number().int().min(0).max(100_000_000_000);
@@ -7,6 +8,13 @@ const phone = z.string().trim().max(30);
 const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Use a date like 2027-02-14");
 const optDate = z.union([isoDate, z.literal(""), z.null()]).optional().transform((v) => (v ? v : null));
 const month = z.coerce.number().int().min(0).max(11);
+/** Accepts "@handle", "handle" or an instagram.com link; stores the bare handle. */
+const ig = z
+  .string()
+  .trim()
+  .max(200)
+  .refine((v) => v === "" || igHandle(v) !== "", "Enter an Instagram handle like @lunawave or an instagram.com link")
+  .transform((v) => igHandle(v));
 const optMonth = z.union([month, z.literal(""), z.null()]).optional().transform((v) => (v === "" || v === undefined ? null : v));
 
 export const loginSchema = z.object({ username: text(60).min(1), password: z.string().min(1).max(200) });
@@ -31,11 +39,15 @@ export const collegeFields = z.object({
   state: text(60),
   festName: text(120),
   festType: z.enum(FEST_TYPES),
-  festMonth: month,
+  festMonth: optMonth,
   festYear: z.coerce.number().int().min(2000).max(2100),
   festStart: optDate,
   festEnd: optDate,
   days: z.coerce.number().int().min(1).max(7),
+  tier: text(20),
+  collegeType: text(60),
+  collegeInstagram: ig,
+  festInstagram: ig,
   convenorName: text(120),
   convenorPhone: phone,
   facultyName: text(120),
@@ -66,6 +78,10 @@ export const collegeCreate = z.object({
   festStart: optDate,
   festEnd: optDate,
   days: z.coerce.number().int().min(1).max(7).default(2),
+  tier: text(20).default(""),
+  collegeType: text(60).default(""),
+  collegeInstagram: ig.default(""),
+  festInstagram: ig.default(""),
 });
 
 export const stageMove = z.object({

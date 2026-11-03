@@ -1,8 +1,9 @@
 import "server-only";
-import { and, eq, exists, inArray, isNull, or, sql, type SQL } from "drizzle-orm";
+import { and, eq, exists, inArray, isNull, like, ne, or, sql, type SQL } from "drizzle-orm";
 import { schema, type Db } from "@/db";
 import { HttpError, isAdmin } from "./api";
 import type { SessionUser } from "./auth";
+import { collegeKey, nameKey } from "./format";
 
 const { colleges, collegeAssignments, users } = schema;
 
@@ -46,8 +47,28 @@ export async function assigneesFor(db: Db, collegeIds: number[]) {
 }
 
 /** Fest year for a month: this year if the month hasn't passed, otherwise next year. */
-export function nextFestYear(month: number, now = new Date()) {
-  return month >= now.getMonth() ? now.getFullYear() : now.getFullYear() + 1;
+export { nextFestYear } from "./priority";
+
+/**
+ * A college can run more than one fest, and each fest is its own row. Rows of one college share the key "name|city";
+ * a second fest adds "|fest". Two rows clash only when the college, city and fest name are all the same.
+ */
+export async function findSameCollege(db: Db, name: string, city: string, festName: string, exceptId?: number) {
+  const base = collegeKey(name, city);
+  const rows = await db
+    .select({ id: colleges.id, name: colleges.name, festName: colleges.festName, nameKey: colleges.nameKey })
+    .from(colleges)
+    .where(and(or(eq(colleges.nameKey, base), like(colleges.nameKey, `${base}|%`)), exceptId ? ne(colleges.id, exceptId) : undefined));
+  const fk = nameKey(festName);
+  return { clash: rows.find((r) => nameKey(r.festName) === fk), keys: new Set(rows.map((r) => r.nameKey)), base, fk };
+}
+
+/** A unique key for a new (or renamed) row, given what findSameCollege found. */
+export function freeCollegeKey({ keys, base, fk }: { keys: Set<string>; base: string; fk: string }) {
+  if (!keys.has(base)) return base;
+  let key = `${base}|${fk || "fest"}`;
+  for (let n = 2; keys.has(key); n++) key = `${base}|${fk || "fest"}${n}`;
+  return key;
 }
 
 /** Executives see deals on their colleges, plus overall deals they started themselves. */

@@ -84,11 +84,15 @@ export const colleges = pgTable(
     nameKey: text("name_key").notNull(),
     festName: text("fest_name").notNull().default(""),
     festType: festTypeEnum("fest_type").notNull().default("cultural"),
-    festMonth: smallint("fest_month").notNull(), // 0-11
+    festMonth: smallint("fest_month"), // 0-11; null when the month isn't known yet
     festYear: smallint("fest_year").notNull(),
     festStart: date("fest_start", { mode: "string" }),
     festEnd: date("fest_end", { mode: "string" }),
     days: smallint("days").notNull().default(2),
+    tier: text("tier").notNull().default(""), // "Tier 1" … "Tier 3"
+    collegeType: text("college_type").notNull().default(""), // e.g. State University, Private College
+    collegeInstagram: text("college_instagram").notNull().default(""), // handle without the @
+    festInstagram: text("fest_instagram").notNull().default(""),
     stage: collegeStageEnum("stage").notNull().default("reach_out"),
     lostReason: text("lost_reason").notNull().default(""),
     convenorName: text("convenor_name").notNull().default(""),
@@ -367,3 +371,10 @@ export const alertDispatch = pgTable(
   },
   (t) => [primaryKey({ columns: [t.collegeId, t.festYear, t.kind] })],
 );
+
+/** Bundled data sets (data/*.csv) that have been loaded once, so a deploy never imports them twice. */
+export const dataImports = pgTable("data_imports", {
+  name: text("name").primaryKey(),
+  result: text("result").notNull().default(""),
+  ranAt: ts("ran_at").notNull().defaultNow(),
+});

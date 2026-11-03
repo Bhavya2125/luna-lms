@@ -7,6 +7,8 @@ import path from "node:path";
 import { Pool } from "pg";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { migrate } from "drizzle-orm/node-postgres/migrator";
+import { runDataImports } from "../src/db/dataImports";
+import * as schema from "../src/db/schema";
 
 loadEnvConfig(process.cwd()); // read .env.local like the app does
 
@@ -14,9 +16,11 @@ async function main() {
   const url = process.env.DIRECT_DATABASE_URL || process.env.DATABASE_URL;
   if (!url) throw new Error("Set DATABASE_URL (or DIRECT_DATABASE_URL)");
   const pool = new Pool({ connectionString: url, max: 1 });
-  await migrate(drizzle(pool), { migrationsFolder: path.join(process.cwd(), "drizzle") });
-  await pool.end();
+  const db = drizzle(pool, { schema });
+  await migrate(db, { migrationsFolder: path.join(process.cwd(), "drizzle") });
+  await runDataImports(db); // bundled college list, loaded once
   console.log("Migrations applied.");
+  await pool.end();
 }
 
 main().catch((e) => {

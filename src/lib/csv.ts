@@ -58,4 +58,5 @@ export function parseMonth(v: string): { month: number; date?: string } | null {
   return null;
 }
 
-export const normFestType = (v: string) => (/tech/i.test(v) ? "technical" : /cult/i.test(v) ? "cultural" : "other") as "technical" | "cultural" | "other";
+/** "Techno-Cultural" and "Cultural/Tech" count as cultural: the fest still books artists. */
+export const normFestType = (v: string) => (/cult/i.test(v) ? "cultural" : /tech/i.test(v) ? "technical" : "other") as "technical" | "cultural" | "other";

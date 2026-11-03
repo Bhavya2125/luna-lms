@@ -1,8 +1,7 @@
-import { and, desc, eq, inArray, ilike, or, sql } from "drizzle-orm";
+import { and, desc, eq, inArray, ilike, isNull, ne, or, sql } from "drizzle-orm";
 import { schema } from "@/db";
 import { api, HttpError, isAdmin, readJson } from "@/lib/api";
-import { collegeKey } from "@/lib/format";
-import { assigneesFor, collegeScope, nextFestYear } from "@/lib/queries";
+import { assigneesFor, collegeScope, findSameCollege, freeCollegeKey, nextFestYear } from "@/lib/queries";
 import { collegeCreate } from "@/lib/validators";
 
 const { colleges, collegeAssignments, collegeYears } = schema;
@@ -12,10 +11,17 @@ export const GET = api(async ({ req, db, user }) => {
   const q = sp.get("q")?.trim();
   const conds = [collegeScope(user)];
   if (q) {
-    const like = `%${q.replace(/[%_]/g, "")}%`;
-    conds.push(or(ilike(colleges.name, like), ilike(colleges.city, like), ilike(colleges.state, like), ilike(colleges.festName, like)));
+    const like = `%${q.replace(/[\\%_]/g, "\\$&")}%`; // escape LIKE wildcards; handles often contain _
+    conds.push(or(ilike(colleges.name, like), ilike(colleges.city, like), ilike(colleges.state, like), ilike(colleges.festName, like), ilike(colleges.collegeInstagram, like), ilike(colleges.festInstagram, like)));
   }
-  if (sp.get("month")) conds.push(eq(colleges.festMonth, Number(sp.get("month"))));
+  const m = sp.get("month");
+  if (m === "none") conds.push(isNull(colleges.festMonth));
+  else if (m) conds.push(eq(colleges.festMonth, Number(m)));
+  if (sp.get("tier")) conds.push(sp.get("tier") === "none" ? eq(colleges.tier, "") : eq(colleges.tier, sp.get("tier")!));
+  const ig = sp.get("ig");
+  if (ig === "college") conds.push(ne(colleges.collegeInstagram, ""));
+  else if (ig === "fest") conds.push(ne(colleges.festInstagram, ""));
+  else if (ig === "none") conds.push(and(eq(colleges.collegeInstagram, ""), eq(colleges.festInstagram, "")));
   if (sp.get("stage")) conds.push(eq(colleges.stage, sp.get("stage") as never));
   if (sp.get("days")) conds.push(eq(colleges.days, Number(sp.get("days"))));
   if (sp.get("state")) conds.push(eq(colleges.state, sp.get("state")!));
@@ -59,11 +65,10 @@ export const POST = api(async ({ req, db, user }) => {
     month = Number(start.slice(5, 7)) - 1;
     year = Number(start.slice(0, 4));
   }
-  if (month === null || month === undefined) throw new HttpError(400, "Pick a month or an exact date");
-  year ??= nextFestYear(month);
-  const key = collegeKey(b.name, b.city);
-  const [dup] = await db.select({ name: colleges.name }).from(colleges).where(eq(colleges.nameKey, key)).limit(1);
-  if (dup) throw new HttpError(409, `${dup.name} is already in the list`);
+  year ??= nextFestYear(month ?? null);
+  const same = await findSameCollege(db, b.name.replace(/\s+/g, " "), b.city, b.festName);
+  if (same.clash) throw new HttpError(409, `${same.clash.name}${b.festName ? ` (${b.festName})` : ""} is already in the list`);
+  const key = freeCollegeKey(same);
   const [row] = await db
     .insert(colleges)
     .values({
@@ -73,11 +78,15 @@ export const POST = api(async ({ req, db, user }) => {
       nameKey: key,
       festName: b.festName,
       festType: b.festType,
-      festMonth: month,
+      festMonth: month ?? null,
       festYear: year,
       festStart: start,
       festEnd: b.festEnd,
       days: b.days,
+      tier: b.tier,
+      collegeType: b.collegeType,
+      collegeInstagram: b.collegeInstagram,
+      festInstagram: b.festInstagram,
       createdBy: user.id,
     })
     .returning({ id: colleges.id });

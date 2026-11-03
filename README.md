@@ -4,7 +4,7 @@ Internal system for Luna Wave: colleges (fest deals), sponsors, and the artist r
 
 ## What's in it
 
-- **Colleges**: list and board, filters, CSV import, assignment, six-stage pipeline (Reach Out → Initial Connect → Requirements Received → Rates Proposed → Locked / Lost), stage history, notes, and per-year history of artists, production and sponsors (with travel & stay tracking).
+- **Colleges**: list and board, filters (state, tier, Instagram, month), CSV import, college and fest Instagram handles, tier and college type, assignment, six-stage pipeline (Reach Out → Initial Connect → Requirements Received → Rates Proposed → Locked / Lost), stage history, notes, and per-year history of artists, production and sponsors (with travel & stay tracking).
 - **Sponsors**: companies appear automatically from college sponsor history. One deal pipeline per college, board view, multiple contacts, exclusivity, outreach log.
 - **Roster**: artists with multiple contacts and designations, crew size, tech and hospitality rider links, and shows from college history plus ones added by hand.
 - **Settings**: theme, push alerts, install, change password, and (Admin and Super Admin) the team; Super Admin creates, edits and revokes accounts.
@@ -62,6 +62,10 @@ Locked out? `ADMIN_USERNAME=… ADMIN_NAME=… ADMIN_PASSWORD=… DATABASE_URL=�
 Never run `db:seed` against production: it only fills an empty database and refuses when `NODE_ENV=production` unless `SEED_ALLOW_PRODUCTION=1`.
 
 Sign-in attempts are throttled per server instance. For strict limits across instances put a shared rate limiter in front of `/api/auth/login`.
+
+## Bundled college list
+
+`data/india-college-fests.csv` (about 1,200 colleges with fest names, months and Instagram handles) loads once into each database: on deploy through `npm run db:migrate`, and locally when the dev server first starts. A college already in the list only gets its blank fields filled in. Loads are recorded in the `data_imports` table; to ship a new version of a file, add an entry with a new name in `src/db/dataImports.ts`.
 
 ## PWA notes
 

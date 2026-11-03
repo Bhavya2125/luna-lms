@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 import { fetcher, patch, post } from "@/lib/client";
-import { fmtDateTime, fmtRange, inr, normPhone } from "@/lib/format";
+import { festWhen, fmtDateTime, fmtRange, igUrl, inr, normPhone } from "@/lib/format";
 import { COLLEGE_STAGES, COLLEGE_STAGE_DESC, FEST_TYPES, MONTHS, STAGE_LABEL, type CollegeStage } from "@/lib/stages";
 import type { CollegeDetail, CollegeRow, Me } from "@/lib/types";
 import { GeoFields } from "../GeoFields";
@@ -51,10 +51,13 @@ export function CollegeDrawer({ id, me, onClose, onChanged, onAssign }: { id: nu
     <Drawer
       onClose={onClose}
       title={c.name}
-      sub={`${c.festType[0].toUpperCase() + c.festType.slice(1)} fest${c.festName ? " · " + c.festName : ""} · ${c.city}${c.state ? ", " + c.state : ""} · ${MONTHS[c.festMonth]} ${c.festYear} · ${c.days}-day`}
+      sub={`${c.festType[0].toUpperCase() + c.festType.slice(1)} fest${c.festName ? " · " + c.festName : ""} · ${c.city}${c.state ? ", " + c.state : ""} · ${festWhen(c)} · ${c.days}-day`}
     >
       <div style={{ display: "flex", gap: 6, flexWrap: "wrap", alignItems: "center" }}>
         {c.convenorPhone ? phoneLinks(c.convenorPhone) : <button className="sm" onClick={() => setTab("details")}>Add convenor number</button>}
+        <IgLinks college={c} />
+        {c.tier && <Tag>{c.tier}</Tag>}
+        {c.collegeType && <Tag>{c.collegeType}</Tag>}
       </div>
       <div style={{ marginTop: 12 }}>
         <Seg value={tab} onChange={setTab} items={[["deal", "Deal"], ["details", "Details"], ["hist", "History"]]} />
@@ -76,6 +79,26 @@ export function CollegeDrawer({ id, me, onClose, onChanged, onAssign }: { id: nu
         />
       )}
     </Drawer>
+  );
+}
+
+/** Instagram buttons for the college and its fest; each opens the profile in Instagram. */
+export function IgLinks({ college: c, small }: { college: Pick<CollegeDetail["college"], "collegeInstagram" | "festInstagram">; small?: boolean }) {
+  const link = (h: string, label: string) => (
+    <a key={label} href={igUrl(h)} target="_blank" rel="noopener noreferrer" className="ig" title={`${label} on Instagram: @${h}`}>
+      <svg viewBox="0 0 24 24" width={small ? 12 : 14} height={small ? 12 : 14} aria-hidden fill="none" stroke="currentColor" strokeWidth="2">
+        <rect x="3" y="3" width="18" height="18" rx="5" />
+        <circle cx="12" cy="12" r="4" />
+        <circle cx="17.5" cy="6.5" r="0.6" fill="currentColor" />
+      </svg>
+      {small ? `@${h}` : <>{label} <b>@{h}</b></>}
+    </a>
+  );
+  return (
+    <>
+      {c.collegeInstagram && link(c.collegeInstagram, "College")}
+      {c.festInstagram && link(c.festInstagram, "Fest")}
+    </>
   );
 }
 
@@ -259,7 +282,16 @@ function DealTab({ detail, admin, onMove, reload, onAssign, phoneLinks }: { deta
 }
 
 /** Phone numbers are stored as digits; the form shows them with a leading "+". */
-const toForm = (c: CollegeDetail["college"]) => ({ ...c, convenorPhone: c.convenorPhone ? "+" + c.convenorPhone : "", facultyPhone: c.facultyPhone ? "+" + c.facultyPhone : "" });
+const toForm = (c: CollegeDetail["college"]) => ({
+  ...c,
+  convenorPhone: c.convenorPhone ? "+" + c.convenorPhone : "",
+  facultyPhone: c.facultyPhone ? "+" + c.facultyPhone : "",
+  collegeInstagram: c.collegeInstagram ? "@" + c.collegeInstagram : "",
+  festInstagram: c.festInstagram ? "@" + c.festInstagram : "",
+});
+
+export const TIERS = ["Tier 1", "Tier 2", "Tier 3"];
+export const COLLEGE_TYPES = ["Central University", "State University", "Private University", "Deemed University", "Institute of National Importance", "Government College", "Private College", "Autonomous College"];
 
 function DetailsTab({ college, reload }: { college: CollegeDetail["college"]; reload: () => void }) {
   const [f, setF] = useState(() => toForm(college));
@@ -279,7 +311,7 @@ function DetailsTab({ college, reload }: { college: CollegeDetail["college"]; re
           <TextField label="Fest name" value={f.festName} onChange={(v) => set("festName", v)} />
           <TextField label="Pitching as (company)" value={f.pitchCompany} onChange={(v) => set("pitchCompany", v)} ph="Luna Wave" />
           <SelectField label="Fest type" value={f.festType} onChange={(v) => set("festType", v as never)} options={FEST_TYPES.map((t) => [t, t[0].toUpperCase() + t.slice(1)] as [string, string])} />
-          <SelectField label="Expected month" value={f.festMonth} onChange={(v) => set("festMonth", +v)} options={MONTHS.map((m, i) => [i, m] as [number, string])} />
+          <SelectField label="Expected month" value={f.festMonth == null ? "" : String(f.festMonth)} onChange={(v) => set("festMonth", v === "" ? null : +v)} options={[["", "Not known yet"], ...MONTHS.map((m, i) => [String(i), m] as [string, string])]} />
           <SelectField label="Fest year" value={f.festYear} onChange={(v) => set("festYear", +v)} options={[-2, -1, 0, 1, 2].map((k) => [y + k, String(y + k)] as [number, string])} />
           <TextField type="date" label="Start date" value={f.festStart ?? ""} onChange={(v) => set("festStart", v || null)} />
           <TextField type="date" label="End date" value={f.festEnd ?? ""} onChange={(v) => set("festEnd", v || null)} />
@@ -287,6 +319,20 @@ function DetailsTab({ college, reload }: { college: CollegeDetail["college"]; re
           <SelectField label="Number of days" value={f.days} onChange={(v) => set("days", +v)} options={[1, 2, 3, 4, 5, 6, 7].map((n) => [n, `${n} day${n > 1 ? "s" : ""}`] as [number, string])} />
         </div>
         {dateRange && <div className="sub" style={{ marginTop: 6 }}>Dates: {dateRange}. A start date sets the month and year.</div>}
+      </div>
+      <div className="box">
+        <h3>College profile</h3>
+        <div className="fl" style={{ marginTop: 8 }}>
+          <TextField label="College Instagram" value={f.collegeInstagram} ph="@college or instagram.com link" onChange={(v) => set("collegeInstagram", v)} />
+          <TextField label="Fest Instagram" value={f.festInstagram} ph="@fest or instagram.com link" onChange={(v) => set("festInstagram", v)} />
+          <SelectField label="Tier" value={f.tier} onChange={(v) => set("tier", v)} options={[["", "Not set"], ...TIERS.map((t) => [t, t] as [string, string])]} />
+          <TextField label="College type" value={f.collegeType} list="college-types" ph="e.g. State University" onChange={(v) => set("collegeType", v)} />
+          <datalist id="college-types">
+            {COLLEGE_TYPES.map((t) => (
+              <option key={t}>{t}</option>
+            ))}
+          </datalist>
+        </div>
       </div>
       <div className="box">
         <h3>Contacts</h3>
@@ -322,6 +368,7 @@ function DetailsTab({ college, reload }: { college: CollegeDetail["college"]; re
           const { festStart, festEnd } = f;
           const body = {
             name: f.name, city: f.city, state: f.state, festName: f.festName, pitchCompany: f.pitchCompany, festType: f.festType, festMonth: f.festMonth, festYear: f.festYear, festStart, festEnd, days: f.days, targetDate: f.targetDate || null,
+            tier: f.tier, collegeType: f.collegeType, collegeInstagram: f.collegeInstagram, festInstagram: f.festInstagram,
             convenorName: f.convenorName, convenorPhone: normPhone(f.convenorPhone), facultyName: f.facultyName, facultyPhone: normPhone(f.facultyPhone),
             artistBudget: f.artistBudget, prodBudget: f.prodBudget, wishlist: f.wishlist, scopeNotes: f.scopeNotes,
             proposedArtistRate: f.proposedArtistRate, proposedProdRate: f.proposedProdRate, proposalNotes: f.proposalNotes, dealAmount: f.dealAmount, dealDeliverables: f.dealDeliverables,

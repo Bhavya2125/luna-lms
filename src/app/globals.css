@@ -279,6 +279,32 @@ main {
   background: color-mix(in srgb, var(--wm) 18%, transparent);
   color: var(--wm);
 }
+/* Instagram profile links: a pill that matches buttons, with the handle in bold */
+a.ig {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid var(--ln);
+  border-radius: 20px;
+  padding: 3px 10px;
+  font-size: 12px;
+  color: var(--ink);
+  text-decoration: none;
+  background: var(--sf);
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+a.ig:hover {
+  border-color: var(--ink);
+}
+.iglinks {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
 .bd {
   background: var(--rd);
   color: var(--on-rd);
