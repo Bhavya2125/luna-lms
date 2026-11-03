@@ -65,7 +65,7 @@ Sign-in attempts are throttled per server instance. For strict limits across ins
 
 ## Bundled college list
 
-`data/india-college-fests.csv` (about 1,200 colleges with fest names, months and Instagram handles) loads once into each database: on deploy through `npm run db:migrate`, and locally when the dev server first starts. A college already in the list only gets its blank fields filled in. Loads are recorded in the `data_imports` table; to ship a new version of a file, add an entry with a new name in `src/db/dataImports.ts`.
+`data/india-college-fests.csv` (about 1,600 colleges with fest names, months and Instagram handles) loads once into each database: on deploy through `npm run db:migrate`, and locally when the dev server first starts. A college already in the list only gets its blank fields filled in. Loads are recorded in the `data_imports` table; to ship a new version of a file, add an entry with a new name in `src/db/dataImports.ts`.
 
 ## PWA notes
 
