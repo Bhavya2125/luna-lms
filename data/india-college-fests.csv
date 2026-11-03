@@ -27,14 +27,14 @@ Charotar University of Science and Technology (CHARUSAT),Changa,Gujarat,Tier 1,,
 "Deen Bandhu Chhotu Ram University of Science and Technology (DCRUST), Murthal",Sonipat,Haryana,Tier 1,,Rhythm,Cultural,November,,rhythm_dcrust
 "Devi Ahilya Vishwavidyalaya (DAVV), Indore",Indore,Madhya Pradesh,Tier 1,,Aakshank,Cultural,November,davvindore64,
 "Dr. D. Y. Patil Vidyapeeth, Navi Mumbai",Navi Mumbai,Maharashtra,Tier 1,,Horizon,Cultural,February,dypatilrait,raithorizon
-"Gandhi Institute of Technology and Management - GITAM (Deemed to be University), Visakhapatnam",Visakhapatnam,Andhra Pradesh,Tier 1,,Shore,Cultural,January,,shore.gitam
+"Gandhi Institute of Technology and Management - GITAM (Deemed to be University), Visakhapatnam",Visakhapatnam,Andhra Pradesh,Tier 1,Deemed University (Private),Shore,Cultural,January,,shore.gitam
 "GLA University, Mathura",Uttar Pradesh,Uttar Pradesh,Tier 1,,Spandan,Cultural,March,glauniv,
 "Gokhale Institute of Politics and Economics, Pune",Pune,Maharashtra,Tier 1,,Manan,Cultural,February,gipe_official,manan_gipe
 "Gujarat National Law University (GNLU), Gandhinagar",Gandhinagar,Gujarat,Tier 1,,Pentagram,Cultural,April,,sacgnlu
 "Guru Gobind Singh Indraprastha University, Delhi",Dwarka,Delhi,Tier 1,,Anugoonj,Cultural,February,ggsipuindia,anugoonj_ggsipu
 "Guru Gobind Singh Indraprastha University, Delhi",Dwarka,Delhi,Tier 1,,Elysian,Cultural,April,ggsipuindia,
 "Hindustan Institute of Technology & Science (HITS), Padur",Chennai,Tamil Nadu,Tier 1,,Hindotsav,Cultural,February,hindustan.university,
-"ICFAI Foundation for Higher Education, Hyderabad",Hyderabad,Telangana,Tier 1,,Thrihti,Cultural,March,icfai.hyderabad,thrithi.icfai
+"ICFAI Foundation for Higher Education, Hyderabad",Hyderabad,Telangana,Tier 1,,,,,icfai.hyderabad,
 "Indian Institute of Foreign Trade (IIFT), New Delhi",New Delhi,Delhi,Tier 1,,Quovad,Cultural,February,iift_official,
 "Indian Institute of Information Technology, Allahabad (IIIT-Allahabad)",Uttar Pradesh,Uttar Pradesh,Tier 1,,Effervescene,Cultural,October,iiit.allahabad,goeffervescence
 "Indian Institute of Information Technology, Allahabad (IIIT-Allahabad)",Uttar Pradesh,Uttar Pradesh,Tier 1,,Aparoksha,Cultural,March,iiit.allahabad,aparokshaiiita
@@ -77,7 +77,7 @@ Indian Institute of Management Mumbai (IIM Mumbai),Mumbai,Maharashtra,Tier 1,,Av
 "Indian Institute of Information Technology, Pune",Pune,Maharashtra,Tier 1,,Iconclave,Cultural,October,iiitpune,
 "Indian Institute of Information Technology, Ranchi",Ranchi,Jharkhand,Tier 1,,Culariti,Cultural,March,iiitranchi,culariti.iiitr
 "Indian Institute of Information Technology, Senapati",Mantripukhri,Manipur,Tier 1,,Ahouba,Cultural,March,,ahouba_iiitmanipur
-"Indian Institute of Information Technology, Sri City, Chittoor (IIIT Sri City (IIITS))",Tirupati,Andhra Pradesh,Tier 1,,Abhisarga,Cultural,March,iiitsricity,abhisarga
+"Indian Institute of Information Technology, Sri City, Chittoor (IIIT Sri City (IIITS))",Sri City,Andhra Pradesh,Tier 1,Institute of National Importance,Abhisarga,Cultural,March,iiitsricity,abhisarga
 "Indian Institute of Information Technology, Tiruchirapalli",Tiruchirapalli,Tamil Nadu,Tier 1,,Aahladh,Cultural,September,iiittiruchirappalli,aahladh__iiitt
 "Indian Institute of Information Technology, Una (IIIT, Una)",Himachal Pradesh,Himachal Pradesh,Tier 1,,Meraki,Cultural,April,iiit.una_,meraki_iiitu
 "Indian Institute of Information Technology, Vadodara",Vadodara,Gujarat,Tier 1,,Kreiva,Cultural,April,,
@@ -119,12 +119,12 @@ Indian Institute of Technology Rajasthan (IIT Jodhpur),Jodhpur,Rajasthan,Tier 1,
 Indian Institute of Technology Rajasthan (IIT Jodhpur),Jodhpur,Rajasthan,Tier 1,,Promoteo,Cultural,January,iitj_official_account,prometeo.iitj
 Indian Institute of Technology Roorkee (IIT Roorkee or IITR),Roorkee,Uttarakhand,Tier 1,,Thomso,Cultural,October,,thomso.iitr
 Indian Institute of Technology Roorkee (IIT Roorkee or IITR),Roorkee,Uttarakhand,Tier 1,,Cognizance,Cultural,March,,cogni_iitr
-Indian Institute of Technology Tirupati,Tirupati,Andhra Pradesh,Tier 1,,Tirutsava,Cultural,February,iittirupati,events.tirutsava
+Indian Institute of Technology Tirupati,Tirupati,Andhra Pradesh,Tier 1,Institute of National Importance,Tirutsava,Cultural,February,iittirupati,events.tirutsava
 "Indian Statistical Institute (ISI), Kolkata",Kolkata,West Bengal,Tier 1,,Integration,Cultural,April,,
 "Indraprastha Institute of Information Technology, Delhi",New Delhi,Delhi,Tier 1,,Odyssey,Cultural,March,iiitdelhi,iiitdodyssey
 "Indraprastha Institute of Information Technology, Delhi",New Delhi,Delhi,Tier 1,,Esya,Cultural,August,iiitdelhi,esya_iiitd
 "Institute of Chemical Technology (ICT), Mumbai",Mumbai,Maharashtra,Tier 1,,Manzar,Cultural,January,ict_mumbai,manzarict
-"International Institute of Information Technology, Bangalore",Bengaluru,Karnataka,Tier 1,,Infin8,Cultural,February,,infin8_iiitb
+"International Institute of Information Technology, Bangalore",Bengaluru,Karnataka,Tier 1,,Infin8,Cultural,February,iiitb_official,infin8_iiitb
 "International Institute of Information Technology, Bangalore",Bengaluru,Karnataka,Tier 1,,Synergy-Techfest,Tech,November,,synergy_iiitb
 "Jadavpur University, Kolkata",Kolkata,West Bengal,Tier 1,,Sanskriti,Cultural,April,jadavpur.university,fetsu_presents_sanskriti
 "Jadavpur University, Kolkata",Kolkata,West Bengal,Tier 1,,Sirjan,Cultural,April,jadavpur.university,
@@ -137,7 +137,7 @@ Indian Institute of Technology Tirupati,Tirupati,Andhra Pradesh,Tier 1,,Tirutsav
 "Janardan Rai Nagar Rajasthan Vidyapeeth, Udaipur",Udaipur,Rajasthan,Tier 1,,N/A (Cultural/Academic events held),Cultural/Academic,,jrn_rajasthan_vidyapeet,
 Jawaharlal Institute of Postgraduate Medical Education and Research (JIPMER),Pondicherry,Puducherry,Tier 1,,Spandan,Cultural,August,,jipmer_spandan
 "Jawaharlal Nehru Centre for Advanced Scientific Research, Bangalore (JNCASR)",Bangalore,Karnataka,Tier 1,,National Science Day,Academic/Science,February,jncasr,
-Jawaharlal Nehru Technological University Hyderabad (JNTU Hyderabad),Hyderabad,Telangana,Tier 1,,N/A (Multiple campus/college fests),Technical/Cultural,,,
+Jawaharlal Nehru Technological University Hyderabad (JNTU Hyderabad),Hyderabad,Telangana,Tier 1,,,,,,
 "Jawaharlal Nehru University (JNU), New Delhi",New Delhi,Delhi,Tier 1,,Nirvana,Techno-Cultural,March,,
 Jaypee University of Engineering and Technology,Guna,Madhya Pradesh,Tier 1,,National Science Day,Technical,February,,
 "Jiwaji University, Gwalior (JU)",Madhya Pradesh,Madhya Pradesh,Tier 1,,N/A (Regular academic/cultural events),Cultural/Academic,,jiwajiuniversitygwalior,
@@ -166,7 +166,6 @@ Mizoram University,Aizawl,Mizoram,Tier 1,,Chapchar Kut,Cultural,March,mizoramuni
 Nirma University (NU),Ahmedabad,Gujarat,Tier 1,,NUZEAL,Cultural,March,nirmauni,
 "NITTE University, Mangalore",Mangalore,Karnataka,Tier 1,,Nitte Utsav,Cultural,February,nitteeducation,
 Noorul Islam Centre for Higher Education,Kanyakumari,Tamil Nadu,Tier 1,,,,,,
-"Padmashree Dr. DY Patil Vidyapeeth, Mumbai",Navi Mumbai,Maharashtra,Tier 1,,Horizon,Cultural,March,dypatiluniversity,
 "Padmashree Dr. DY Patil Vidyapeeth, Mumbai",Navi Mumbai,Maharashtra,Tier 1,,Garba,Cultural,October,dypatiluniversity,
 "Padmashree Dr. DY Patil Vidyapeeth, Mumbai (IMR)",Navi Mumbai,Maharashtra,Tier 1,,Annual Fest,Cultural/Sports,March,dypimr,
 "Pandit Deendayal Petroleum University, Gandhinagar",Gandhinagar,Gujarat,Tier 1,,Flare,Cultural,April,pdeuofficial,
@@ -203,7 +202,7 @@ Sumandeep Vidyapeeth (Sumandeep Vidyapeeth University),Vadodara,Gujarat,Tier 1,,
 Suresh Gyan Vihar University (SGVU),Jaipur,Rajasthan,Tier 1,,Gyanotsav,Cultural/Annual,February,sureshgyanvihar.university,
 Swami Vivekananda Yoga Anusandhana Samsthana (SVYASA),Bengaluru,Karnataka,Tier 1,,,,,svyasa.university,
 Swami Vivekanand Subharti University (SVSU),Meerut,Uttar Pradesh,Tier 1,,Subharti Utsav,Cultural/Annual,February,subhartiuni.official,
-Symbiosis International University,Pune,Maharashtra,Tier 1,,Sympulse (SCMS Pune),Cultural/Management,January,symbiosis.official,
+Symbiosis International University,Pune,Maharashtra,Tier 1,,,,,symbiosis.official,
 Symbiosis International University,Pune,Maharashtra,Tier 1,,TEDxSIU (various campuses),Technical/Ideas,,symbiosis.official,
 Tata Institute of Fundamental Research (TIFR),Mumbai,Maharashtra,Tier 1,,"N/A (Science Day, Academic Events)",Academic/Science,February,tifrscience,
 Tezpur University,Tezpur,Assam,Tier 1,,Inscignis,Cultural/Tech,March,tezpur.uni,
@@ -231,8 +230,8 @@ Vel Tech Rangarajan Dr. Sagunthala R & D Institute of Science and Technology,Ava
 "VIT (Vellore Institute of Technology), Vellore",Vellore,Tamil Nadu,Tier 1,,GraVITas,Technical,October,vellore_vit,
 VIT Chennai,Tamil Nadu,Tamil Nadu,Tier 1,,Vibrance,Cultural & Sports,January,vitchennai,vibrancevitchennai
 VIT Chennai,Tamil Nadu,Tamil Nadu,Tier 1,,TechnoVIT,Technical,March,vitchennai,
-VIT Amaravati (VIT-AP University),Amaravati,Andhra Pradesh,Tier 1,,Vitopia,Sports & Cultural,February,,vitap.vitopia
-VIT Amaravati (VIT-AP University),Amaravati,Andhra Pradesh,Tier 1,,VTAPP,Technical,February,,vtapp.vitap
+VIT Amaravati (VIT-AP University),Amaravati,Andhra Pradesh,Tier 1,Private University,Vitopia,Sports & Cultural,February,,vitap.vitopia
+VIT Amaravati (VIT-AP University),Amaravati,Andhra Pradesh,Tier 1,Private University,VTAPP,Technical,February,,vtapp.vitap
 "YMCA University of Science and Technology, Faridabad (JC Bose University)",Faridabad,Haryana,Tier 1,,Culmyca,Cultural & Technical,March,,
 AMET (Academy of Maritime Education and Training),Chennai,Tamil Nadu,Tier 2,,Meredith,Technical Symposium,March,ametuniversity_official,
 Academy of Scientific & Innovative Research (AcSIR),Ghaziabad,Uttar Pradesh,Tier 2,,,,,,
@@ -250,12 +249,9 @@ Awadhesh Pratap Singh University,Rewa,Madhya Pradesh,Tier 2,,,,,a.p.s_university
 "B.L.D.E University, Bijapur",Vijayapura,Karnataka,Tier 2,,,,,,
 "Babasaheb Bhimrao Ambedkar Bihar University, Muzaffarpur",Muzaffarpur,Bihar,Tier 2,,,,,brabu.ac.in,
 Barkatullah University,Bhopal,Madhya Pradesh,Tier 2,,,,,bubhopalstudents,
-Bengal Engineering & Science University (IIEST Shibpur),Shibpur (Howrah),West Bengal,Tier 2,,REBECA,Cultural,March,iiestshibpur,iiests.rebeca
 Bengal Engineering & Science University (IIEST Shibpur),Shibpur (Howrah),West Bengal,Tier 2,,INSTRUO,Technical,October,iiestshibpur,
 "Bharat Ratna Dr B.R. Ambedkar University, Delhi",Delhi,Delhi,Tier 2,,,,,ambedkaruniversitydelhi,
 Bidhan Chandra Krishi Vishwavidyalaya (BCKV),Mohanpur,West Bengal,Tier 2,,,,,bckv_burdwan,
-"Birla Institute of Technology, Ranchi (BIT Mesra)",Jharkhand,Jharkhand,Tier 2,,BITOTSAV,Cultural,February,bitmesra_ranchi,bitotsav.25
-"Birla Institute of Technology, Ranchi (BIT Mesra)",Jharkhand,Jharkhand,Tier 2,,Pantheon,Technical,March,bitmesra_ranchi,pantheon_techfest
 Birsa Agricultural University (BAU),Ranchi,Jharkhand,Tier 2,,,,,agriculture_2611,
 Bundelkhand University,Jhansi,Uttar Pradesh,Tier 2,,,,,bu_jhansi,
 "Central Agricultural University (CAU), Imphal",Imphal,Manipur,Tier 2,,,,,cpgsas_cau,
@@ -325,11 +321,10 @@ Indira Gandhi National Open University (IGNOU),New Delhi,Delhi,Tier 2,,,,,offici
 "Indira Gandhi National Tribal University, Amarkantak",Madhya Pradesh,Madhya Pradesh,Tier 2,,,,,igntu_amarkantak_2008,
 Integral University,Lucknow,Uttar Pradesh,Tier 2,,,,,integralunilko_official,
 International Institute for Population Sciences (IIPS),Mumbai,Maharashtra,Tier 2,,,,,iipsmumbai,
-"International Institute of Information Technology (IIITs, specify campus for details)",Bangalore,Karnataka,Tier 2,,Infin8,Cultural,January,iiitb_official,infin8_iiitb
 Islamic University of Science and Technology,Awantipora,Jammu and Kashmir,Tier 2,,,,,iust_students_awantipora,
-Jagan Nath University,Jaipur,Rajasthan,Tier 2,,Technorazz,Technical,,jagannathuniversityjaipur,technorazz_2024
+Jagan Nath University,Jaipur,Rajasthan,Tier 2,,,,,jagannathuniversityjaipur,
 "Jai Narain Vyas University, Jodhpur (JNVU)",Jodhpur,Rajasthan,Tier 2,,,,,,
-Jawaharlal Nehru Technological University Kakinada (JNTU Kakinada),Andhra Pradesh,Andhra Pradesh,Tier 2,,,Technical (Departmental),,jntukuniversity,soudhajntuk
+Jawaharlal Nehru Technological University Kakinada (JNTU Kakinada),Kakinada,Andhra Pradesh,Tier 2,State University,SOUDHA (Civil dept),Technical (Departmental),,jntukuniversity,soudhajntuk
 Jaypee Institute of Information Technology,Noida,Uttar Pradesh,Tier 2,,The Joust,"Cultural, Literary",November,jiit.official,
 Jaypee Institute of Information Technology,Noida,Uttar Pradesh,Tier 2,,Impressions,"Technical, Cultural, Literary",February,jiit.official,
 Jaypee Institute of Information Technology,Noida,Uttar Pradesh,Tier 2,,Cyber Srishti,Technical,April,jiit.official,
@@ -412,7 +407,7 @@ National Institute of Technology Goa (NITG),Cuncolim,Goa,Tier 2,,Saavyas (Techni
 "National Institute of Technology, Tiruchirappalli (NITT)",Tamil Nadu,Tamil Nadu,Tier 2,,NITTFEST,Inter-Dept Cultural,March,,nittfest
 "National Institute of Technology, Warangal",Warangal,Telangana,Tier 2,,Spring Spree,Cultural,February,,springspree.nitw
 Navsari Agricultural University,Navsari,Gujarat,Tier 2,,Foundation Day,Cultural/Academic,May,naunavsari,
-Nizam's Institute of Medical Sciences (NIMS),Hyderabad,Telangana,Tier 2,,N/A (Alumni Meet),,March,,
+Nizam's Institute of Medical Sciences (NIMS),Hyderabad,Telangana,Tier 2,,,,March,,
 Orissa University of Agriculture and Technology (OUAT),Bhubaneswar,Odisha,Tier 2,,,,,ouat_official1962,
 Pandit Dwarka Prasad Mishra IIITDM Jabalpur,Jabalpur,Madhya Pradesh,Tier 2,,,Techno-Cultural,,iiitdm_jabalpur,iiitdmj_fests
 Panjab University (PU),Chandigarh,Chandigarh,Tier 2,,Jhankaar,Cultural,March,officialpu.india,jhankar_pu
@@ -552,8 +547,8 @@ Bihar Yoga Bharati,Munger,Bihar,Tier 3,,,,,,
 Biju Patnaik University of Technology (BPUT),Rourkela,Odisha,Tier 3,,Nirmana,Techno-Cultural,March,bputrourkela,
 "Bilaspur Vishwavidyala, Bilaspur",Bilaspur,Chhattisgarh,Tier 3,,,,,abvvbilaspurcg,
 Birla Global University (BGU),Bhubaneswar,Odisha,Tier 3,,Zest,Cultural/Tech/Management,February,birla_global_university,
-Birla Institute of Technology (BIT Mesra),Jharkhand,Jharkhand,Tier 3,,BITOTSAV,Cultural,February,mesra.bit,bitotsav.25
-Birla Institute of Technology (BIT Mesra),Jharkhand,Jharkhand,Tier 3,,Pantheon,Technical,March,mesra.bit,
+Birla Institute of Technology (BIT Mesra),Ranchi,Jharkhand,Tier 3,,BITOTSAV,Cultural,February,mesra.bit,bitotsav.25
+Birla Institute of Technology (BIT Mesra),Ranchi,Jharkhand,Tier 3,,Pantheon,Technical,March,mesra.bit,pantheon_techfest
 BML Munjal University,Gurugram,Haryana,Tier 3,,Srijan,Cultural/Tech/Management,February,bmlmunjaluniversity,
 Bodoland University,Kokrajhar,Assam,Tier 3,,,,,bodoland_university_official,
 Brainware University,Barasat,West Bengal,Tier 3,,Brainware,Cultural,May,brainware_university_kolkata,
@@ -571,7 +566,6 @@ Chaudhary Bansi Lal University (CBLU),Bhiwani,Haryana,Tier 3,,,,,cblu.bwn,
 Chhattisgarh Swami Vivekanand Technical University (CSVTU),Bhilai,Chhattisgarh,Tier 3,,,,,csvtu_bhilai_official,
 Children's University,Gandhinagar,Gujarat,Tier 3,,,,,crugandhinagar,
 Chinmaya Vishwavidyapeeth (CVV),Ernakulam,Kerala,Tier 3,,,,,chinmaya_vv,
-"Chitkara University, Tehsil Rajpura",Rajpura,Punjab,Tier 3,,Pratibha,Cultural/Annual,March,chitkarau,
 "Chitkara University, Tehsil Rajpura",Rajpura,Punjab,Tier 3,,Algorythm,Technical,February,chitkarauniversity,
 Cluster University of Jammu (CLUJ),Jammu,Jammu and Kashmir,Tier 3,,,,,cluster_university_of_jammu,
 Cluster University of Srinagar,Srinagar,Jammu and Kashmir,Tier 3,,,,,clusteruniversitysrinagar,
@@ -657,8 +651,6 @@ Indrashil University,Rajpur,Gujarat,Tier 3,,,,,,
 Indus International University (IIU),Una,Himachal Pradesh,Tier 3,,,,,iiueduofficial,
 Indus University,Ahmedabad,Gujarat,Tier 3,,,,,indus_university_ahmedabad,
 Institute of Advanced Studies in Education (IASE) Deemed University,Sardarshahr,Rajasthan,Tier 3,,,,,,
-"Institute of Chartered Financial Analysts of India (ICFAI) University, Dehradun",Dehradun,Uttarakhand,Tier 3,,Judgment Writing Competition,Legal/Academic,December,iudehradun,
-"Institute of Chartered Financial Analysts of India (ICFAI) University, Dimapur (Nagaland)",Dimapur,Nagaland,Tier 3,,IUN Fest,Literary/Cultural/Sports,,iun_official,
 "Institute of Chartered Financial Analysts of India (ICFAI) University, Gangtok, Sikkim",Gangtok,Sikkim,Tier 3,,,,,icfaiuniversitysikkim,
 Institute of Trans-Disciplinary Health Sciences and Technology,Bengaluru,Karnataka,Tier 3,,,,,tdupostgradconnect,
 Institute of Infrastructure Technology Research and Management (IITRAM),Ahmedabad,Gujarat,Tier 3,,,,,iitram_official,
@@ -710,7 +702,7 @@ Khallikote University (KUB),Brahmapur,Odisha,Tier 3,,,,,,
 K.K. University (KKU),Nalanda,Bihar,Tier 3,,,,,kkunalanda,
 KLE Technological University,Hubballi,Karnataka,Tier 3,,PLEIADES,,,kletechbvb,
 Kolhan University,Chaibasa,Jharkhand,Tier 3,,,,,kolhanuniversity,
-Koneru Lakshmaiah Education Foundation,Vaddeswaram,Andhra Pradesh,Tier 3,,Samyak,Management,,kluniversityofficial,kl.samyak
+Koneru Lakshmaiah Education Foundation,Vaddeswaram,Andhra Pradesh,Tier 3,Deemed University (Private),Samyak,Management,,kluniversityofficial,kl.samyak
 Krantiguru Shyamji Krishna Verma Kachchh University,Bhuj,Gujarat,Tier 3,,,,,kachchh_university,
 Krishna Kanta Handiqui State Open University (KKHSOU),Guwahati,Assam,Tier 3,,,,,kkhsou,
 Krishna University (KrU),Machilipatnam,Andhra Pradesh,Tier 3,,,,,kru_official_updates,
@@ -833,7 +825,7 @@ Rajasthan Technical University (RTU),Kota,Rajasthan,Tier 3,,Thar,Techno-Cultural
 "Rajasthan University of Veterinary and Animal Sciences, Bikaner",Bikaner,Rajasthan,Tier 3,,N/A (see note),,,rajuvasbikaner,
 Rajendra Agricultural University,Samastipur,Bihar,Tier 3,,,,,,
 Rajiv Gandhi National Institute of Youth Development (RGNIYD),Sriperumbudur,Tamil Nadu,Tier 3,,,,,rgniyd_msw,
-Rajiv Gandhi University of Knowledge Technologies (RGUKT),Nuzvid,Andhra Pradesh,Tier 3,,Teckzite,Technical,,rgukt_nuzvid,teckzite_rguktn
+Rajiv Gandhi University of Knowledge Technologies (RGUKT),Nuzvid,Andhra Pradesh,Tier 3,State University,Teckzite,Technical,,rgukt_nuzvid,teckzite_rguktn
 Rajmata Vijayaraje Scindia Krishi Vishwa Vidyalaya (RVSKVV),Gwalior,Madhya Pradesh,Tier 3,,,,,rvskvv_gwalior_,
 "Raj Rishi Bhartrihari Matsya University, Alwar (RRBMU)",Alwar,Rajasthan,Tier 3,,,,,rrbmu,
 Raksha Shakti University,Gandhinagar,Jharkhand,Tier 3,,,,,rakshauni,
@@ -919,7 +911,6 @@ Swami Vivekanand University,Sagar,Madhya Pradesh,Tier 3,,,,,svnuniversity,
 Swarnim Gujarat Sports University (SGSU),Gandhinagar,Gujarat,Tier 3,,,,,sgsu.official,
 Swarnim Startup & Innovation University (SSIU),Gandhinagar,Gujarat,Tier 3,,,,,swarrnim_uni,
 Symbiosis University of Applied Sciences (SUAS),Indore,Madhya Pradesh,Tier 3,,SUAS Fest,Cultural/Tech,March,suasindore,
-Symbiosis University of Applied Science (SUAS),Indore,Madhya Pradesh,Tier 3,,SUAS Fest,Cultural/Tech,March,suasindore,
 Tamil Nadu Dr. Ambedkar Law University (TNDALU),Chennai,Tamil Nadu,Tier 3,,,,,tndalu_official,
 "Tamil Nadu Fisheries University, Nagapattinam",Nagapattinam,Tamil Nadu,Tier 3,,,,,,
 Tamil Nadu Music and Fine Arts University,Adyar,Tamil Nadu,Tier 3,,,,,tnjjmfau,
@@ -956,7 +947,6 @@ The West Bengal University of Health Sciences,Kolkata,West Bengal,Tier 3,,,,,the
 Thiruvalluvar University,Vellore,Tamil Nadu,Tier 3,,,,,thiruvalluvaruniversityvellore,
 Thunchath Ezhuthachan Malayalam University,Tirur,Kerala,Tier 3,,,,,,
 Tilka Manjhi Bhagalpur University (TMBU),Bhagalpur,Bihar,Tier 3,,,,,tmbu_info,
-UEM Kolkata (University of Engineering and Management),Kolkata,West Bengal,Tier 3,,"UEMCON, Innovación",Techno-Cultural,February,,ecstasia.uemk
 UKA Tarsadia University,Bardoli (Surat),Gujarat,Tier 3,,Spandan,Cultural/Tech,March,utu.malibacampus,
 "University of Agricultural Sciences (UAS), Dharwad",Dharwad,Karnataka,Tier 3,,Krishi Mela,Agricultural/Cultural,January,students_of_uas__dharwad,
 "University of Agricultural Sciences (UAS), Raichur",Raichur,Karnataka,Tier 3,,Krishi Mela,Agricultural/Cultural,November,,
@@ -1001,8 +991,7 @@ Yashwantrao Chavan Maharashtra Open University (YCMOU),Nashik,Maharashtra,Tier 3
 YBN University,Ranchi,Jharkhand,Tier 3,,,,,ybnranchi,
 "Amity University, Jaipur",Jaipur,Rajasthan,Tier 2,,ODESSY,Cultural,March,,odyssey.aur
 LNM Institute of Information Technology (LNMIIT),Jaipur,Rajasthan,Tier 2,,VIVACITY,Cultural,February,,vivacity_lnmiit
-Malaviya National Institute of Technology Jaipur (MNIT),Jaipur,Rajasthan,Tier 2,,BLITZ,Cultural,February,,blitz_mnit
-"Maharana Pratap University of Agriculture and Technology, Udaipur",Udaipur,Rajasthan,Tier 2,,AAGMAN,Cultural,,,aagamctae
+"Maharana Pratap University of Agriculture and Technology, Udaipur",Udaipur,Rajasthan,Tier 2,,,,,,
 Geetanjali University (GU),Udaipur,Rajasthan,Tier 3,,SYNAPSE,Cultural,February,geetanjaliuniversityudaipur,
 JECRC University,Jaipur,Rajasthan,Tier 3,,RENAISSANCE,Cultural,March,,jecrcrenaissance
 JK Lakshmipat University (JKLU),Jaipur,Rajasthan,Tier 3,,SABRANG,Cultural,October,,jklusabrang
@@ -1015,10 +1004,7 @@ POORNIMA UNIVERSITY,Jaipur,Rajasthan,Tier 3,,AAROHAN,Cultural,February,poornima.
 SKIT,Jaipur,Rajasthan,Tier 3,,PARVAH,Cultural,February,skitjaipurofficial,skitpravah
 ANAND ICE,Jaipur,Rajasthan,Tier 3,,ECHONA,Cultural,May,anandice.jpr,
 IIIT KOTA,KOTA,Rajasthan,Tier 1,,fLAIRFESTA,Cultural,April,iiitkotaoffice,flairfiesta
-IIM Banglore,Bengaluru,Karnataka,,,Vista,Management/Business,,,iimbvenix
-IIIT Delhi,New Delhi,Delhi,,,Esya,Technical,August,iiitdelhi,esya_iiitd
 Karnataka State Law University (KSLU),Hubballi,Karnataka,,,,,,,
-"NIT, Goa",Cuncolim,Goa,,,Saavyas,Techno-Cultural,,,nitgtechnival
 "NIT, Uttarakhand",Srinagar (Garhwal),Uttarakhand,,,,,,nitukofficial,
 Adoni Arts and Science College,Adoni,Andhra Pradesh,,Not confirmed,,,,,
 "Government Medical College, Adoni",Adoni,Andhra Pradesh,,Government College,,,,,
@@ -1027,8 +1013,6 @@ National Institute of Design (NID) Amaravati,Amaravati,Andhra Pradesh,,Institute
 Saveetha Amaravati University,Amaravati,Andhra Pradesh,,Private University,,,,,
 SRM University AP,Amaravati,Andhra Pradesh,,Private University,INFINITUS 2026 (national techno-cultural fest),Techno-Cultural,,srmuap,srmuap.infinitus
 Vasireddy Venkatadri International Technological University,Amaravati,Andhra Pradesh,,Private University,,,,vvitu_official,vivavvit
-VIT-AP University,Amaravati,Andhra Pradesh,,Private University,"V-TAPP (QuantumPulse, 2026)",Technical,,,vtapp.vitap
-VIT-AP University,Amaravati,Andhra Pradesh,,Private University,VITopia 2026 (International Sports and Cultural Fiesta),Cultural,,,vitap.vitopia
 VIT-AP University,Amaravati,Andhra Pradesh,,Private University,VITopia Sports 2026,Sports,,,vitap.vitopia
 Central University of Andhra Pradesh,Anantapur,Andhra Pradesh,,Central University,,,,,
 "Government Medical College, Anantapur",Anantapur,Andhra Pradesh,,Government College,,,,,krenoviantz_gmcatp
@@ -1062,7 +1046,6 @@ JC College of Law,Guntur,Andhra Pradesh,,Private College (verify),,,,,
 Katuri Medical College,Guntur,Andhra Pradesh,,Private College (verify),,,,,
 KKR and KSR Institute of Technology and Sciences,Guntur,Andhra Pradesh,,Private College (verify),KITS YUVA 2K26,Techno-Cultural,,kits_guntur,
 RVR & JC College of Engineering,Guntur,Andhra Pradesh,,Private College (verify),,,,rvrjcce.official,
-KL University (Koneru Lakshmaiah Education Foundation),Guntur (Vaddeswaram),Andhra Pradesh,,Deemed University (Private),Samyak (national techno-management fest),Techno-Cultural,,,kl.samyak
 KL University (Koneru Lakshmaiah Education Foundation),Guntur (Vaddeswaram),Andhra Pradesh,,Deemed University (Private),Surabhi (international cultural fest),Cultural,,,klsurabhi
 "Vignan's Foundation for Science, Technology & Research (Deemed University)",Guntur (Vadlamudi),Andhra Pradesh,,Deemed University (Private),Vignan Mahotsav (National Youth Fest),Cultural,,,vignan_mahotsav
 Dr. Y. S. R. Architecture and Fine Arts University,Kadapa,Andhra Pradesh,,State University,,,,drysrafu_official,
@@ -1072,7 +1055,6 @@ KSRM College of Engineering,Kadapa,Andhra Pradesh,,Private College (verify),,,,k
 Yogi Vemana University,Kadapa,Andhra Pradesh,,State University,,,,yogivemanites,
 Indian Institute of Foreign Trade (IIFT) Kakinada,Kakinada,Andhra Pradesh,,Government (Central),,,,iift_kakinada,
 JNTU Kakinada,Kakinada,Andhra Pradesh,,State University,"ENCURSO 2K25 (EEE dept, University College of Engineering Kakinada)",Technical,,,
-JNTU Kakinada,Kakinada,Andhra Pradesh,,State University,SOUDHA (Civil dept),Technical,,,soudhajntuk
 PS Raju Law College,Kakinada,Andhra Pradesh,,Private College (verify),,,,,
 Rangaraya Medical College,Kakinada,Andhra Pradesh,,Government College,,,,,
 P.E.S. Institute of Medical Sciences and Research,Kuppam,Andhra Pradesh,,Private College (verify),,,,pes_medical_college_kuppam,
@@ -1102,7 +1084,6 @@ Indian Institute of Tourism and Travel Management (IITTM) Nellore,Nellore,Andhra
 Narayana Medical College,Nellore,Andhra Pradesh,,Private College (verify),,,,narayanamedicalcollege,
 V.R. Law College,Nellore,Andhra Pradesh,,Private College (verify),,,,,
 Vikrama Simhapuri University,Nellore,Andhra Pradesh,,State University,,,,vsuniversity_official,
-Rajiv Gandhi University of Knowledge Technologies (RGUKT),Nuzvid,Andhra Pradesh,,State University,Teckzite (national techno-management fest),Technical,,rgukt_nuzvid,teckzite_rguktn
 Bonam Venkata Chalamayya Engineering College,Odalarevu,Andhra Pradesh,,Private College (verify),,,,bvcengineeringcollegeodalarevu,
 Andhra Kesari University,Ongole,Andhra Pradesh,,State University,,,,aku_ongole,
 "Government Medical College, Ongole",Ongole,Andhra Pradesh,,Government College,,,,gmc__ongoleofficial,
@@ -1123,7 +1104,6 @@ Godavari Global University,Rajamahendravaram,Andhra Pradesh,,Private University,
 GSL Medical College,Rajamahendravaram,Andhra Pradesh,,Private College (verify),,,,gslhospitalsgslcolleges,
 Veeravalli College of Law,Rajamahendravaram,Andhra Pradesh,,Private College (verify),,,,,
 Annamacharya University,Rajampet,Andhra Pradesh,,Private University,TECHFEST-2025 (national-level technical and cultural festival),Techno-Cultural,,annamacharya_university,
-Indian Institute of Information Technology (IIIT) Sri City,Sri City,Andhra Pradesh,,Institute of National Importance,Abhisarga 2025 (theme 'Mystery and Magic'),Techno-Cultural,,iiitsricity,abhisarga
 Krea University,Sri City,Andhra Pradesh,,Private University,BOLT 2026 (open to colleges nationwide),Sports,,kreauniversity,
 Krea University,Sri City,Andhra Pradesh,,Private University,"Krea Kalotsavam (also Ukiyo, Abhyudaya)",Cultural,,kreauniversity,
 Sricity International University,Sri City,Andhra Pradesh,,Private University,,,,,
@@ -1142,7 +1122,6 @@ Anantha College of Law,Tirupati,Andhra Pradesh,,Private College (verify),,,,anan
 Dr Ambedkar Global Law Institute,Tirupati,Andhra Pradesh,,Private College (verify),,,,,
 IISER Tirupati,Tirupati,Andhra Pradesh,,Institute of National Importance,,,,iisertirupatiofficial,
 Indian Culinary Institute,Tirupati,Andhra Pradesh,,Government (Central),,,,icitirupati,
-Indian Institute of Technology (IIT) Tirupati,Tirupati,Andhra Pradesh,,Institute of National Importance,Tirutsava 2026 'Cineverse',Techno-Cultural,,iittirupati,events.tirutsava
 Mohan Babu University,Tirupati,Andhra Pradesh,,Private University,MohanaMantra 2K26 (national techno-cultural fest),Techno-Cultural,,mohanbabuuniv,mohana_mantra
 National Sanskrit University,Tirupati,Andhra Pradesh,,Central University,,,,,
 Shree Institute of Technical Education,Tirupati,Andhra Pradesh,,Private College (verify),,,,,
@@ -1180,7 +1159,6 @@ Dr. B. R. Ambedkar College of Law (Andhra University),Visakhapatnam,Andhra Prade
 Gayatri Vidya Parishad College for Degree and PG Courses,Visakhapatnam,Andhra Pradesh,,Private College (verify),The Infinity Hackathon 2026,Technical,,,
 Gayatri Vidya Parishad College of Engineering,Visakhapatnam,Andhra Pradesh,,Private College (verify),AALOK,Cultural,,,
 Gayatri Vidya Parishad College of Engineering,Visakhapatnam,Andhra Pradesh,,Private College (verify),EKATHRA,Techno-Cultural,,,
-"GITAM (Deemed to be University), Visakhapatnam campus",Visakhapatnam,Andhra Pradesh,,Deemed University (Private),SHORe Fest,Techno-Cultural,February,,shore.gitam
 GITAM Institute of Medical Sciences and Research,Visakhapatnam,Andhra Pradesh,,Deemed University (Private),,,,gimsr_gitamhospital,
 GITAM School of Law,Visakhapatnam,Andhra Pradesh,,Deemed University (Private),,,,,
 GVP Institute of Health Care and Medical Technology,Visakhapatnam,Andhra Pradesh,,Private College (verify),,,,gvpihc_medical,
@@ -1522,7 +1500,7 @@ Sri Venkateswara University,Tirupati,Andhra Pradesh,,,Sigmoid,Technical,,svunive
 Ramachandra College of Engineering,Eluru,Andhra Pradesh,,,PRAKALP,Technical,March,ramachandra_college,
 Narasaraopeta Engineering College,Narasaraopet,Andhra Pradesh,,,AAROHAN,Techno-Cultural,March,nrtec,
 BVC Institute of Technology and Science (BVCITS),Amalapuram,Andhra Pradesh,,,INNOVERSE,Technical,February,bvcits_amalapuram,
-ICFAI Business School (IBS) Hyderabad,Hyderabad,Telangana,,,Thrithi,Management,,ibshyderabadofficial,thrithi.icfai
+ICFAI Business School (IBS) Hyderabad,Hyderabad,Telangana,,,Thrithi,Management,March,ibshyderabadofficial,thrithi.icfai
 National Academy of Legal Studies and Research University (NALSAR),Hyderabad,Telangana,,,Winnow,Management,April,nalsaruniversityoflaw,winnow.domsnalsar
 Deccan College of Engineering and Technology,Hyderabad,Telangana,,,Deccan Tech Fest,Technical,,,
 KLH Hyderabad (KL Deemed to be University Aziz Nagar),Hyderabad,Telangana,,,AVINYA,Techno-Cultural,October,klh_ncc,
@@ -1578,7 +1556,7 @@ Fergusson College,Pune,Maharashtra,,,Fergusson Kalamandal Cultural Fest,Cultural
 COEP Technological University,Pune,Maharashtra,,,MindSpark,Technical,,coep_official,coep_mindspark
 AISSMS Institute of Information Technology,Pune,Maharashtra,,,Alacrity,Techno-Cultural,,aissms_ioit,
 "CHRIST (Deemed to be University), Pune Lavasa Campus",Pune,Maharashtra,,,Xubrenz,Management,,christ_university_lavasa,
-"Symbiosis Centre for Management Studies, Pune",Pune,Maharashtra,,,Sympulse,Cultural,,,
+"Symbiosis Centre for Management Studies, Pune",Pune,Maharashtra,,,Sympulse,Cultural,January,,
 Yeshwantrao Chavan College of Engineering (YCCE),Nagpur,Maharashtra,,,Yash,Techno-Cultural,,ycceofficial,yash_25.0_
 VNIT Nagpur,Nagpur,Maharashtra,,,Institute Gathering,Techno-Cultural,,,igvnit
 Government College of Engineering Nagpur,Nagpur,Maharashtra,,,Adhyaaya,Technical,,,adhyaaya.gcoen

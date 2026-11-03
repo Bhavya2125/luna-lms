@@ -1,0 +1,35 @@
+{
+  "_about": "Duplicate fests in india-college-fests.csv. Each row is [college, city, fest name] as written in that file. merge: the drop rows' details fill blanks on keep, then drop rows are deleted ('clear' instead keeps the college but removes the fest from it). edit: corrections to one row.",
+  "merge": [
+    { "keep": ["Indian Institute of Engineering Science and Technology, Shibpur (IIEST Shibpur)", "Howrah", "Rebeca"], "drop": [["Bengal Engineering & Science University (IIEST Shibpur)", "Shibpur (Howrah)", "REBECA"]] },
+    { "keep": ["Birla Institute of Technology (BIT Mesra)", "Jharkhand", "BITOTSAV"], "drop": [["Birla Institute of Technology, Ranchi (BIT Mesra)", "Jharkhand", "BITOTSAV"]], "set": { "city": "Ranchi" } },
+    { "keep": ["Birla Institute of Technology (BIT Mesra)", "Jharkhand", "Pantheon"], "drop": [["Birla Institute of Technology, Ranchi (BIT Mesra)", "Jharkhand", "Pantheon"]], "set": { "city": "Ranchi" } },
+    { "keep": ["Chitkara University", "Rajpura", "Pratibha"], "drop": [["Chitkara University, Tehsil Rajpura", "Rajpura", "Pratibha"]] },
+    { "keep": ["Dr. D. Y. Patil Vidyapeeth, Navi Mumbai", "Navi Mumbai", "Horizon"], "drop": [["Padmashree Dr. DY Patil Vidyapeeth, Mumbai", "Navi Mumbai", "Horizon"]] },
+    { "keep": ["Gandhi Institute of Technology and Management - GITAM (Deemed to be University), Visakhapatnam", "Visakhapatnam", "Shore"], "drop": [["GITAM (Deemed to be University), Visakhapatnam campus", "Visakhapatnam", "SHORe Fest"]] },
+    { "keep": ["ICFAI Business School (IBS) Hyderabad", "Hyderabad", "Thrithi"], "clear": [["ICFAI Foundation for Higher Education, Hyderabad", "Hyderabad", "Thrihti"]] },
+    { "keep": ["Indian Institute of Information Technology, Sri City, Chittoor (IIIT Sri City (IIITS))", "Tirupati", "Abhisarga"], "drop": [["Indian Institute of Information Technology (IIIT) Sri City", "Sri City", "Abhisarga 2025 (theme 'Mystery and Magic')"]], "set": { "city": "Sri City" } },
+    { "keep": ["Indian Institute of Management Bangalore (IIMB)", "Bengaluru", "Vista"], "drop": [["IIM Banglore", "Bengaluru", "Vista"]] },
+    { "keep": ["Indian Institute of Technology Tirupati", "Tirupati", "Tirutsava"], "drop": [["Indian Institute of Technology (IIT) Tirupati", "Tirupati", "Tirutsava 2026 'Cineverse'"]] },
+    { "keep": ["Indraprastha Institute of Information Technology, Delhi", "New Delhi", "Esya"], "drop": [["IIIT Delhi", "New Delhi", "Esya"]] },
+    { "keep": ["The ICFAI University, Dehradun", "Dehradun", "Judgment Writing Competition"], "drop": [["Institute of Chartered Financial Analysts of India (ICFAI) University, Dehradun", "Dehradun", "Judgment Writing Competition"]] },
+    { "keep": ["The ICFAI University, Nagaland", "Sovima", "IUN Fest"], "drop": [["Institute of Chartered Financial Analysts of India (ICFAI) University, Dimapur (Nagaland)", "Dimapur", "IUN Fest"]] },
+    { "keep": ["International Institute of Information Technology, Bangalore", "Bengaluru", "Infin8"], "drop": [["International Institute of Information Technology (IIITs, specify campus for details)", "Bangalore", "Infin8"]] },
+    { "keep": ["Koneru Lakshmaiah Education Foundation", "Vaddeswaram", "Samyak"], "drop": [["KL University (Koneru Lakshmaiah Education Foundation)", "Guntur (Vaddeswaram)", "Samyak (national techno-management fest)"]] },
+    { "keep": ["College of Technology and Engineering (CTAE), Udaipur", "Udaipur", "Aagam"], "clear": [["Maharana Pratap University of Agriculture and Technology, Udaipur", "Udaipur", "AAGMAN"]] },
+    { "keep": ["Malaviya National Institute of Technology Jaipur (MNIT)", "Jaipur", "Blitzschlag"], "drop": [["Malaviya National Institute of Technology Jaipur (MNIT)", "Jaipur", "BLITZ"]] },
+    { "keep": ["National Institute of Technology Goa (NITG)", "Cuncolim", "Saavyas (Technival)"], "drop": [["NIT, Goa", "Cuncolim", "Saavyas"]] },
+    { "keep": ["Rajiv Gandhi University of Knowledge Technologies (RGUKT)", "Nuzvid", "Teckzite"], "drop": [["Rajiv Gandhi University of Knowledge Technologies (RGUKT)", "Nuzvid", "Teckzite (national techno-management fest)"]] },
+    { "keep": ["Symbiosis Centre for Management Studies, Pune", "Pune", "Sympulse"], "clear": [["Symbiosis International University", "Pune", "Sympulse (SCMS Pune)"]] },
+    { "keep": ["Symbiosis University of Applied Sciences (SUAS)", "Indore", "SUAS Fest"], "drop": [["Symbiosis University of Applied Science (SUAS)", "Indore", "SUAS Fest"]] },
+    { "keep": ["University of Engineering and Management, Kolkata", "Kolkata", "UEMCON, Innovación"], "drop": [["UEM Kolkata (University of Engineering and Management)", "Kolkata", "UEMCON, Innovación"]] },
+    { "keep": ["VIT Amaravati (VIT-AP University)", "Amaravati", "Vitopia"], "drop": [["VIT-AP University", "Amaravati", "VITopia 2026 (International Sports and Cultural Fiesta)"]] },
+    { "keep": ["VIT Amaravati (VIT-AP University)", "Amaravati", "VTAPP"], "drop": [["VIT-AP University", "Amaravati", "V-TAPP (QuantumPulse, 2026)"]] },
+    { "keep": ["Jawaharlal Nehru Technological University Kakinada (JNTU Kakinada)", "Andhra Pradesh", ""], "drop": [["JNTU Kakinada", "Kakinada", "SOUDHA (Civil dept)"]], "set": { "city": "Kakinada" } }
+  ],
+  "edit": [
+    { "row": ["Jagan Nath University", "Jaipur", "Technorazz"], "set": { "festName": "", "festInstagram": "", "festType": "other" } },
+    { "row": ["Jawaharlal Nehru Technological University Hyderabad (JNTU Hyderabad)", "Hyderabad", "N/A (Multiple campus/college fests)"], "set": { "festName": "", "festType": "other" } },
+    { "row": ["Nizam's Institute of Medical Sciences (NIMS)", "Hyderabad", "N/A (Alumni Meet)"], "set": { "festName": "", "festType": "other" } }
+  ]
+}
