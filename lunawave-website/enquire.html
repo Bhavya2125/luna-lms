@@ -60,6 +60,11 @@
 @media(max-width:640px){.types{grid-template-columns:1fr 1fr}.fields{grid-template-columns:1fr}.type{min-height:110px}.type b{font-size:18px}}
 .picked{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px}
 .picked:empty{display:none}
+.roster-pick{max-height:300px;overflow-y:auto;border:1px solid var(--line);border-radius:16px;padding:6px 14px 14px;margin:8px 0 6px;scrollbar-width:thin}
+.roster-pick h4{font:400 10px var(--wide);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:12px 0 8px}
+.roster-pick .chips{gap:6px}
+.roster-pick .chip{min-height:34px;padding:6px 12px;font-size:12.5px}
+.roster-pick .none{color:var(--muted);font-size:13px;padding-top:12px}
 </style>
 </head>
 <body>
@@ -137,7 +142,8 @@
     <div class="f"><label for="artist-q">Artists you want (optional)</label>
       <input id="artist-q" list="lw-artist-list" placeholder="Type a name, press Enter" autocomplete="off"><datalist id="lw-artist-list"></datalist>
       <div class="picked" id="picked"></div>
-      <a class="muted" href="artists.html" style="font-size:13px">Browse the full roster →</a>
+      <div class="roster-pick" id="roster-pick" role="group" aria-label="Pick artists"></div>
+      <a class="muted" href="artists.html" style="font-size:13px">Open the full roster page →</a>
     </div>
   </div>
 
@@ -204,7 +210,29 @@ function addArtist(v) {
 }
 function renderPicked() {
   document.getElementById("picked").innerHTML = state.artists.map(n => `<button type="button" class="chip" aria-pressed="true" data-rm="${esc(n)}">${esc(n)} ×</button>`).join("");
+  renderRoster();
 }
+// Every roster name as a tappable chip, grouped by tier; typing in the box above filters it
+const TIERS = { 1: "Headliners", 2: "Fest favourites", 3: "Regional & rising", 4: "New on our stages" };
+function renderRoster() {
+  const q = artistQ.value.trim().toLowerCase();
+  const html = Object.entries(TIERS).map(([t, label]) => {
+    const names = (window.LW_ARTISTS || []).filter(a => a[2] == t && (!q || a[0].toLowerCase().includes(q) || a[1].toLowerCase().includes(q)));
+    return names.length ? `<h4>${label}</h4><div class="chips">${names.map(([n, g]) => `<button type="button" class="chip" data-pick="${esc(n)}" title="${esc(g)}" aria-pressed="${state.artists.includes(n)}">${esc(n)}</button>`).join("")}</div>` : "";
+  }).join("");
+  document.getElementById("roster-pick").innerHTML = html || `<p class="none">No match. Press Enter to add "${esc(artistQ.value.trim())}" anyway.</p>`;
+}
+artistQ.addEventListener("input", renderRoster);
+document.getElementById("roster-pick").addEventListener("click", e => {
+  const b = e.target.closest("[data-pick]"); if (!b) return;
+  const n = b.dataset.pick;
+  state.artists = state.artists.includes(n) ? state.artists.filter(x => x !== n) : [...state.artists, n];
+  if (state.artists.length && !state.needs.includes("Artist")) {
+    state.needs.push("Artist");
+    form.querySelector('[data-multi="needs"] [data-v="Artist"]').setAttribute("aria-pressed", "true");
+  }
+  renderPicked(); render();
+});
 artistQ.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); addArtist(artistQ.value); } });
 artistQ.addEventListener("change", () => { if (roster.includes(artistQ.value)) addArtist(artistQ.value); });
 document.getElementById("picked").addEventListener("click", e => {
