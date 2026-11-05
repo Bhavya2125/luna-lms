@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mo Entertainments Brand</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600&family=Montserrat:wght@600;700;800&family=Mr+Dafoe&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css?v=10">
+<style>
+main{max-width:1080px;margin:auto;padding:60px 16px 90px}
+h1{font-size:clamp(48px,8vw,96px);margin:10px 0 14px}
+.lead{color:var(--muted);max-width:64ch}
+.option{margin-top:46px;border-top:1px solid var(--line);padding-top:20px}
+.option h2{font-size:34px;margin-bottom:6px}
+.why{color:var(--muted);max-width:70ch;margin-bottom:16px}
+.boards{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.board{min-height:280px;display:grid;place-items:center;padding:36px;border-radius:20px;border:1px solid var(--line);color:#fff;background:var(--night)}
+.board.light{background:#fff;color:#0D0716}
+.board.sky{background:var(--sky)}
+.board.sun{background:var(--sunset);color:#0D0716;--mo-accent:#fff}
+.board>span{display:block;width:min(100%,380px)}
+.board svg{width:100%;height:auto;display:block}
+.icons{display:flex;gap:16px;align-items:end;flex-wrap:wrap}
+.icons figure{display:grid;justify-items:center;gap:6px;color:var(--muted);font-size:11px}
+.icon{display:grid;place-items:center;border-radius:22%;background:var(--night);color:#fff;border:1px solid var(--line)}
+.icon.sky{background:var(--sky)}
+.icon span{display:block;width:78%}
+.i120{width:120px;height:120px}.i60{width:60px;height:60px}.i32{width:32px;height:32px}
+.sw{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+.sw div{aspect-ratio:1;border-radius:16px;display:flex;align-items:flex-end;padding:10px;font:700 11px var(--wide);letter-spacing:.08em;color:#0D0716}
+@media(max-width:700px){.boards{grid-template-columns:1fr}.sw{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+<body>
+<main>
+  <span class="kicker">Mo Entertainments · brand</span>
+  <h1>Same mark. <em>New night.</em></h1>
+  <p class="lead">The logo is redrawn as a vector from the original so it stays sharp on posters, LED walls and the favicon. The shapes are unchanged; only the setting changes, from white paper to a sunset palette.</p>
+
+  <section class="option" style="padding:20px 0 0">
+    <h2>Primary lockup</h2>
+    <p class="why">White on night is the default. The red segment stays as it is on the original.</p>
+    <div class="boards">
+      <div class="board"><span data-logo="full"></span></div>
+      <div class="board light"><span data-logo="full"></span></div>
+    </div>
+  </section>
+
+  <section class="option" style="padding:20px 0 0">
+    <h2>On colour</h2>
+    <p class="why">Over the sunset gradient the mark goes dark and the segment turns white, so it never fights the background.</p>
+    <div class="boards">
+      <div class="board sky"><span data-logo="mark"></span></div>
+      <div class="board sun"><span data-logo="mark"></span></div>
+    </div>
+  </section>
+
+  <section class="option" style="padding:20px 0 0">
+    <h2>Icon</h2>
+    <p class="why">Profile picture, app icon and favicon.</p>
+    <div class="icons">
+      <figure><div class="icon i120"><span data-logo="mark"></span></div>Profile</figure>
+      <figure><div class="icon sky i120"><span data-logo="mark"></span></div>Sunset</figure>
+      <figure><div class="icon i60"><span data-logo="mark"></span></div>App</figure>
+      <figure><div class="icon i32"><span data-logo="mark"></span></div>Favicon</figure>
+    </div>
+  </section>
+
+  <section class="option" style="padding:20px 0 0">
+    <h2>Palette</h2>
+    <div class="sw">
+      <div style="background:#E3B566">Gold</div><div style="background:#D9773F">Orange</div><div style="background:#D94B7B">Pink</div>
+      <div style="background:#6A50C8;color:#fff">Violet</div><div style="background:#45BFB3">Teal</div><div style="background:#0D0716;color:#fff;border:1px solid var(--line)">Night</div>
+    </div>
+  </section>
+  <p style="margin-top:40px"><a class="btn" href="index.html">← Back to site</a></p>
+</main>
+<script src="config.js?v=2"></script>
+<script src="site.js?v=4"></script>
+</body>
+</html>
