@@ -13,13 +13,15 @@ Static site, no build step. Same structure as `lunawave-website/`, with a sunset
 Run locally: `python -m http.server 5179 -d mo-website`, or deploy the folder on Vercel (Root Directory `mo-website`, Framework "Other").
 
 ## Before going live
-1. `config.js` holds **placeholder** contact details (WhatsApp `910000000000`, phone `+91 00000 00000`,
-   `bookings@moentertainments.in`). Replace them with the real ones. Empty values are hidden on the site.
-2. In Vercel, set the project's Root Directory to `mo-website`, then add these environment variables
-   so briefs are emailed (see `api/enquiry.js`):
+1. Contact details live in `config.js` (WhatsApp +91 70195 34038, moentertainment.enquiry@gmail.com).
+   Empty values are hidden on the site.
+2. In Vercel (Root Directory: the repo root in Bhavya2125/mo, or `mo-website` if deploying from luna-lms),
+   add these environment variables so briefs are emailed (see `api/enquiry.js`):
    - `RESEND_API_KEY`: from resend.com (free tier is plenty)
-   - `LEADS_TO`: the inbox that gets briefs (comma-separate for several)
-   - `LEADS_FROM`: a sender on a domain verified in Resend, e.g. `Mo Bookings <briefs@moentertainments.in>`
+   - `LEADS_TO`: `moentertainment.enquiry@gmail.com` (comma-separate for several)
+   - `LEADS_FROM`: `Mo Bookings <onboarding@resend.dev>` works only if the Resend account was signed up
+     with that same Gmail address (Resend's test sender only delivers to the account owner). For any other
+     inbox, verify a domain in Resend and use e.g. `Mo Bookings <briefs@yourdomain.in>`.
 3. Once the domain is known, make the link-preview tags in `index.html` absolute
    (`og:image` → `https://<domain>/img/og.jpg`, and add `og:url`), or WhatsApp shows no image.
 

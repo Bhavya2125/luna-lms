@@ -3,7 +3,7 @@
 //
 // Set these in Vercel → Project → Settings → Environment Variables:
 //   RESEND_API_KEY  your Resend API key
-//   LEADS_TO        where briefs go, e.g. "bookings@moentertainments.in" (comma-separate for several)
+//   LEADS_TO        where briefs go, e.g. "moentertainment.enquiry@gmail.com" (comma-separate for several)
 //   LEADS_FROM      a sender on a domain verified in Resend, e.g. "Mo Bookings <briefs@moentertainments.in>"
 //                   (until a domain is verified, "Mo Bookings <onboarding@resend.dev>" works,
 //                   but Resend then only delivers to the email you signed up with)
