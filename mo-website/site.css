@@ -49,10 +49,10 @@ em.dim{color:var(--muted);text-shadow:none}
 
 /* Buttons */
 .btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:50px;padding:0 26px;border:1.5px solid #ffffff40;border-radius:999px;background:none;font:700 12.5px var(--wide);letter-spacing:.12em;text-transform:uppercase;text-decoration:none;cursor:pointer;overflow:hidden;isolation:isolate;transition:color .4s,border-color .4s,transform .3s var(--ease),box-shadow .4s}
-.btn:before{content:"";position:absolute;inset:0;z-index:-1;background:var(--sunset);border-radius:inherit;transform:translateY(101%);transition:transform .5s var(--ease)}
+.btn:before{content:"";position:absolute;inset:-2px;z-index:-1;background:var(--sunset);border-radius:inherit;transform:translateY(101%);transition:transform .5s var(--ease)}
 .btn:hover{color:#1A0B2E;border-color:transparent}
 .btn:hover:before{transform:none}
-.btn.primary{background:var(--sunset);color:#1A0B2E;border-color:transparent;box-shadow:0 8px 28px #d94b7b30}
+.btn.primary{background:var(--sunset) border-box;color:#1A0B2E;border:0;padding:0 27.5px;box-shadow:0 8px 28px #d94b7b30}
 .btn.primary:before{background:#fff}
 .btn.primary:hover{transform:translateY(-2px);box-shadow:0 12px 34px #d9773f40}
 .btn .arr{transition:transform .4s var(--ease)}
