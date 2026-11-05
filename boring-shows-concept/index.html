@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Boring Shows Concept</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#ECEEF1;--card:#FFFFFF;--ink:#0E1016;--muted:#596070;--line:#D3D7DE;--soft:#E6E8EC;
+  --signal:#4F6F00;--mark:#CBF24A;--on-mark:#0E1016;--fill:#0E1016;--rank:#0E1016;--focus:#4F6F00;--on-ink:#FFFFFF;--logo:#0E1016;--logo-cut:#CBF24A;
+  --display:"Bricolage Grotesque",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace;--poster:"Anton",Impact,sans-serif;
+}
+[data-mode="night"]{
+  --paper:#0B0C11;--card:#15171F;--ink:#F1F3F7;--muted:#A3A9B6;--line:#2C2F3A;--soft:#23262F;
+  --signal:#CBF24A;--fill:#CBF24A;--rank:#1C1F29;--focus:#CBF24A;--on-ink:#0B0C11;--logo:#CBF24A;--logo-cut:#0B0C11;
+}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{background:#14161D;color:#F1F3F7;font-family:var(--mono);font-size:14px;line-height:1.45}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+button:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+
+/* Presentation shell */
+.stage{min-height:100%;display:grid;grid-template-columns:minmax(240px,1fr) 390px minmax(240px,1fr);gap:48px;align-items:center;max-width:1240px;margin:auto;padding:28px 32px}
+.pitch h1{font:800 44px/1 var(--display);letter-spacing:-.02em;margin:10px 0 16px}
+.pitch p{color:#B9BEC9;max-width:34ch}
+.kicker{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#CBF24A}
+.notes h2{font:700 21px/1.15 var(--display);margin:8px 0 12px}
+.notes li{margin:0 0 10px 16px;color:#C9CDD6}
+.notes ul{padding:0}
+
+/* Phone */
+.phone{width:390px;height:800px;max-height:calc(100dvh - 56px);min-height:640px;position:relative;background:var(--paper);color:var(--ink);border-radius:38px;overflow:hidden;box-shadow:0 0 0 9px #05060A,0 26px 70px #0008;transition:background .35s,color .35s}
+#screen{position:absolute;inset:0 0 66px;overflow-y:auto;overflow-x:hidden;scrollbar-width:none}
+#screen::-webkit-scrollbar{display:none}
+#screen.full{bottom:0}
+.bar{display:flex;align-items:center;justify-content:space-between;padding:20px 18px 10px}
+.wordmark{display:flex;align-items:center;gap:7px;font:400 18px/1 var(--poster);letter-spacing:.02em;text-transform:uppercase;white-space:nowrap}
+.logo{display:block;width:36px;height:auto;flex:none}
+.pitch-mark{--logo:#CBF24A;--logo-cut:#14161D;margin-bottom:18px}
+.pitch-mark .logo{width:96px}
+.gone{display:flex;align-items:center;gap:12px;padding:12px;margin-bottom:14px;background:var(--rank);color:#fff;--logo:#CBF24A;--logo-cut:#0B0C11}
+.gone .logo{width:72px}
+.gone b{font:800 20px/1.1 var(--display)}
+.pill{border:1.5px solid var(--line);border-radius:99px;padding:6px 10px;font-size:11px;font-weight:600;min-height:32px}
+.lights{display:inline-flex;gap:6px;align-items:center}
+.lights i{width:9px;height:9px;border-radius:50%;background:var(--signal)}
+.form-no{font-size:11px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.head{padding:8px 18px 12px}
+.head h1{font:800 42px/.98 var(--display);letter-spacing:-.03em;margin-top:5px}
+.head h1 em{font-style:normal;background:var(--mark);color:var(--on-mark);padding:0 .12em;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.moods{display:flex;gap:7px;overflow-x:auto;padding:2px 18px 14px;scrollbar-width:none}
+.moods::-webkit-scrollbar{display:none}
+.mood{flex:none;border:1.5px solid var(--line);padding:8px 11px;font-size:12px;font-weight:600;background:var(--card);min-height:38px}
+.mood[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--on-ink)}
+
+/* Event cards */
+.ev{display:block;width:calc(100% - 36px);margin:0 18px 18px;text-align:left;background:var(--card);border:1.5px solid var(--line)}
+.poster{position:relative;overflow:hidden;color:#fff;padding:14px;height:310px;display:flex;flex-direction:column;justify-content:space-between;isolation:isolate}
+.poster.short{height:210px}
+.poster h3{font:400 58px/.93 var(--poster);text-transform:uppercase;text-shadow:0 2px 24px #0006}
+.poster .tag{align-self:flex-start;background:#0B0C1199;color:#fff;font-size:11px;padding:4px 7px;font-weight:600;backdrop-filter:blur(6px)}
+.poster:after{content:"";position:absolute;inset:0;z-index:-1;opacity:.28;mix-blend-mode:overlay;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E")}
+.shape{position:absolute;z-index:-2;inset:0}
+.p-a{background:#10122B}.p-a .shape{background:radial-gradient(70% 60% at 82% 18%,#8C5BFF 0,#4B2AB8 38%,transparent 72%),radial-gradient(60% 50% at 8% 88%,#D14C8A 0,transparent 68%)}
+.p-b{background:#17110D}.p-b .shape{background:radial-gradient(48% 62% at 62% 8%,#FFD9A0 0,#C9772F 34%,transparent 72%),linear-gradient(transparent 55%,#0B0705)}
+.p-c{background:#0C2722}.p-c .shape{background:radial-gradient(52% 46% at 78% 78%,#F2B48C 0,#B9694B 34%,transparent 72%),radial-gradient(70% 60% at 10% 10%,#2C7A68 0,transparent 70%)}
+.p-d{background:#260A14}.p-d .shape{background:radial-gradient(40% 34% at 18% 8%,#FFE7D1 0,transparent 66%),radial-gradient(40% 34% at 84% 8%,#FFE7D1 0,transparent 66%),radial-gradient(90% 70% at 50% 100%,#A8173F 0,transparent 74%)}
+.p-e{background:#101728}.p-e .shape{background:radial-gradient(90% 46% at 50% 106%,#FFD58F 0,#F07C4F 36%,#6E3A70 66%,transparent 84%)}
+.meta{display:grid;grid-template-columns:1fr 1fr;border-top:1.5px solid var(--line)}
+.meta div{padding:9px 11px}
+.meta div+div{border-left:1.5px solid var(--line)}
+.meta small,.row small{display:block;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.06em}
+.meta b{font-weight:600;font-size:13px}
+.empty{margin:18px;padding:18px;border:1.5px dashed var(--line)}
+
+/* Event page */
+.back{position:absolute;top:14px;left:14px;z-index:3;background:#0B0C11CC;color:#fff;backdrop-filter:blur(6px);padding:8px 11px;font-size:12px;font-weight:600;min-height:38px}
+.body{padding:16px 18px 112px}
+.body h2{font:800 28px/1.05 var(--display);letter-spacing:-.02em;margin-bottom:12px}
+.form{border:1.5px solid var(--line);background:var(--card);margin-bottom:14px}
+.row{padding:9px 11px;border-bottom:1px solid var(--soft)}
+.row:last-child{border:0}
+.price{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px;border:1.5px solid var(--line);margin-bottom:14px;background:var(--card)}
+.price b{font:800 30px/1 var(--display)}
+.price span{font-size:12px;color:var(--muted);text-align:right;max-width:21ch}
+.meter{padding:12px;border:1.5px solid var(--line);background:var(--card);margin-bottom:14px}
+.meter strong{font:800 24px/1.1 var(--display)}
+.track{height:10px;border:1.5px solid var(--line);margin:9px 0}
+.track i{display:block;height:100%;background:var(--fill)}
+.quote{font-size:13px;color:var(--muted)}
+.cta{position:absolute;left:0;right:0;bottom:0;padding:11px 14px 16px;display:grid;grid-template-columns:1fr 1.35fr;gap:8px;background:var(--paper);border-top:1.5px solid var(--line);z-index:4}
+.cta.one{grid-template-columns:1fr}
+.btn{padding:13px 12px;font-weight:600;min-height:48px;border:1.5px solid var(--line);text-align:center}
+.btn.primary{background:var(--ink);border-color:var(--ink);color:var(--on-ink)}
+.btn.wide{display:block;width:100%}
+
+/* Sheets */
+.scrim{position:absolute;inset:0;background:#0B0C11A6;z-index:9;display:flex;align-items:flex-end}
+.sheet{width:100%;max-height:88%;overflow:auto;background:var(--paper);border-top:2px solid var(--line);padding:18px;animation:up .22s ease-out}
+.sheet h2{font:800 28px/1.05 var(--display);letter-spacing:-.02em;margin:4px 0 10px}
+.sheet .row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--soft)}
+.stepper{display:flex;align-items:center;gap:8px}
+.stepper button{width:42px;height:42px;border:1.5px solid var(--line);font-size:18px}
+.closer{float:right;min-height:40px;padding:8px;font-size:12px;font-weight:600}
+.hold{color:var(--signal);font-weight:600}
+.spacer{height:12px}
+@keyframes up{from{transform:translateY(40px);opacity:0}}
+
+/* Ticket */
+.stub{position:relative;margin:8px 18px 14px;background:var(--card);border:1.5px solid var(--line);overflow:hidden}
+.stub .poster{height:150px}
+.stub .poster h3{font-size:42px}
+.perf{border-top:2px dashed var(--line);position:relative;height:0;margin:0 14px}
+.perf:before,.perf:after{content:"";position:absolute;top:-12px;width:22px;height:22px;border-radius:50%;background:var(--paper);border:1.5px solid var(--line)}
+.perf:before{left:-27px}.perf:after{right:-27px}
+.qr{display:grid;place-items:center;padding:18px 16px 12px}
+.qr svg{width:166px;height:166px;background:#fff;padding:8px}
+.stampmark{position:absolute;right:12px;top:128px;color:var(--on-mark);font:400 24px/1 var(--poster);padding:7px 10px;transform:rotate(-9deg);background:var(--mark);animation:stamp .34s cubic-bezier(.2,1.5,.5,1)}
+@keyframes stamp{from{transform:rotate(4deg) scale(2.3);opacity:0}}
+.demo{text-align:center;font-size:11px;color:var(--muted);padding:0 12px 14px}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 18px 20px}
+
+/* Drops + stubs */
+.drop{margin:0 18px 12px;border:1.5px solid var(--line);background:var(--card);padding:13px}
+.drop h3{font:800 22px/1.08 var(--display);letter-spacing:-.02em;margin:3px 0 6px}
+.drop .btn{margin-top:10px}
+.count{font-weight:600;color:var(--signal)}
+.rank{margin:0 18px 14px;padding:13px;background:var(--rank);color:#fff}
+.rank b{font:800 24px/1 var(--display)}
+.rank .track{border-color:#FFFFFF55}
+.rank .track i{background:var(--mark)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:4px 18px 18px}
+.mini{border:1.5px solid var(--line);background:var(--card)}
+.mini:nth-child(odd){transform:rotate(-1.4deg)}.mini:nth-child(even){transform:rotate(1.2deg)}
+.mini .poster{height:112px;padding:9px}
+.mini .poster h3{font-size:25px}
+.mini p{padding:7px 8px;font-size:11px;color:var(--muted)}
+.rate{margin:0 18px 14px;border:1.5px dashed var(--line);padding:12px}
+.rate .opts{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}
+.rate .btn{font-size:12px;padding:8px 4px}
+
+/* Tabs */
+.tabs{position:absolute;left:0;right:0;bottom:0;height:66px;display:grid;grid-template-columns:repeat(3,1fr);border-top:1.5px solid var(--line);background:var(--paper);z-index:5}
+.tabs button{font-size:12px;font-weight:600}
+.tabs button[aria-current="page"]{background:var(--ink);color:var(--on-ink)}
+.toast{position:absolute;left:14px;right:14px;bottom:80px;background:var(--ink);color:var(--on-ink);padding:11px 13px;z-index:20;font-size:13px}
+.story{width:250px;aspect-ratio:9/16;margin:0 auto 14px;position:relative;overflow:hidden;color:#fff;background:#0B0C11;display:flex;flex-direction:column;justify-content:flex-end;padding:16px}
+.story .poster{position:absolute;inset:0;height:auto}
+.story .say{position:relative;font:800 29px/1 var(--display)}
+.story small{position:relative;margin-top:8px}
+
+@media (max-width:1040px){
+  .stage{grid-template-columns:1fr;justify-items:center;padding:24px 16px}
+  .pitch{order:0;text-align:center}.pitch p,.pitch-mark .logo{margin:auto}.phone{order:1}.notes{order:2;max-width:390px;width:100%}
+}
+@media (max-width:480px){
+  .stage{padding:0;gap:18px}
+  .pitch{display:none}
+  .phone{width:100%;height:100dvh;max-height:none;min-height:0;border-radius:0;box-shadow:none}
+  .notes{padding:6px 16px 28px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main class="stage">
+  <section class="pitch">
+    <div class="pitch-mark" id="pitchMark"></div>
+    <div class="kicker">Brand new concept · Sample data</div>
+    <h1>Boring app.<br>Loud nights.</h1>
+    <p>The app stays calm: cool fog, white and blue-black ink. One lime marker points to what matters. Everything else is the night itself, and after 6 PM the lights go out.</p>
+  </section>
+  <section class="phone" id="phone" data-mode="day" aria-label="Boring Shows prototype">
+    <div id="screen"></div>
+    <nav class="tabs" id="tabs" aria-label="Main"></nav>
+    <div id="overlay"></div>
+    <div id="toast" role="status"></div>
+  </section>
+  <aside class="notes" id="notes" aria-live="polite"></aside>
+</main>
+<script>
+const EVENTS=[
+ {id:'dock',t:'Basement Tapes',kind:'DJ NIGHT',when:'Tonight, 10:30 PM',day:'Tonight',venue:'The Loading Dock, Bandra',price:499,bored:3,went:412,left:38,cls:'p-a',moods:['Tonight','Under ₹500','Going solo','Dance till late'],lineup:'Sample DJ · Other Sample DJ',door:'18+ · Closes 3 AM',quote:'“Lost my voice and one earring.”'},
+ {id:'mic',t:'Kuch Bhi Open Mic',kind:'COMEDY',when:'Tonight, 8:00 PM',day:'Tonight',venue:'Back Room, Khar',price:149,bored:11,went:206,left:14,cls:'p-b',moods:['Tonight','Under ₹500','Going solo','Just laugh'],lineup:'8 comics, 1 very brave intern',door:'16+ · Ends by 10 PM',quote:'“One bad set. The other seven saved it.”'},
+ {id:'roof',t:'Chai & Feedback',kind:'INDIE LIVE',when:'Sat, 7:00 PM',day:'Sat',venue:'Upstairs Terrace, Juhu',price:299,bored:6,went:128,left:51,cls:'p-c',moods:['Under ₹500','Date-ish'],lineup:'Three acoustic acts',door:'All ages · Ends 10 PM',quote:'“Went for the chai. Stayed for the second band.”'},
+ {id:'over',t:'Last Over Watch Party',kind:'CRICKET',when:'Sun, 2:30 PM',day:'Sun',venue:'Big Screen Yard, Lower Parel',price:199,bored:8,went:640,left:120,cls:'p-d',moods:['Under ₹500','Just laugh'],lineup:'Giant screen, loud strangers',door:'All ages',quote:'“Hugged four strangers. No regrets.”'},
+ {id:'sun',t:'Sunrise Shift',kind:'ALL-NIGHTER',when:'Sat, 11:00 PM',day:'Sat',venue:'Harbour Shed 7, Sewri',price:899,bored:2,went:980,left:9,cls:'p-e',moods:['Dance till late'],lineup:'One long set until sunrise',door:'21+ · Ends 6 AM',quote:'“Saw the sun. It was fine. The set was better.”'},
+ {id:'riot',t:'Rooftop Riot',kind:'LIVE SET',when:'Tonight, 9:00 PM',day:'Tonight',venue:'Top Floor, Worli',price:699,bored:1,went:530,left:0,cls:'p-d',moods:['Tonight','Dance till late'],lineup:'Sample live band',door:'18+ · Ends midnight',quote:'“Should have booked earlier, said everyone.”'}
+];
+const FACES={
+ flat:'<rect x="66" y="42" width="18" height="26" rx="4" stroke="none" fill="var(--logo-cut)"/><rect x="116" y="42" width="18" height="26" rx="4" stroke="none" fill="var(--logo-cut)"/><path d="M72 101 128 95"/>',
+ awake:'<rect x="62" y="30" width="24" height="42" rx="6" stroke="none" fill="var(--logo-cut)"/><rect x="114" y="30" width="24" height="42" rx="6" stroke="none" fill="var(--logo-cut)"/><circle cx="100" cy="102" r="11" fill="var(--logo-cut)" stroke="none"/>',
+ booked:'<path d="M62 62 74 48 86 62M114 62 126 48 138 62M70 96Q100 110 130 92"/>',
+ gone:'<path d="M64 44 86 66M86 44 64 66M114 44 136 66M136 44 114 66M72 100H128"/>'
+};
+const logo=f=>`<svg class="logo" viewBox="0 0 200 140" role="img" aria-label="Boring Shows ticket logo, ${f} expression"><path fill="var(--logo)" d="M14 10H186a8 8 0 0 1 8 8V52a18 18 0 0 0 0 36V122a8 8 0 0 1-8 8H14a8 8 0 0 1-8-8V88a18 18 0 0 0 0-36V18a8 8 0 0 1 8-8Z"/><g fill="none" stroke="var(--logo-cut)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round">${FACES[f]}</g></svg>`;
+const brand=f=>`<div class="wordmark">${logo(f)}<span>Boring Shows</span></div>`;
+const MOODS=['Tonight','Under ₹500','Going solo','Date-ish','Dance till late','Just laugh'];
+const NOTES={
+ tonight:['The first screen answers one question','The logo is unimpressed all day. Press Lights off and it wakes up.','Lead with “tonight” and with moods, not with event categories.','Posters stay huge. The app itself stays plain, so every show pops.','The Boring-o-meter comes only from people whose QR was scanned. Fake hype can’t buy it.'],
+ event:['Trust is the design','One all-in price, right at the top.','Real attendee quotes replace organiser marketing copy.','“Start a squad” sits beside “Just me”, because this crowd usually decides as a group.'],
+ squad:['Squad is the growth engine','Hold seats for 15 minutes while everyone pays their own share by UPI.','Each invite is a free install. Nobody fronts ₹5,000 and chases friends for it.','This is our clearest edge over a basic checkout.'],
+ ticket:['The ticket is worth posting','The logo only smiles once you book.','A satisfying stamp makes booking feel complete.','The Story card turns a purchase into free marketing.','Can’t go? Hand it to a friend at face value, with no touts.'],
+ drops:['A reason to open it this week','Follow artists and venues, then get a countdown.','Higher ranks get in first, so going out earns access rather than discounts.'],
+ stubs:['Retention lives here','Every night becomes a collectible stub.','Ranks tease you gently: “Homebody” to “Menace”.','One-tap ratings feed the Boring-o-meter, which improves the next person’s choice.']
+};
+const S={tab:'tonight',mood:'Tonight',view:'list',ev:null,squad:3,mine:[],follows:{},rated:false,timer:900};
+const stubsSeed=[{t:'Static Hour',cls:'p-c',d:'12 Sep · Andheri'},{t:'Bad Idea Comedy',cls:'p-b',d:'26 Sep · Khar'},{t:'Warehouse 4',cls:'p-a',d:'10 Oct · Sewri'}];
+const $=q=>document.querySelector(q);
+const inr=n=>'₹'+n.toLocaleString('en-IN');
+const poster=(e,cls='')=>`<div class="poster ${e.cls} ${cls}"><i class="shape"></i><span class="tag">${e.kind||'STUB'}</span><h3>${e.t}</h3></div>`;
+const bar=()=>`<div class="bar">${brand($('#phone').dataset.mode==='day'?'flat':'awake')}<div><button class="pill" data-a="city" aria-label="Change city">Mumbai ▾</button> <button class="pill lights" data-a="lights" aria-label="Switch day or night mode"><i></i>${$('#phone').dataset.mode==='day'?'Lights off':'Lights on'}</button></div></div>`;
+function qr(seed){let h=7;for(const c of seed)h=h*31+c.charCodeAt(0)>>>0;let r='';const n=25;for(let y=0;y<n;y++)for(let x=0;x<n;x++){h=(h*1103515245+12345)>>>0;const f=(x<7&&y<7)||(x>17&&y<7)||(x<7&&y>17);const on=f?(x%18===0||x%18===6||y%18===0||y%18===6||(x%18>1&&x%18<5&&y%18>1&&y%18<5)):(h>>16&3)<2;if(on)r+=`<rect x="${x}" y="${y}" width="1" height="1"/>`}return `<svg viewBox="0 0 25 25" role="img" aria-label="Sample QR pass">${r}</svg>`}
+function list(){
+ const items=EVENTS.filter(e=>e.moods.includes(S.mood));
+ return bar()+`<div class="head"><div class="form-no">Form 01 · Application to leave the house</div><h1>Reason for leaving: <em>${S.mood==='Tonight'?'tonight.':S.mood.toLowerCase()+'.'}</em></h1></div>
+ <div class="moods" role="group" aria-label="Filter by mood">${MOODS.map(m=>`<button class="mood" aria-pressed="${m===S.mood}" data-a="mood" data-v="${m}">${m}</button>`).join('')}</div>
+ ${items.map(e=>`<button class="ev" data-a="open" data-v="${e.id}">${poster(e)}<div class="meta"><div><small>${e.day}</small><b>${e.left?inr(e.price)+' all-in':'Sold out'}</b></div><div><small>Boring-o-meter</small><b>${e.bored}% boring</b></div></div></button>`).join('')||`<div class="empty">Nothing here. Genuinely boring of us.</div>`}`;
+}
+function event(){
+ const e=S.ev;
+ return `<button class="back" data-a="back">← Back</button>${poster(e)}<div class="body"><h2>${e.t}</h2>
+ ${e.left?'':`<div class="gone">${logo('gone')}<b>Sold out. Genuinely gone.</b></div>`}
+ <div class="price"><b>${inr(e.price)}</b><span>That’s the whole price. No surprise at the last step.</span></div>
+ <div class="form"><div class="row"><small>When</small>${e.when}</div><div class="row"><small>Where</small>${e.venue}</div><div class="row"><small>Lineup</small>${e.lineup}</div><div class="row"><small>Door rules</small>${e.door}</div><div class="row"><small>Availability</small>${e.left?e.left+' left':'Sold out'}</div></div>
+ <div class="meter"><small class="form-no">Boring-o-meter · ${e.went} people who actually went</small><br><strong>${e.bored}% boring</strong><div class="track"><i style="width:${e.bored}%"></i></div><div class="quote">${e.quote}</div></div>
+ </div>${e.left?`<div class="cta"><button class="btn" data-a="solo">Just me</button><button class="btn primary" data-a="squad">Start a squad</button></div>`:`<div class="cta one"><button class="btn primary" data-a="notify">Tell me if a ticket returns</button></div>`}`;
+}
+function ticket(){
+ const e=S.ev;
+ return `<div class="bar">${brand('booked')}<button class="pill" data-a="tab" data-v="stubs">My stubs</button></div>
+ <div class="head"><div class="form-no">Form 02 · Permission granted</div></div>
+ <article class="stub">${poster(e)}<div class="stampmark">APPROVED</div><div class="perf"></div><div class="qr">${qr(e.id)}</div>
+ <div class="form" style="margin:0 12px 12px"><div class="row"><small>When</small>${e.when}</div><div class="row"><small>Where</small>${e.venue}</div></div><div class="demo">Sample pass. Not valid for entry.</div></article>
+ <div class="actions"><button class="btn primary" data-a="story">Add to Story</button><button class="btn" data-a="handoff">Hand to a friend</button></div>`;
+}
+function drops(){
+ const D=[['halfprice','Friday, 12:00 PM','Sample Headliner: City Tour','Regulars get in 30 minutes early.','02d 01h 00m'],['warehouse','Monday, 6:00 PM','Warehouse Sessions, Vol. 5','Limited to 300 stubs.','05d 07h 00m'],['campus','Next week','Campus Comedy League','Student ID price at checkout.','Date soon']];
+ return bar()+`<div class="head"><div class="form-no">Form 03 · Advance notice</div><h1>Drops worth an <em>alarm.</em></h1></div>`+D.map(d=>`<article class="drop"><small class="form-no">${d[1]}</small><h3>${d[2]}</h3><p class="quote">${d[3]}</p><p class="count">${d[4]}</p><button class="btn wide ${S.follows[d[0]]?'':'primary'}" data-a="follow" data-v="${d[0]}">${S.follows[d[0]]?'Alarm set ✓':'Set an alarm'}</button></article>`).join('');
+}
+function stubs(){
+ const all=[...S.mine.map(e=>({t:e.t,cls:e.cls,d:e.when})),...stubsSeed];
+ const nights=all.length;
+ return bar()+`<div class="head"><div class="form-no">Form 04 · Evidence you left the house</div><h1><em>${nights}</em> nights out.</h1></div>
+ <div class="rank"><small>Current rank</small><br><b>${nights>3?'Regular':'Occasional Outing'}</b><div class="track"><i style="width:${Math.min(nights/6*100,100)}%"></i></div><small>${Math.max(6-nights,0)} more until Menace · early access unlocked</small></div>
+ ${S.rated?'':`<div class="rate"><b>How boring was Warehouse 4?</b><div class="opts"><button class="btn" data-a="rate">Not at all</button><button class="btn" data-a="rate">A bit</button><button class="btn" data-a="rate">Very</button></div></div>`}
+ <div class="grid">${all.map(s=>`<article class="mini">${poster(s)}<p>${s.d}</p></article>`).join('')}</div>`;
+}
+function note(k){const n=NOTES[k];$('#notes').innerHTML=`<div class="kicker">Why this screen</div><h2>${n[0]}</h2><ul>${n.slice(1).map(x=>`<li>${x}</li>`).join('')}</ul>`}
+function render(){
+ const v=S.view,scr=$('#screen'),top=scr.scrollTop;
+ scr.className=v==='event'?'full':'';
+ scr.innerHTML=v==='event'?event():v==='ticket'?ticket():S.tab==='drops'?drops():S.tab==='stubs'?stubs():list();
+ $('#tabs').style.display=v==='event'?'none':'';
+ $('#tabs').innerHTML=[['tonight','Tonight'],['drops','Drops'],['stubs','Stubs']].map(([k,l])=>`<button data-a="tab" data-v="${k}" ${S.tab===k&&v==='list'?'aria-current="page"':''}>${l}</button>`).join('');
+ note(v==='event'?'event':v==='ticket'?'ticket':S.tab);
+ return top;
+}
+function sheet(html){$('#overlay').innerHTML=`<div class="scrim" data-a="dismiss"><div class="sheet" role="dialog" aria-modal="true">${html}</div></div>`}
+function closeSheet(){$('#overlay').innerHTML='';clearInterval(S.tick)}
+let toastT;function toast(m){$('#toast').innerHTML=`<div class="toast">${m}</div>`;clearTimeout(toastT);toastT=setTimeout(()=>$('#toast').innerHTML='',2400)}
+const clock=s=>String(s/60|0).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
+function squadSheet(){
+ const e=S.ev,others=Array.from({length:S.squad-1},(_,i)=>`<div class="row"><span>Friend ${i+1}</span><span>Waiting</span></div>`).join('');
+ sheet(`<button class="closer" data-a="close">Close</button><div class="form-no">Form 05 · Group outing</div><h2>Seats held. Your friends pay for themselves.</h2>
+ <div class="row"><span>Squad size</span><span class="stepper"><button data-a="less" aria-label="Fewer people">−</button><b>${S.squad}</b><button data-a="more" aria-label="More people">+</button></span></div>
+ <div class="row"><span>Held for</span><span class="hold" id="hold">${clock(S.timer)}</span></div>
+ <div class="row"><span>You</span><span>${inr(e.price)}</span></div>${others}<div class="spacer"></div>
+ <button class="btn wide" data-a="invite">Send invite link</button><div class="spacer"></div>
+ <button class="btn primary wide" data-a="pay">Pay my share · ${inr(e.price)}</button><p class="demo" style="padding-top:9px">Prototype. No real payment.</p>`);
+ clearInterval(S.tick);S.tick=setInterval(()=>{S.timer=Math.max(S.timer-1,0);const h=$('#hold');if(h)h.textContent=clock(S.timer)},1000);
+}
+function pay(){closeSheet();if(!S.mine.includes(S.ev))S.mine.unshift(S.ev);S.view='ticket';render();$('#screen').scrollTop=0}
+const A={
+ mood(v){S.mood=v;render();$('#screen').scrollTop=0},
+ open(v){S.ev=EVENTS.find(e=>e.id===v);S.view='event';render();$('#screen').scrollTop=0},
+ back(){S.view='list';render()},
+ tab(v){S.tab=v;S.view='list';render();$('#screen').scrollTop=0},
+ lights(){const p=$('#phone');p.dataset.mode=p.dataset.mode==='day'?'night':'day';render();toast(p.dataset.mode==='night'?'In the real app this happens at 6 PM.':'Back to the office.')},
+ city(){toast('Mumbai only in this prototype.')},
+ notify(){toast('You’ll hear first if a ticket comes back.')},
+ solo(){sheet(`<button class="closer" data-a="close">Close</button><div class="form-no">Form 05-A · Solo outing</div><h2>One ticket. Excellent decision.</h2><div class="row"><span>${S.ev.t}</span><span>${inr(S.ev.price)}</span></div><div class="row"><span>Fees</span><span>₹0 extra</span></div><div class="spacer"></div><button class="btn primary wide" data-a="pay">Pay ${inr(S.ev.price)} by UPI</button><p class="demo" style="padding-top:9px">Prototype. No real payment.</p>`)},
+ squad(){S.timer=900;squadSheet()},
+ less(){S.squad=Math.max(2,S.squad-1);squadSheet()},
+ more(){S.squad=Math.min(8,S.squad+1);squadSheet()},
+ invite(){toast('Invite link would open WhatsApp or Instagram.')},
+ pay,
+ close:closeSheet,
+ story(){sheet(`<button class="closer" data-a="close">Close</button><div class="form-no">Story card</div><div class="spacer"></div><div class="story">${poster(S.ev)}<div class="say">Officially approved to leave the house.</div><small>${S.ev.when}</small></div><button class="btn primary wide" data-a="shared">Share to Instagram</button>`)},
+ shared(){closeSheet();toast('Would open Instagram Stories.')},
+ handoff(){toast('Would send this ticket to a friend at face value.')},
+ follow(v){S.follows[v]=!S.follows[v];const t=$('#screen').scrollTop;render();$('#screen').scrollTop=t},
+ rate(){S.rated=true;render();toast('Filed. Thanks for the paperwork.')}
+};
+document.addEventListener('click',ev=>{
+ const b=ev.target.closest('[data-a]');if(!b)return;
+ if(b.dataset.a==='dismiss'){if(ev.target===b)closeSheet();return}
+ A[b.dataset.a](b.dataset.v);
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSheet()});
+$('#pitchMark').innerHTML=logo('flat');
+render();
+</script>
+</body>
+</html>
