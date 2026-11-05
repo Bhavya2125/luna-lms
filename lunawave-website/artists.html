@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Artists — Luna Wave</title>
+<meta name="description" content="Book artists for college fests, concerts, corporate and private events across India.">
+<meta name="theme-color" content="#000000">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500&family=Inter+Tight:wght@500;600;700&family=Michroma&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css?v=6">
+<style>
+.a-hero{padding:150px 0 40px}
+.a-hero h1{font-size:clamp(72px,14vw,220px);line-height:.82;letter-spacing:-.045em}
+.a-hero .sub{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-top:28px}
+.a-hero .sub p{max-width:44ch;color:var(--muted)}
+.tools{position:sticky;top:76px;z-index:30;background:#000000E6;backdrop-filter:blur(14px);border-block:1px solid var(--line);padding:14px 0}
+.tools .wrap{display:grid;gap:12px}
+.search{display:flex;align-items:center;gap:12px}
+.search input{flex:1;background:none;border:0;border-bottom:1px solid #333;padding:8px 0;font:400 clamp(24px,3vw,34px) var(--serif);min-width:0}
+.search input:focus{outline:none;border-color:var(--moon)}
+.search input::placeholder{color:#555;font-style:italic}
+.count{font:400 10.5px var(--wide);letter-spacing:.14em;color:var(--muted);white-space:nowrap}
+.chips-row{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.chips-row::-webkit-scrollbar{display:none}
+.chips-row .chip{flex:none;min-height:36px;font-size:12.5px}
+.tier{padding:clamp(50px,7vw,90px) 0 0}
+.tier[hidden]{display:none}
+.tier-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px;border-top:1px solid var(--line);padding-top:16px;margin-bottom:24px}
+.tier-head h2{font-size:clamp(34px,4vw,56px)}
+.names{list-style:none;padding:0;columns:3 280px;column-gap:clamp(24px,4vw,60px)}
+.names li{break-inside:avoid;border-bottom:1px solid #161616}
+.names li[hidden]{display:none}
+.artist{display:grid;grid-template-columns:1fr auto;align-items:center;gap:10px;padding:14px 0}
+.artist a{text-decoration:none;display:block;min-width:0}
+.artist b{display:block;font:400 clamp(26px,2.4vw,34px)/1.05 var(--serif);transition:font-style .2s,transform .5s var(--ease);overflow-wrap:anywhere}
+.artist small{font:400 10px var(--wide);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.artist a:hover b{font-style:italic;transform:translateX(6px)}
+.add{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:none;cursor:pointer;font-size:18px;line-height:1;transition:background .3s,color .3s,border-color .3s,transform .4s var(--ease)}
+.add:hover{border-color:var(--moon)}
+.add[aria-pressed="true"]{background:var(--moon);color:#000;border-color:var(--moon);transform:rotate(45deg)}
+.empty{padding:80px 0;text-align:center;color:var(--muted);font:italic 400 28px var(--serif)}
+.shortlist{position:fixed;left:50%;bottom:18px;z-index:70;transform:translate(-50%,160%);transition:transform .5s var(--ease);background:var(--moon);color:#000;border-radius:999px;padding:8px 8px 8px 22px;display:flex;align-items:center;gap:16px;box-shadow:0 20px 60px #000a;max-width:calc(100% - 32px)}
+.shortlist.open{transform:translate(-50%,0)}
+.shortlist span{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.shortlist .btn{background:#000;color:var(--moon);border-color:#000;min-height:44px;flex:none}
+.shortlist .btn:before{background:var(--moon)}
+.shortlist .btn:hover{color:#000}
+.note{margin-top:70px;color:var(--muted);font-size:13px;max-width:70ch}
+</style>
+</head>
+<body>
+<header class="top always">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="Luna Wave home"><span data-logo="compact"></span></a>
+    <nav class="nav" aria-label="Main">
+      <a href="index.html#services">Services</a>
+      <a href="artists.html" aria-current="page" style="color:var(--ink)">Artists</a>
+      <a href="index.html#shows">Shows</a>
+      <a href="index.html#instagram">Instagram</a>
+      <a class="btn" href="enquire.html">Plan an event <span class="arr">→</span></a>
+    </nav>
+    <button class="menu-btn" aria-expanded="false">Menu</button>
+  </div>
+</header>
+
+<main>
+  <section class="a-hero" style="padding-bottom:40px">
+    <div class="wrap">
+      <span class="label">Artist booking</span>
+      <h1 style="margin-top:18px">The <em>roster.</em></h1>
+      <div class="sub">
+        <p>Headliners to the next big thing. Shortlist the acts you want with <b style="color:var(--ink)">+</b> and we'll come back with availability and full costs within 48 hours.</p>
+        <span class="count" id="total"></span>
+      </div>
+    </div>
+  </section>
+
+  <div class="tools">
+    <div class="wrap">
+      <div class="search"><input id="q" type="search" placeholder="Search an artist…" aria-label="Search artists" autocomplete="off"><span class="count" id="shown"></span></div>
+      <div class="chips-row" id="tiers" role="group" aria-label="Filter by tier"></div>
+      <div class="chips-row" id="genres" role="group" aria-label="Filter by genre"></div>
+    </div>
+  </div>
+
+  <div class="wrap" id="list"></div>
+  <div class="wrap"><p class="empty" id="empty" hidden>No match. Tell us who you want anyway — <a href="enquire.html">send a brief</a>.</p>
+    <p class="note">Tiers are a rough guide to draw and fee bracket. Availability, fees and travel are confirmed per date. Representation varies: some artists are booked through their own management.</p>
+  </div>
+  <div style="height:120px"></div>
+</main>
+
+<div class="shortlist" id="bar" role="status"><span id="bar-text"></span><a class="btn" id="bar-go" href="enquire.html">Request booking <span class="arr">→</span></a></div>
+
+<footer>
+  <div class="wrap">
+    <div class="legal" style="margin-top:0"><span>© 2026 Luna Wave</span><span><a href="index.html">Home</a> · <a href="enquire.html">Enquiry</a></span></div>
+  </div>
+</footer>
+
+<script src="site.js?v=6"></script>
+<script src="artists.js?v=1"></script>
+<script>
+const TIERS = { 1: "Headliners", 2: "Fest favourites", 3: "Regional & rising", 4: "New on our stages" };
+const all = window.LW_ARTISTS.map(([name, genre, tier]) => ({ name, genre, tier }));
+const genres = [...new Set(all.map(a => a.genre))].sort();
+const f = { q: "", tier: 0, genre: "" };
+let picked = [];
+try { picked = JSON.parse(sessionStorage.getItem("lw-shortlist")) || []; } catch {}
+const esc = s => s.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+document.getElementById("total").textContent = `${all.length} artists · ${genres.length} genres`;
+const chip = (label, attr, val, on) => `<button class="chip" ${attr}="${esc(String(val))}" aria-pressed="${on}">${esc(label)}</button>`;
+document.getElementById("tiers").innerHTML = chip("All tiers", "data-tier", 0, true) + Object.entries(TIERS).map(([t, l]) => chip(l, "data-tier", t, false)).join("");
+document.getElementById("genres").innerHTML = chip("All genres", "data-genre", "", true) + genres.map(g => chip(g, "data-genre", g, false)).join("");
+
+document.getElementById("list").innerHTML = Object.entries(TIERS).map(([t, label]) => {
+  const rows = all.filter(a => a.tier == t);
+  return `<section class="tier" data-t="${t}"><div class="tier-head"><h2>${label}</h2><span class="label">Tier 0${t} · <span class="n">${rows.length}</span></span></div>
+    <ul class="names">${rows.map(a => `<li data-name="${esc(a.name.toLowerCase())}" data-genre="${esc(a.genre)}"><div class="artist">
+      <a href="enquire.html?artist=${encodeURIComponent(a.name)}"><b>${esc(a.name)}</b><small>${esc(a.genre)}</small></a>
+      <button class="add" data-add="${esc(a.name)}" aria-label="Shortlist ${esc(a.name)}" aria-pressed="false">+</button></div></li>`).join("")}</ul></section>`;
+}).join("");
+
+function apply() {
+  let shown = 0;
+  document.querySelectorAll(".tier").forEach(sec => {
+    let n = 0;
+    sec.querySelectorAll("li").forEach(li => {
+      const ok = (!f.q || li.dataset.name.includes(f.q)) && (!f.genre || li.dataset.genre === f.genre) && (!f.tier || sec.dataset.t == f.tier);
+      li.hidden = !ok; if (ok) n++;
+    });
+    sec.hidden = !n; sec.querySelector(".n").textContent = n; shown += n;
+  });
+  document.getElementById("shown").textContent = shown === all.length ? "" : `${shown} shown`;
+  document.getElementById("empty").hidden = !!shown;
+}
+function syncPicked() {
+  try { sessionStorage.setItem("lw-shortlist", JSON.stringify(picked)); } catch {}
+  document.querySelectorAll("[data-add]").forEach(b => b.setAttribute("aria-pressed", picked.includes(b.dataset.add)));
+  const bar = document.getElementById("bar");
+  bar.classList.toggle("open", picked.length > 0);
+  document.getElementById("bar-text").textContent = picked.length === 1 ? picked[0] : `${picked.length} artists shortlisted`;
+  document.getElementById("bar-go").href = "enquire.html?artists=" + encodeURIComponent(picked.join("|"));
+}
+
+document.getElementById("q").addEventListener("input", e => { f.q = e.target.value.trim().toLowerCase(); apply(); });
+document.getElementById("tiers").addEventListener("click", e => {
+  const b = e.target.closest("[data-tier]"); if (!b) return;
+  f.tier = +b.dataset.tier; document.querySelectorAll("[data-tier]").forEach(x => x.setAttribute("aria-pressed", x === b)); apply();
+});
+document.getElementById("genres").addEventListener("click", e => {
+  const b = e.target.closest("[data-genre]"); if (!b) return;
+  f.genre = b.dataset.genre; document.querySelectorAll("[data-genre]").forEach(x => x.setAttribute("aria-pressed", x === b)); apply();
+});
+document.getElementById("list").addEventListener("click", e => {
+  const b = e.target.closest("[data-add]"); if (!b) return;
+  const n = b.dataset.add;
+  picked = picked.includes(n) ? picked.filter(x => x !== n) : [...picked, n];
+  syncPicked();
+});
+apply(); syncPicked();
+</script>
+</body>
+</html>

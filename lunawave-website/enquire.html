@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Plan an Event — Luna Wave</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500&family=Inter+Tight:wght@500;600;700&family=Michroma&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css?v=6">
+<style>
+.page{display:grid;grid-template-columns:1fr 380px;gap:48px;padding:130px 0 90px;align-items:start}
+.progress{display:flex;gap:6px;margin-bottom:34px}
+.progress i{flex:1;height:2px;background:var(--line);transition:background .3s}
+.progress i.on{background:var(--moon)}
+.q{display:none;animation:in .35s ease-out}
+.q.active{display:block}
+@keyframes in{from{opacity:0;transform:translateY(16px)}}
+.q h1{font-size:clamp(44px,6vw,88px);line-height:.95;margin:16px 0 14px;max-width:14ch}
+.q .hint{color:var(--muted);margin-bottom:28px;max-width:52ch}
+.types{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.type{position:relative;border:1px solid var(--line);border-radius:18px;background:var(--panel);padding:18px;text-align:left;min-height:130px;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;transition:border-color .2s,transform .15s}
+.type:hover{transform:translateY(-2px);border-color:var(--muted)}
+.type b{font:400 28px/1 var(--serif)}
+.type small{color:var(--muted);font-size:12px}
+.type[aria-pressed="true"]{border-color:var(--moon);background:var(--moon);color:var(--night)}
+.type[aria-pressed="true"] small{color:#3A3F4C}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips .chip{min-height:46px;padding:10px 16px;font-size:13px}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.f{display:grid;gap:7px}
+.f.full{grid-column:1/-1}
+.f label{font:400 10px var(--wide);text-transform:uppercase;letter-spacing:.14em;color:var(--muted)}
+.f input,.f select,.f textarea{background:transparent;border:0;border-bottom:1px solid #333;padding:12px 0;font-size:20px;min-height:52px;border-radius:0;width:100%}
+.f input:focus,.f select:focus,.f textarea:focus{outline:none;border-color:var(--moon)}
+.f textarea{min-height:110px;resize:vertical}
+.group{margin-bottom:26px}
+.group>span{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:10px}
+.check{display:flex;gap:10px;align-items:center;font-size:14px;margin-top:6px}
+.check input{width:20px;height:20px;accent-color:var(--beam)}
+.nav-row{display:flex;align-items:center;gap:14px;margin-top:34px;flex-wrap:wrap}
+.nav-row[hidden]{display:none}
+.nav-row .enter{font-size:12px;color:var(--muted)}
+.err{color:var(--hot);font-size:13px;min-height:20px;margin-top:10px}
+/* Live brief card */
+.brief{position:sticky;top:110px;border:1px solid var(--line);border-radius:20px;overflow:hidden;background:var(--panel)}
+.brief .poster{min-height:200px}
+.brief .poster h3{font-size:46px}
+.brief dl{display:grid;grid-template-columns:auto 1fr;font-size:13px}
+.brief dt,.brief dd{padding:10px 14px;border-top:1px solid var(--line)}
+.brief dt{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding-right:4px}
+.brief dd{text-align:right;font-weight:600}
+.brief dd.empty{color:#4A4F5C;font-weight:400}
+.brief .foot-note{padding:12px 14px;border-top:1.5px solid var(--line);font-size:12px;color:var(--muted);display:flex;gap:8px;align-items:center}
+/* Done */
+.done{text-align:left}
+.done .ticket{border:1.5px solid var(--line);background:var(--panel);margin:24px 0;max-width:520px}
+.done .ticket .row{display:flex;justify-content:space-between;padding:12px 16px;border-top:1px solid var(--line);font-size:13px}
+.done .ticket .row:first-child{border:0}
+@media(max-width:980px){.page{grid-template-columns:1fr}.brief{position:static}}
+@media(max-width:640px){.types{grid-template-columns:1fr 1fr}.fields{grid-template-columns:1fr}.type{min-height:110px}.type b{font-size:18px}}
+.picked{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px}
+.picked:empty{display:none}
+</style>
+</head>
+<body>
+<header class="top always">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="Luna Wave home"><span data-logo="compact"></span></a>
+    <a class="btn" href="index.html" style="min-height:40px;padding:8px 14px">← Site</a>
+  </div>
+</header>
+
+<main class="wrap">
+<div class="page">
+<form id="form" novalidate>
+  <div class="progress" aria-hidden="true"></div>
+
+  <div class="q" data-step="type">
+    <span class="kicker">Step 1 of 6 · About 2 minutes</span>
+    <h1>What are we <em class="glow">putting on?</em></h1>
+    <p class="hint">Pick the closest one. We read every brief, and a real person replies within 48 hours.</p>
+    <div class="types" data-single="type">
+      <button type="button" class="type" data-v="College fest"><small>01</small><b>College fest</b><small>Pro-night, freshers, alumni</small></button>
+      <button type="button" class="type" data-v="Concert"><small>02</small><b>Concert</b><small>Ticketed or club gig</small></button>
+      <button type="button" class="type" data-v="Corporate"><small>03</small><b>Corporate</b><small>Annual day, launch, offsite</small></button>
+      <button type="button" class="type" data-v="Private / wedding"><small>04</small><b>Private & wedding</b><small>Sangeet, reception, party</small></button>
+      <button type="button" class="type" data-v="Brand activation"><small>05</small><b>Brand campaign</b><small>Campus, influencers</small></button>
+      <button type="button" class="type" data-v="Artist management"><small>06</small><b>I'm an artist</b><small>Get booked or managed</small></button>
+    </div>
+  </div>
+
+  <div class="q" data-step="who">
+    <span class="kicker">Step 2 of 6</span>
+    <h1>Who's <em class="glow">asking?</em></h1>
+    <p class="hint">So we know who to call back.</p>
+    <div class="fields">
+      <div class="f"><label for="name">Your name</label><input id="name" name="name" autocomplete="name" required></div>
+      <div class="f"><label for="org">College / company</label><input id="org" name="org" autocomplete="organization" required></div>
+      <div class="f full"><label for="role">Your role</label><input id="role" name="role" placeholder="Cultural secretary, HR lead, bride's brother…"></div>
+    </div>
+  </div>
+
+  <div class="q" data-step="when">
+    <span class="kicker">Step 3 of 6</span>
+    <h1>When and <em class="glow">where?</em></h1>
+    <p class="hint">Not fixed yet? Pick a rough date and tick "flexible".</p>
+    <div class="fields">
+      <div class="f"><label for="date">Event date</label><input id="date" name="date" type="date" required></div>
+      <div class="f"><label for="city">City</label><input id="city" name="city" list="cities" required><datalist id="cities"><option>Bengaluru</option><option>Chennai</option><option>Hyderabad</option><option>Kochi</option><option>Mysuru</option><option>Mumbai</option><option>Delhi NCR</option><option>Pune</option></datalist></div>
+      <div class="f full"><label for="venue">Venue</label><select id="venue" name="venue"><option>Open-air / ground</option><option>Auditorium</option><option>Club / bar</option><option>Hotel ballroom</option><option>Not decided</option></select></div>
+    </div>
+    <label class="check"><input type="checkbox" name="flexible"> Date is flexible</label>
+  </div>
+
+  <div class="q" data-step="size">
+    <span class="kicker">Step 4 of 6</span>
+    <h1>How big is <em class="glow">the night?</em></h1>
+    <p class="hint">A rough range is fine. It helps us suggest artists you can actually afford.</p>
+    <div class="group"><span>Expected crowd</span>
+      <div class="chips" data-single="crowd"><button type="button" class="chip" data-v="Under 300">Under 300</button><button type="button" class="chip" data-v="300–1,000">300–1,000</button><button type="button" class="chip" data-v="1,000–5,000">1,000–5,000</button><button type="button" class="chip" data-v="5,000+">5,000+</button></div>
+    </div>
+    <div class="group"><span>All-in budget</span>
+      <div class="chips" data-single="budget"><button type="button" class="chip" data-v="Under ₹2L">Under ₹2L</button><button type="button" class="chip" data-v="₹2–5L">₹2–5L</button><button type="button" class="chip" data-v="₹5–15L">₹5–15L</button><button type="button" class="chip" data-v="₹15–50L">₹15–50L</button><button type="button" class="chip" data-v="₹50L+">₹50L+</button><button type="button" class="chip" data-v="Not sure">Not sure yet</button></div>
+    </div>
+  </div>
+
+  <div class="q" data-step="needs">
+    <span class="kicker">Step 5 of 6</span>
+    <h1>What do you <em class="glow">need?</em></h1>
+    <p class="hint">Pick everything that applies.</p>
+    <div class="group"><span>Services</span>
+      <div class="chips" data-multi="needs"><button type="button" class="chip" data-v="Artist">Artist / act</button><button type="button" class="chip" data-v="Sound & light">Sound & light</button><button type="button" class="chip" data-v="Stage">Stage & LED</button><button type="button" class="chip" data-v="Host">Host / emcee</button><button type="button" class="chip" data-v="Sponsors">Sponsors</button><button type="button" class="chip" data-v="Ticketing">Ticketing</button><button type="button" class="chip" data-v="Content">Photo & video</button><button type="button" class="chip" data-v="Influencers">Influencers</button></div>
+    </div>
+    <div class="group"><span>Vibe</span>
+      <div class="chips" data-multi="vibe"><button type="button" class="chip" data-v="Bollywood">Bollywood</button><button type="button" class="chip" data-v="EDM">EDM / DJ</button><button type="button" class="chip" data-v="Indie">Indie</button><button type="button" class="chip" data-v="Rock">Rock</button><button type="button" class="chip" data-v="Hip-hop">Hip-hop</button><button type="button" class="chip" data-v="Regional">Regional</button><button type="button" class="chip" data-v="Comedy">Comedy</button><button type="button" class="chip" data-v="Sufi">Sufi / fusion</button></div>
+    </div>
+    <div class="f"><label for="artist-q">Artists you want (optional)</label>
+      <input id="artist-q" list="lw-artist-list" placeholder="Type a name, press Enter" autocomplete="off"><datalist id="lw-artist-list"></datalist>
+      <div class="picked" id="picked"></div>
+      <a class="muted" href="artists.html" style="font-size:13px">Browse the full roster →</a>
+    </div>
+  </div>
+
+  <div class="q" data-step="contact">
+    <span class="kicker">Step 6 of 6</span>
+    <h1>Where do we <em class="glow">send options?</em></h1>
+    <p class="hint">We'll reply with a shortlist and full costs within 48 hours.</p>
+    <div class="fields">
+      <div class="f"><label for="phone">Phone / WhatsApp</label><input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+91" required></div>
+      <div class="f"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required></div>
+      <div class="f full"><label for="notes">Anything else?</label><textarea id="notes" name="notes" placeholder="Timings, past artists, sponsor tie-ups, things that went wrong last year…"></textarea></div>
+    </div>
+    <label class="check"><input type="checkbox" name="whatsapp" checked> Send updates on WhatsApp</label>
+  </div>
+
+  <div class="q done" data-step="done">
+    <span class="kicker" style="color:var(--ok)">● Brief received</span>
+    <h1>You're in the <em class="mark">queue.</em></h1>
+    <p class="hint">Our team just got a notification. Expect a call or WhatsApp within 48 hours, usually much sooner.</p>
+    <div class="ticket" id="ticket"></div>
+    <div class="nav-row"><a class="btn primary" href="https://wa.me/918296533233" target="_blank" rel="noopener">Chat on WhatsApp now <span class="arr">→</span></a><a class="btn" href="index.html">Back to site</a></div>
+  </div>
+
+  <p class="err" role="alert" id="err"></p>
+  <div class="nav-row" id="nav">
+    <button type="button" class="btn" id="back">← Back</button>
+    <button type="submit" class="btn primary" id="next">Continue <span class="arr">→</span></button>
+    <span class="enter">or press Enter ↵</span>
+  </div>
+</form>
+
+<aside class="brief" aria-label="Your brief so far">
+  <div class="poster p-a"><div class="shape"></div><span class="tag">Your brief · live</span><h3 id="b-title">Your<br>event</h3></div>
+  <dl id="b-list"></dl>
+  <div class="foot-note"><i class="dot" style="background:var(--ok)"></i> Goes straight to the Luna Wave team</div>
+</aside>
+</div>
+</main>
+
+<script src="site.js?v=6"></script>
+<script src="artists.js?v=1"></script>
+<script>
+const form = document.getElementById("form");
+const steps = [...form.querySelectorAll(".q")];
+const inputSteps = steps.filter(s => s.dataset.step !== "done");
+const state = { needs: [], vibe: [], artists: [] };
+let i = 0;
+
+// Artist picker: any roster name or free text; ?artist=X or ?artists=A|B come from the Artists page
+const params = new URLSearchParams(location.search);
+const roster = (window.LW_ARTISTS || []).map(a => a[0]);
+document.getElementById("lw-artist-list").innerHTML = roster.map(n => `<option value="${esc(n)}">`).join("");
+state.artists = [params.get("artist"), ...(params.get("artists") || "").split("|")].filter(Boolean);
+if (state.artists.length) {
+  state.needs.push("Artist");
+  form.querySelector('[data-multi="needs"] [data-v="Artist"]').setAttribute("aria-pressed", "true");
+}
+const artistQ = document.getElementById("artist-q");
+function addArtist(v) {
+  v = v.trim(); if (!v) return;
+  const match = roster.find(n => n.toLowerCase() === v.toLowerCase()) || v;
+  if (!state.artists.includes(match)) state.artists.push(match);
+  artistQ.value = ""; renderPicked(); render();
+}
+function renderPicked() {
+  document.getElementById("picked").innerHTML = state.artists.map(n => `<button type="button" class="chip" aria-pressed="true" data-rm="${esc(n)}">${esc(n)} ×</button>`).join("");
+}
+artistQ.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); addArtist(artistQ.value); } });
+artistQ.addEventListener("change", () => { if (roster.includes(artistQ.value)) addArtist(artistQ.value); });
+document.getElementById("picked").addEventListener("click", e => {
+  const b = e.target.closest("[data-rm]"); if (!b) return;
+  state.artists = state.artists.filter(n => n !== b.dataset.rm); renderPicked(); render();
+});
+
+const progress = form.querySelector(".progress");
+progress.innerHTML = inputSteps.map(() => "<i></i>").join("");
+
+// Preselect from ?type=college etc. (service cards on the home page link here)
+const preset = { college: "College fest", concert: "Concert", corporate: "Corporate", private: "Private / wedding", brand: "Brand activation", artist: "Artist management" }[new URLSearchParams(location.search).get("type")];
+if (preset) { state.type = preset; form.querySelector(`[data-single="type"] [data-v="${preset}"]`).setAttribute("aria-pressed", "true"); }
+form.querySelectorAll("[data-single] button,[data-multi] button").forEach(b => b.setAttribute("aria-pressed", b.getAttribute("aria-pressed") || "false"));
+
+form.querySelectorAll("[data-single]").forEach(g => g.addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  g.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b));
+  state[g.dataset.single] = b.dataset.v; render();
+  if (g.dataset.single === "type") setTimeout(() => go(1), 220);
+}));
+form.querySelectorAll("[data-multi]").forEach(g => g.addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  const on = b.getAttribute("aria-pressed") !== "true";
+  b.setAttribute("aria-pressed", on);
+  const k = g.dataset.multi;
+  state[k] = on ? [...state[k], b.dataset.v] : state[k].filter(v => v !== b.dataset.v);
+  render();
+}));
+form.addEventListener("input", render);
+
+function collect() {
+  const fd = new FormData(form);
+  return { ...state, ...Object.fromEntries([...fd].filter(([, v]) => v !== "")), flexible: fd.has("flexible"), whatsapp: fd.has("whatsapp") };
+}
+function fmtDate(d) { return d ? new Date(d + "T00:00").toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }) : ""; }
+
+function render() {
+  const d = collect();
+  const rows = [
+    ["Event", d.type], ["From", [d.name, d.org].filter(Boolean).join(", ")],
+    ["When", d.date ? fmtDate(d.date) + (d.flexible ? " · flexible" : "") : ""], ["Where", [d.city, d.city && d.venue].filter(Boolean).join(" · ")],
+    ["Crowd", d.crowd], ["Budget", d.budget], ["Needs", d.needs.join(", ")], ["Vibe", d.vibe.join(", ")], ["Artists", d.artists.join(", ")]
+  ];
+  document.getElementById("b-list").innerHTML = rows.map(([k, v]) => `<dt>${k}</dt><dd class="${v ? "" : "empty"}">${v ? esc(v) : "—"}</dd>`).join("");
+  document.getElementById("b-title").innerHTML = d.org ? esc(d.org) : d.type ? esc(d.type) : "Your<br>event";
+}
+function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+
+function valid() {
+  const s = steps[i], err = document.getElementById("err");
+  let msg = "";
+  if (s.dataset.step === "type" && !state.type) msg = "Pick an event type to continue.";
+  if (s.dataset.step === "size" && (!state.crowd || !state.budget)) msg = "Pick a crowd size and a budget range.";
+  const bad = [...s.querySelectorAll("input[required]")].find(x => !x.checkValidity());
+  if (!msg && bad) { msg = `Please fill in: ${s.querySelector(`label[for="${bad.id}"]`).textContent.toLowerCase()}.`; bad.focus(); }
+  err.textContent = msg;
+  return !msg;
+}
+
+function show() {
+  steps.forEach((s, n) => s.classList.toggle("active", n === i));
+  progress.querySelectorAll("i").forEach((b, n) => b.classList.toggle("on", n <= i));
+  document.getElementById("back").style.visibility = i ? "visible" : "hidden";
+  document.getElementById("next").innerHTML = i === inputSteps.length - 1 ? 'Send brief <span class="arr">→</span>' : 'Continue <span class="arr">→</span>';
+  const first = steps[i].querySelector("input,select"); if (first && i) setTimeout(() => first.focus(), 50);
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+function go(dir) {
+  if (dir > 0 && !valid()) return;
+  document.getElementById("err").textContent = "";
+  i = Math.max(0, Math.min(inputSteps.length - 1, i + dir)); show();
+}
+document.getElementById("back").onclick = () => go(-1);
+form.addEventListener("submit", e => {
+  e.preventDefault();
+  if (i < inputSteps.length - 1) return go(1);
+  if (!valid()) return;
+  const lead = LeadStore.add(collect());
+  i = steps.length - 1; show();
+  document.getElementById("nav").hidden = true;
+  document.getElementById("ticket").innerHTML = [["Reference", lead.id], ["Event", lead.type], ["Date", fmtDate(lead.date)], ["City", lead.city], ["Reply by", new Date(Date.now() + 48 * 36e5).toLocaleString("en-IN", { weekday: "short", day: "numeric", month: "short", hour: "numeric", minute: "2-digit" })]]
+    .map(([k, v]) => `<div class="row"><span class="muted">${k}</span><b>${esc(v || "—")}</b></div>`).join("");
+});
+
+if (preset) i = 1;
+renderPicked(); render(); show();
+</script>
+</body>
+</html>

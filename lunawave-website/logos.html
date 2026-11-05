@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Luna Wave Logos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500&family=Inter+Tight:wght@500;600;700&family=Michroma&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css?v=6">
+<style>
+main{max-width:1080px;margin:auto;padding:60px 16px 90px}
+h1{font-size:clamp(36px,6vw,60px);line-height:1;margin:10px 0 14px}
+.lead{color:#C9CDD6;max-width:64ch}
+.option{margin-top:46px;border-top:1.5px solid var(--line);padding-top:20px}
+.title{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.title h2{font-size:30px}
+.pick{background:var(--moon);color:var(--night);font-weight:600;font-size:12px;padding:4px 8px}
+.why{color:var(--muted);max-width:70ch;margin:6px 0 16px}
+.boards{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.board{min-height:300px;display:grid;place-items:center;padding:30px;background:#000;color:#fff;border:1.5px solid var(--line);--logo-cut:#000}
+.board.light{background:#fff;color:#06070A;--logo-cut:#fff}
+.board.beam{background:var(--beam);color:#fff;--logo-cut:var(--beam)}
+.board>span,.board>svg{display:block;width:min(100%,420px)}
+.board .lw-logo{width:100%;height:auto;display:block}
+.orig{display:block;width:100%;max-width:420px;margin:auto}
+.icons{display:flex;gap:16px;align-items:end;flex-wrap:wrap;margin-top:12px}
+.icons figure{display:grid;justify-items:center;gap:6px;color:var(--muted);font-size:11px}
+.icon{display:grid;place-items:center;background:#000;color:#fff;border-radius:22%;border:1.5px solid var(--line);--logo-cut:#000}
+.icon.light{background:#fff;color:#000;--logo-cut:#fff}
+.icon .lw-mark{width:76%}
+.i120{width:120px;height:120px}.i60{width:60px;height:60px}.i32{width:32px;height:32px}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cmp figcaption{font-size:12px;color:var(--muted);margin-top:8px}
+@media(max-width:700px){.boards,.cmp{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main>
+  <span class="kicker">Luna Wave · logo refresh</span>
+  <h1>Same moon. <em class="glow">Louder.</em></h1>
+  <p class="lead">The original has a hairline ring that disappears on phones, stage screens and posters, and the ring runs into the letters. All three options keep your layout: the wordmark starts inside the moon and breaks out of it. The ring is about 3× thicker and now breaks cleanly around the letters.</p>
+
+  <section class="option" style="padding:20px 0 0">
+    <div class="title"><h2>Before → after</h2></div>
+    <div class="cmp" style="margin-top:14px">
+      <figure><div class="board"><svg class="lw-logo" viewBox="22 12 278 216"><circle cx="130" cy="120" r="100" fill="none" stroke="#fff" stroke-width="1.6"/><text x="90" y="130" font-family="Michroma" font-size="27" textLength="202" lengthAdjust="spacingAndGlyphs" fill="#fff">LUNA WAVE</text></svg></div><figcaption>Original: 1px ring, letters sit on the line</figcaption></figure>
+      <figure><div class="board"><span data-logo="ring"></span></div><figcaption>A: Bold Ring, chosen</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="option" style="padding-bottom:0">
+    <div class="title"><h2>A · Bold Ring</h2><span class="pick">Chosen</span></div>
+    <p class="why">Closest to what you have, so nothing in your existing posts looks off-brand. Reads at 32px and on a 40-ft LED wall.</p>
+    <div class="boards">
+      <div class="board"><span data-logo="ring"></span></div>
+      <div class="board light"><span data-logo="ring"></span></div>
+    </div>
+  </section>
+
+  <section class="option" style="padding-bottom:0">
+    <div class="title"><h2>B · Eclipse</h2></div>
+    <p class="why">Adds a lit crescent inside the ring. More "moon", more drama for posters and merch. Busier at small sizes.</p>
+    <div class="boards">
+      <div class="board"><span data-logo="eclipse"></span></div>
+      <div class="board beam"><span data-logo="eclipse"></span></div>
+    </div>
+  </section>
+
+  <section class="option" style="padding-bottom:0">
+    <div class="title"><h2>C · Full Moon</h2></div>
+    <p class="why">Solid disc; the wordmark flips colour where it leaves the moon. The strongest contrast of the three. Best for stickers, wristbands and the stage backdrop.</p>
+    <div class="boards">
+      <div class="board"><span data-logo="disc"></span></div>
+      <div class="board light"><span data-logo="disc"></span></div>
+    </div>
+  </section>
+
+  <section class="option" style="padding-bottom:0">
+    <div class="title"><h2>Icon · ring + wave</h2></div>
+    <p class="why">For Instagram profile picture, favicon and app icon, where the wordmark is too small to read. The wave cuts through the moon: Luna, Wave.</p>
+    <div class="icons">
+      <figure><div class="icon i120"><span data-logo="mark" style="display:contents"></span></div>Profile</figure>
+      <figure><div class="icon light i120"><span data-logo="mark" style="display:contents"></span></div>Light</figure>
+      <figure><div class="icon i60"><span data-logo="mark" style="display:contents"></span></div>App</figure>
+      <figure><div class="icon i32"><span data-logo="mark" style="display:contents"></span></div>Favicon</figure>
+    </div>
+  </section>
+  <p style="margin-top:40px"><a class="btn" href="index.html">← Back to site</a></p>
+</main>
+<script src="site.js?v=6"></script>
+</body>
+</html>
