@@ -27,8 +27,23 @@ export function useInstall() {
     await evt.userChoice;
     setEvt(null);
   }, [evt]);
-  const ios = typeof navigator !== "undefined" && /iphone|ipad|ipod/i.test(navigator.userAgent);
-  return { canInstall: !!evt, installed, install, ios };
+  const [platform, setPlatform] = useState<InstallPlatform>("other");
+  useEffect(() => setPlatform(installPlatform(navigator)), []);
+  return { canInstall: !!evt, installed, install, platform, ios: platform === "ios" || platform === "ios-inapp" };
+}
+
+/**
+ * How this browser installs a web app. Apple has no install prompt: iPhone and iPad use Share → Add to Home Screen,
+ * Mac Safari uses File → Add to Dock, and the browsers built into Instagram, Facebook and similar apps can't install at all.
+ */
+export type InstallPlatform = "ios" | "ios-inapp" | "mac-safari" | "other";
+export function installPlatform(nav: Pick<Navigator, "userAgent" | "maxTouchPoints">): InstallPlatform {
+  const ua = nav.userAgent;
+  // iPadOS reports itself as a Mac; a touch screen gives it away
+  const ios = /iphone|ipad|ipod/i.test(ua) || (/macintosh/i.test(ua) && nav.maxTouchPoints > 1);
+  if (ios) return /FBAN|FBAV|Instagram|LinkedInApp|Snapchat|Line\/|GSA\/|Twitter|musical_ly|Pinterest/i.test(ua) ? "ios-inapp" : "ios";
+  if (/macintosh/i.test(ua) && /safari/i.test(ua) && !/chrome|chromium|crios|edg|firefox|opr\//i.test(ua)) return "mac-safari";
+  return "other";
 }
 
 export function useOnline() {

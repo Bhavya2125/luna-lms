@@ -475,6 +475,12 @@ a.ig:hover {
   gap: 12px;
   flex-wrap: wrap;
 }
+.steps-list {
+  margin: 4px 0 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 2px;
+}
 
 /* forms */
 .fl {
