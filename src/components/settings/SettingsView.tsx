@@ -1,4 +1,5 @@
 "use client";
+import { InstallSteps } from "../InstallBanner";
 import { useEffect, useState } from "react";
 import useSWR, { useSWRConfig } from "swr";
 import { fetcher, patch, post } from "@/lib/client";
@@ -129,7 +130,10 @@ function Notifications() {
       ) : inst.canInstall ? (
         <button onClick={inst.install}>Install Luna Wave</button>
       ) : (
-        <p className="sub" style={{ margin: 0 }}>{inst.ios ? "To install: tap Share, then Add to Home Screen." : "To install: use your browser's Install or Add to Home Screen option."}</p>
+        <div>
+          <b>Install Luna Wave</b>
+          <InstallSteps platform={inst.platform} />
+        </div>
       )}
     </div>
   );
