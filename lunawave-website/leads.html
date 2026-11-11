@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Luna Wave Leads</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500&family=Inter+Tight:wght@500;600;700&family=Michroma&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="site.css?v=6">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@500;600;700&family=Michroma&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css?v=32">
 <style>
 .bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:120px 0 22px}
 .bar h1{font-size:clamp(34px,5vw,56px);line-height:1}
@@ -50,7 +50,8 @@
 </main>
 <div class="toast" id="toast" role="status"></div>
 
-<script src="site.js?v=6"></script>
+<script src="config.js?v=1"></script>
+<script src="site.js?v=24"></script>
 <script>
 if (!LeadStore.all().length) LeadStore.save([
   { id: "LW-DEMO3", at: new Date(Date.now() - 36e5 * 3).toISOString(), status: "new", type: "College fest", name: "Ananya R", org: "St. Joseph's College", role: "Cultural secretary", date: "2027-02-14", city: "Bengaluru", venue: "Open-air / ground", crowd: "1,000–5,000", budget: "₹5–15L", needs: ["Artist", "Sound & light", "Sponsors"], vibe: ["Bollywood", "EDM"], phone: "+91 90000 00001", email: "fest@example.com" },

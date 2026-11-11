@@ -30,3 +30,17 @@ plus an optional WhatsApp/Telegram alert to the founders' phones.
 - `artists.html`: the roster (143 artists, 4 tiers, 12 genres) with search, filters and a shortlist that opens the enquiry form with those artists filled in.
 - The list lives in `data/artists.json` at the repo root. The app loads the same file into its Roster once per database (`artist-roster-2026-11` in `src/db/dataImports.ts`).
 - After editing the list, run `node lunawave-website/sync-artists.mjs` from the repo root to refresh `artists.js` for the site. For the app, add a new data-set entry with a new name so existing databases pick up the additions.
+
+## How booking requests reach the team
+`enquire.html` asks different questions per event type (college fest, concert, corporate, private,
+brand, artist) and POSTs the finished brief to `/api/enquiry` (`api/enquiry.js`), which emails it
+through Resend. Set these in Vercel → Settings → Environment Variables:
+- `RESEND_API_KEY`: from resend.com
+- `LEADS_TO`: the team inbox (comma-separate for several)
+- `LEADS_FROM`: `Luna Wave Bookings <onboarding@resend.dev>` (only delivers to the Resend account's own
+  email) or a sender on a domain verified in Resend.
+
+If email isn't set up or fails (or when running locally with `python -m http.server`), the form falls
+back to WhatsApp (+91 82965 33233) with the brief written out, then an Instagram DM. Contact details
+live in `config.js`; add a public booking email there when there is one. `privacy.html` and
+`terms.html` are linked from the form.

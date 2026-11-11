@@ -5,21 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Artists — Luna Wave</title>
 <meta name="description" content="Book artists for college fests, concerts, corporate and private events across India.">
-<meta name="theme-color" content="#000000">
+<meta name="theme-color" content="#060418">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500&family=Inter+Tight:wght@500;600;700&family=Michroma&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="site.css?v=6">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@500;600;700&family=Michroma&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css?v=32">
 <style>
 .a-hero{padding:150px 0 40px}
 .a-hero h1{font-size:clamp(72px,14vw,220px);line-height:.82;letter-spacing:-.045em}
 .a-hero .sub{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-top:28px}
 .a-hero .sub p{max-width:44ch;color:var(--muted)}
-.tools{position:sticky;top:76px;z-index:30;background:#000000E6;backdrop-filter:blur(14px);border-block:1px solid var(--line);padding:14px 0}
+.tools{position:sticky;top:76px;z-index:30;background:#060418E6;backdrop-filter:blur(14px);border-block:1px solid var(--line);padding:14px 0}
 .tools .wrap{display:grid;gap:12px}
 .search{display:flex;align-items:center;gap:12px}
-.search input{flex:1;background:none;border:0;border-bottom:1px solid #333;padding:8px 0;font:400 clamp(24px,3vw,34px) var(--serif);min-width:0}
+.search input{flex:1;background:none;border:0;border-bottom:1px solid #332C7A;padding:8px 0;font:400 clamp(24px,3vw,34px) var(--serif);min-width:0}
 .search input:focus{outline:none;border-color:var(--moon)}
-.search input::placeholder{color:#555;font-style:italic}
+.search input::placeholder{color:#5A608A;font-style:italic}
 .count{font:400 10.5px var(--wide);letter-spacing:.14em;color:var(--muted);white-space:nowrap}
 .chips-row{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
 .chips-row::-webkit-scrollbar{display:none}
@@ -29,7 +29,7 @@
 .tier-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px;border-top:1px solid var(--line);padding-top:16px;margin-bottom:24px}
 .tier-head h2{font-size:clamp(34px,4vw,56px)}
 .names{list-style:none;padding:0;columns:3 280px;column-gap:clamp(24px,4vw,60px)}
-.names li{break-inside:avoid;border-bottom:1px solid #161616}
+.names li{break-inside:avoid;border-bottom:1px solid #1C1748}
 .names li[hidden]{display:none}
 .artist{display:grid;grid-template-columns:1fr auto;align-items:center;gap:10px;padding:14px 0}
 .artist a{text-decoration:none;display:block;min-width:0}
@@ -38,14 +38,25 @@
 .artist a:hover b{font-style:italic;transform:translateX(6px)}
 .add{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:none;cursor:pointer;font-size:18px;line-height:1;transition:background .3s,color .3s,border-color .3s,transform .4s var(--ease)}
 .add:hover{border-color:var(--moon)}
-.add[aria-pressed="true"]{background:var(--moon);color:#000;border-color:var(--moon);transform:rotate(45deg)}
+.add[aria-pressed="true"]{background:var(--moon);color:var(--night);border-color:var(--moon);transform:rotate(45deg)}
 .empty{padding:80px 0;text-align:center;color:var(--muted);font:italic 400 28px var(--serif)}
-.shortlist{position:fixed;left:50%;bottom:18px;z-index:70;transform:translate(-50%,160%);transition:transform .5s var(--ease);background:var(--moon);color:#000;border-radius:999px;padding:8px 8px 8px 22px;display:flex;align-items:center;gap:16px;box-shadow:0 20px 60px #000a;max-width:calc(100% - 32px)}
+.shortlist{position:fixed;left:50%;bottom:18px;z-index:70;transform:translate(-50%,160%);transition:transform .5s var(--ease);background:var(--moon);color:var(--night);border-radius:999px;padding:8px 8px 8px 22px;display:flex;align-items:center;gap:16px;box-shadow:0 20px 60px #000a;max-width:calc(100% - 32px)}
 .shortlist.open{transform:translate(-50%,0)}
 .shortlist span{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.shortlist .btn{background:#000;color:var(--moon);border-color:#000;min-height:44px;flex:none}
+.shortlist .btn{background:var(--night);color:var(--moon);border-color:var(--night);min-height:44px;flex:none}
 .shortlist .btn:before{background:var(--moon)}
-.shortlist .btn:hover{color:#000}
+.shortlist .btn:hover{color:var(--night)}
+.a-btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:34px}
+.stages{padding:30px 0 50px}
+.stage-row{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:6px clamp(16px,4vw,48px) 10px}
+.stage-row::-webkit-scrollbar{display:none}
+.stage-row a{flex:none;width:clamp(170px,17vw,230px);scroll-snap-align:start;text-decoration:none;color:var(--ink);border-radius:16px;overflow:hidden;position:relative;aspect-ratio:4/5;
+  border:1px solid transparent;background:linear-gradient(var(--panel),var(--panel)) padding-box,linear-gradient(140deg,#C3A6FFAA,#8A4DFF40 40%,#1FF2D866) border-box;transition:transform .5s var(--ease),box-shadow .5s}
+.stage-row a:hover{transform:translateY(-6px);box-shadow:0 20px 50px -20px #8A4DFFAA}
+.stage-row img{width:100%;height:100%;object-fit:cover;display:block}
+.stage-row span{position:absolute;left:0;right:0;bottom:0;padding:36px 12px 12px;background:linear-gradient(#06041800,#060418F0)}
+.stage-row small{display:block;font:500 9.5px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#C9C6F0}
+.stage-row b{display:block;font:400 22px/1 var(--serif);margin-top:4px}
 .note{margin-top:70px;color:var(--muted);font-size:13px;max-width:70ch}
 </style>
 </head>
@@ -54,10 +65,12 @@
   <div class="wrap">
     <a class="brand" href="index.html" aria-label="Luna Wave home"><span data-logo="compact"></span></a>
     <nav class="nav" aria-label="Main">
-      <a href="index.html#services">Services</a>
+      <a href="index.html#campuses">Campuses</a>
+      <a href="index.html#orbit">Headliners</a>
+      <a href="index.html#planets">Events</a>
       <a href="artists.html" aria-current="page" style="color:var(--ink)">Artists</a>
-      <a href="index.html#shows">Shows</a>
-      <a href="index.html#instagram">Instagram</a>
+      <a href="index.html#log">Mission log</a>
+      <a href="index.html#process">How it works</a>
       <a class="btn" href="enquire.html">Plan an event <span class="arr">→</span></a>
     </nav>
     <button class="menu-btn" aria-expanded="false">Menu</button>
@@ -70,13 +83,23 @@
       <span class="label">Artist booking</span>
       <h1 style="margin-top:18px">The <em>roster.</em></h1>
       <div class="sub">
-        <p>Headliners to the next big thing. Shortlist the acts you want with <b style="color:var(--ink)">+</b> and we'll come back with availability and full costs within 48 hours.</p>
+        <p>Headliners to the next big thing. Shortlist the acts you want with <b style="color:var(--ink)">+</b> and we'll come back with availability and full costs within 6 hours.</p>
         <span class="count" id="total"></span>
+      </div>
+      <div class="a-btns">
+        <a class="btn primary" href="#shortlist">Start a shortlist <span class="arr">+</span></a>
+        <a class="btn" href="enquire.html">Not sure who? Send a brief <span class="arr">→</span></a>
+        <a class="btn" href="tel:+918296533233">Call +91 82965 33233</a>
       </div>
     </div>
   </section>
 
-  <div class="tools">
+  <section class="stages" aria-label="On our stages lately">
+    <div class="wrap"><div class="stop-top"><span class="mono">On our stages lately</span><a class="mono" href="https://www.instagram.com/luna.wave_ind/" target="_blank" rel="noopener">@luna.wave_ind ↗</a></div></div>
+    <div class="stage-row" id="stages"></div>
+  </section>
+
+  <div class="tools" id="shortlist">
     <div class="wrap">
       <div class="search"><input id="q" type="search" placeholder="Search an artist…" aria-label="Search artists" autocomplete="off"><span class="count" id="shown"></span></div>
       <div class="chips-row" id="tiers" role="group" aria-label="Filter by tier"></div>
@@ -99,8 +122,10 @@
   </div>
 </footer>
 
-<script src="site.js?v=6"></script>
-<script src="artists.js?v=1"></script>
+<script src="config.js?v=1"></script>
+<script src="site.js?v=24"></script>
+<script src="artists.js?v=3"></script>
+<script src="posters.js?v=3"></script>
 <script>
 const TIERS = { 1: "Headliners", 2: "Fest favourites", 3: "Regional & rising", 4: "New on our stages" };
 const all = window.LW_ARTISTS.map(([name, genre, tier]) => ({ name, genre, tier }));
@@ -122,6 +147,10 @@ document.getElementById("list").innerHTML = Object.entries(TIERS).map(([t, label
       <a href="enquire.html?artist=${encodeURIComponent(a.name)}"><b>${esc(a.name)}</b><small>${esc(a.genre)}</small></a>
       <button class="add" data-add="${esc(a.name)}" aria-label="Shortlist ${esc(a.name)}" aria-pressed="false">+</button></div></li>`).join("")}</ul></section>`;
 }).join("");
+
+// Posters from our recent shows
+const IG = "https://www.instagram.com/luna.wave_ind/";
+document.getElementById("stages").innerHTML = (window.LW_POSTERS || []).map(p => `<a href="${esc(p[6] || IG)}" target="_blank" rel="noopener"><img src="${esc(p[2])}" alt="${esc(p[0])}, ${esc(p[1])}" loading="lazy"><span><small>${esc(p[4])} · ${esc(p[5])}</small><b>${esc(p[0])}</b></span></a>`).join("");
 
 function apply() {
   let shown = 0;
@@ -161,6 +190,10 @@ document.getElementById("list").addEventListener("click", e => {
   syncPicked();
 });
 apply(); syncPicked();
+// Deep link from the home page: artists.html?genre=Punjabi
+const g0 = new URLSearchParams(location.search).get("genre");
+const gb = g0 && [...document.querySelectorAll("[data-genre]")].find(b => b.dataset.genre === g0);
+if (gb) { gb.click(); gb.scrollIntoView({ inline: "center", block: "nearest" }); document.getElementById("shortlist").scrollIntoView(); }
 </script>
 </body>
 </html>
