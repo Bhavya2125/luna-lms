@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Book a Show | Mo Entertainments</title>
+<meta name="description" content="Tell us about your college fest, concert, corporate or private event and get artist options and full costs from Mo Entertainments within 12 hours.">
+<link rel="canonical" href="https://moentertainments.com/enquire.html">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Mo Entertainments">
+<meta property="og:locale" content="en_IN">
+<meta property="og:url" content="https://moentertainments.com/enquire.html">
+<meta property="og:title" content="Book a Show | Mo Entertainments">
+<meta property="og:description" content="Tell us about your college fest, concert, corporate or private event and get artist options and full costs from Mo Entertainments within 12 hours.">
+<meta property="og:image" content="https://moentertainments.com/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Book a Show | Mo Entertainments">
+<meta name="twitter:description" content="Tell us about your college fest, concert, corporate or private event and get artist options and full costs from Mo Entertainments within 12 hours.">
+<meta name="twitter:image" content="https://moentertainments.com/img/og.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600&family=Montserrat:wght@600;700;800&family=Mr+Dafoe&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css?v=11">
+<style>
+.page{display:grid;grid-template-columns:1fr 380px;gap:48px;padding:130px 0 90px;align-items:start}
+.progress{display:flex;gap:6px;margin-bottom:34px}
+.progress i{flex:1;height:2px;background:var(--line);transition:background .3s}
+.progress i.on{background:var(--moon)}
+.q{display:none;animation:in .35s ease-out}
+.q.active{display:block}
+@keyframes in{from{opacity:0;transform:translateY(16px)}}
+.q h1{font-size:clamp(44px,6vw,88px);line-height:.95;margin:16px 0 14px;max-width:14ch}
+.q .hint{color:var(--muted);margin-bottom:28px;max-width:52ch}
+.types{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.type{position:relative;border:1px solid var(--line);border-radius:18px;background:var(--panel);padding:18px;text-align:left;min-height:130px;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;transition:border-color .2s,transform .15s}
+.type:hover{transform:translateY(-2px);border-color:var(--muted)}
+.type b{font:400 28px/1 var(--serif)}
+.type small{color:var(--muted);font-size:12px}
+.type[aria-pressed="true"]{border-color:var(--moon);background:var(--moon);color:var(--night)}
+.type[aria-pressed="true"] small{color:#3A3F4C}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips .chip{min-height:46px;padding:10px 16px;font-size:13px}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.f{display:grid;gap:7px}
+.f.full{grid-column:1/-1}
+.f label{font:400 10px var(--wide);text-transform:uppercase;letter-spacing:.14em;color:var(--muted)}
+.f input,.f select,.f textarea{background:transparent;border:0;border-bottom:1px solid #333;padding:12px 0;font-size:20px;min-height:52px;border-radius:0;width:100%}
+.f input:focus,.f select:focus,.f textarea:focus{outline:none;border-color:var(--moon)}
+.f textarea{min-height:110px;resize:vertical}
+.group{margin-bottom:26px}
+.group>span{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:10px}
+.check{display:flex;gap:10px;align-items:center;font-size:14px;margin-top:6px}
+.check input{width:20px;height:20px;accent-color:var(--beam)}
+.nav-row{display:flex;align-items:center;gap:14px;margin-top:34px;flex-wrap:wrap}
+.nav-row[hidden]{display:none}
+.nav-row .enter{font-size:12px;color:var(--muted)}
+.err{color:var(--hot);font-size:13px;min-height:20px;margin-top:10px}
+/* Live brief card */
+.brief{position:sticky;top:110px;border:1px solid var(--line);border-radius:20px;overflow:hidden;background:var(--panel)}
+.brief .poster{min-height:200px}
+.brief .poster h3{font-size:46px}
+.brief dl{display:grid;grid-template-columns:auto 1fr;font-size:13px}
+.brief dt,.brief dd{padding:10px 14px;border-top:1px solid var(--line)}
+.brief dt{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding-right:4px}
+.brief dd{text-align:right;font-weight:600}
+.brief dd.empty{color:#4A4F5C;font-weight:400}
+.brief .foot-note{padding:12px 14px;border-top:1.5px solid var(--line);font-size:12px;color:var(--muted);display:flex;gap:8px;align-items:center}
+/* Done */
+.done{text-align:left}
+.done .ticket{border:1.5px solid var(--line);background:var(--panel);margin:24px 0;max-width:520px}
+.done .ticket .row{display:flex;justify-content:space-between;padding:12px 16px;border-top:1px solid var(--line);font-size:13px}
+.done .ticket .row:first-child{border:0}
+@media(max-width:980px){.page{grid-template-columns:1fr}.brief{position:static}}
+@media(max-width:640px){.types{grid-template-columns:1fr 1fr}.fields{grid-template-columns:1fr}.type{min-height:110px}.type b{font-size:18px}}
+.picked{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px}
+.picked:empty{display:none}
+.roster-pick{max-height:300px;overflow-y:auto;border:1px solid var(--line);border-radius:16px;padding:6px 14px 14px;margin:8px 0 6px;scrollbar-width:thin}
+.roster-pick h4{font:400 10px var(--wide);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:12px 0 8px}
+.roster-pick .chips{gap:6px}
+.roster-pick .chip{min-height:34px;padding:6px 12px;font-size:12.5px}
+#venue-f[hidden],#date-f[hidden],#flex-l[hidden],#artist-block[hidden]{display:none}
+.consent{font-size:12.5px;color:var(--muted);margin-top:14px;max-width:60ch}.consent a{color:var(--ink);text-decoration:underline}
+.roster-pick .none{color:var(--muted);font-size:13px;padding-top:12px}
+</style>
+</head>
+<body>
+<header class="top always">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="Mo Entertainments home"><span data-logo="compact"></span></a>
+    <a class="btn" href="index.html" style="min-height:40px;padding:8px 14px">← Site</a>
+  </div>
+</header>
+
+<main class="wrap">
+<div class="page">
+<form id="form" novalidate>
+  <div class="progress" aria-hidden="true"></div>
+
+  <div class="q" data-step="type">
+    <span class="kicker">Step 1 of 6 · About 2 minutes</span>
+    <h1>What are we <em class="glow">putting on?</em></h1>
+    <p class="hint">Pick the closest one. We read every brief, and a real person replies within 12 hours.</p>
+    <div class="types" data-single="type">
+      <button type="button" class="type" data-v="College fest"><small>01</small><b>College fest</b><small>Pro-night, freshers, alumni</small></button>
+      <button type="button" class="type" data-v="Concert"><small>02</small><b>Concert</b><small>Ticketed or club gig</small></button>
+      <button type="button" class="type" data-v="Corporate"><small>03</small><b>Corporate</b><small>Annual day, launch, offsite</small></button>
+      <button type="button" class="type" data-v="Private / wedding"><small>04</small><b>Private & wedding</b><small>Sangeet, reception, party</small></button>
+      <button type="button" class="type" data-v="Brand activation"><small>05</small><b>Brand campaign</b><small>Campus, influencers</small></button>
+      <button type="button" class="type" data-v="Artist management"><small>06</small><b>I'm an artist</b><small>Get booked or managed</small></button>
+    </div>
+  </div>
+
+  <div class="q" data-step="who">
+    <span class="kicker">Step 2 of 6</span>
+    <h1 data-h></h1>
+    <p class="hint" data-hint></p>
+    <div class="fields">
+      <div class="f"><label for="name">Your name</label><input id="name" name="name" autocomplete="name" required></div>
+      <div class="f"><label for="org" id="org-l">College / company</label><input id="org" name="org" autocomplete="organization" required></div>
+      <div class="f full"><label for="role" id="role-l">Your role</label><input id="role" name="role"></div>
+      <div class="x-fields" style="display:contents"></div>
+    </div>
+  </div>
+
+  <div class="q" data-step="when">
+    <span class="kicker">Step 3 of 6</span>
+    <h1 data-h></h1>
+    <p class="hint" data-hint></p>
+    <div class="fields">
+      <div class="f" id="date-f"><label for="date" id="date-l">Event date</label><input id="date" name="date" type="date" required></div>
+      <div class="f"><label for="city" id="city-l">City</label><input id="city" name="city" list="cities" required><datalist id="cities"><option>Bengaluru</option><option>Guwahati</option><option>Mangaluru</option><option>Chennai</option><option>Hyderabad</option><option>Kochi</option><option>Mysuru</option><option>Mumbai</option><option>Delhi NCR</option><option>Pune</option></datalist></div>
+      <div class="f full" id="venue-f"><label for="venue">Venue</label><select id="venue" name="venue"></select></div>
+    </div>
+    <label class="check" id="flex-l"><input type="checkbox" name="flexible"> Date is flexible</label>
+    <div class="x-groups" style="margin-top:26px"></div>
+  </div>
+
+  <div class="q" data-step="size">
+    <span class="kicker">Step 4 of 6</span>
+    <h1 data-h></h1>
+    <p class="hint" data-hint></p>
+    <div class="x-groups"></div>
+  </div>
+
+  <div class="q" data-step="needs">
+    <span class="kicker">Step 5 of 6</span>
+    <h1 data-h></h1>
+    <p class="hint" data-hint></p>
+    <div class="x-groups"></div>
+    <div class="f" id="artist-block"><label for="artist-q" id="artist-l">Artists you want (optional)</label>
+      <input id="artist-q" list="lw-artist-list" placeholder="Type a name, press Enter" autocomplete="off"><datalist id="lw-artist-list"></datalist>
+      <div class="picked" id="picked"></div>
+      <div class="roster-pick" id="roster-pick" role="group" aria-label="Pick artists"></div>
+      <a class="muted" href="artists.html" style="font-size:13px">Open the full roster page →</a>
+    </div>
+  </div>
+
+  <div class="q" data-step="contact">
+    <span class="kicker">Step 6 of 6</span>
+    <h1 data-h></h1>
+    <p class="hint" data-hint></p>
+    <div class="fields">
+      <div class="f"><label for="phone">Phone / WhatsApp</label><input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+91" required></div>
+      <div class="f"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required></div>
+      <div class="f full"><label for="notes">Anything else?</label><textarea id="notes" name="notes"></textarea></div>
+    </div>
+    <label class="check"><input type="checkbox" name="whatsapp" checked> Send updates on WhatsApp</label>
+    <p class="consent">By sending, you agree to our <a href="terms.html" target="_blank">Terms</a> and to us using your details as described in our <a href="privacy.html" target="_blank">Privacy Policy</a>.</p>
+    <input class="trap" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+  </div>
+
+  <div class="q done" data-step="done">
+    <span class="kicker" style="color:var(--ok)">● Brief ready</span>
+    <h1 id="done-title">Last step: <em class="mark">hit send.</em></h1>
+    <p class="hint" id="done-hint"></p>
+    <div class="ticket" id="ticket"></div>
+    <div class="nav-row"><a class="btn primary" id="send-again" target="_blank" rel="noopener"></a><button type="button" class="btn" id="copy-brief">Copy brief</button><a class="btn" href="index.html">Back to site</a></div>
+    <p class="hint" id="done-alt" hidden></p>
+  </div>
+
+  <p class="err" role="alert" id="err"></p>
+  <div class="nav-row" id="nav">
+    <button type="button" class="btn" id="back">← Back</button>
+    <button type="submit" class="btn primary" id="next">Continue <span class="arr">→</span></button>
+    <span class="enter">or press Enter ↵</span>
+  </div>
+</form>
+
+<aside class="brief" aria-label="Your brief so far">
+  <div class="poster p-a"><div class="shape"></div><span class="tag">Your brief · live</span><h3 id="b-title">Your<br>event</h3></div>
+  <dl id="b-list"></dl>
+  <div class="foot-note"><i class="dot" style="background:var(--ok)"></i> Goes straight to the Mo Entertainments team</div>
+</aside>
+</div>
+</main>
+
+<script src="config.js?v=3"></script>
+<script src="site.js?v=4"></script>
+<script src="artists.js?v=1"></script>
+<script src="featured.js?v=3"></script>
+<script>
+const form = document.getElementById("form");
+const steps = [...form.querySelectorAll(".q")];
+const inputSteps = steps.filter(s => s.dataset.step !== "done");
+const state = { needs: [], vibe: [], artists: [] };
+let i = 0;
+
+// Each event type asks its own questions. A flow overrides the defaults step by step:
+// h1/hint text, field labels, venue options, and chip groups G(key, label, options, multi).
+const G = (k, l, o, multi) => ({ k, l, o, multi: !!multi });
+const BUDGET = ["Under ₹2L", "₹2–5L", "₹5–15L", "₹15–50L", "₹50L+", "Not sure yet"];
+const VIBES = ["Bollywood", "EDM / DJ", "Indie", "Rock", "Hip-hop", "Regional", "Comedy", "Sufi / fusion"];
+const REQUIRED = new Set(["crowd", "budget", "reach", "shows", "fee"]); // chip groups you must answer
+const DEF = {
+  who: { h1: 'Who\'s <em class="glow">asking?</em>', hint: "So we know who to call back.", org: ["College / company", ""], role: ["Your role", ""], extra: [] },
+  when: { h1: 'When and <em class="glow">where?</em>', hint: 'Not fixed yet? Pick a rough date and tick "flexible".', date: "Event date", city: ["City", ""], venue: ["Open-air / ground", "Auditorium", "Club / bar", "Hotel ballroom", "Not decided"], groups: [] },
+  size: { h1: 'How big is <em class="glow">the night?</em>', hint: "A rough range is fine. It helps us suggest artists you can actually afford.", groups: [] },
+  needs: { h1: 'What do you <em class="glow">need?</em>', hint: "Pick everything that applies.", groups: [], artists: "Artists you want (optional)" },
+  contact: { h1: 'Where do we <em class="glow">send options?</em>', hint: "We'll reply with a shortlist and full costs within 12 hours.", notes: "Timings, past artists, anything we should know…" },
+};
+const FLOWS = {
+  "College fest": {
+    who: { org: ["College", "e.g. NITK Surathkal"], role: ["Your role", "Cultural secretary, fest head, student council…"], extra: [["fest", "Fest name", "e.g. Incident 2027"]] },
+    when: { h1: 'When\'s <em class="glow">the fest?</em>', date: "Fest date", venue: ["Open-air / ground", "Auditorium", "Indoor stadium", "Not decided"],
+      groups: [G("slot", "Which night?", ["Pro-night", "Fest day", "Freshers", "Farewell", "Alumni meet"])] },
+    size: { groups: [G("crowd", "Expected footfall", ["Under 1,000", "1,000–3,000", "3,000–10,000", "10,000+"]), G("budget", "Artist + production budget", BUDGET), G("sponsors", "Sponsors", ["Already have some", "Need help finding them", "Not needed"])] },
+    needs: { groups: [G("needs", "Services", ["Artist / act", "Sound & light", "Stage & LED", "Host / emcee", "Sponsorship help", "Ticketing & passes", "Photo & video", "Security & crowd"], 1), G("vibe", "Vibe", VIBES, 1)] },
+    contact: { notes: "Timings, past artists, sponsor tie-ups, what went wrong last year…" },
+  },
+  "Concert": {
+    who: { org: ["Promoter / venue", "Your company or venue"], role: ["Your role", "Promoter, venue manager, organiser…"], extra: [["show", "Show / tour name", "If it has one"]] },
+    when: { date: "Show date", venue: ["Club / bar", "Auditorium / theatre", "Open-air / arena", "Not decided"], groups: [G("entry", "Entry", ["Ticketed", "Free entry", "Invite-only"])] },
+    size: { groups: [G("crowd", "Capacity", ["Under 300", "300–1,000", "1,000–5,000", "5,000+"]), G("budget", "Artist + production budget", BUDGET), G("tickets", "Ticket price", ["Under ₹500", "₹500–1,500", "₹1,500–5,000", "₹5,000+", "Not set"])] },
+    needs: { groups: [G("needs", "Services", ["Artist / act", "Sound & light", "Stage & LED", "Ticketing", "Promotion", "Hospitality & travel", "Photo & video", "Security & crowd"], 1), G("vibe", "Vibe", VIBES, 1)] },
+    contact: { notes: "Set length, opener needed, ticketing partner, past shows at the venue…" },
+  },
+  "Corporate": {
+    who: { org: ["Company", "Your company"], role: ["Your role", "HR lead, events manager, EA…"] },
+    when: { venue: ["Hotel ballroom", "Office / campus", "Resort / offsite", "Open-air", "Not decided"],
+      groups: [G("occasion", "Occasion", ["Annual day", "Product launch", "Offsite", "Award night", "Festive party", "Conference"]), G("audience", "Audience", ["Employees", "Clients / partners", "Employees & families", "Mixed"])] },
+    size: { h1: 'How big is <em class="glow">the event?</em>', hint: "A rough range is fine. It helps us plan the right scale.",
+      groups: [G("crowd", "Guests", ["Under 100", "100–500", "500–2,000", "2,000+"]), G("budget", "Budget", BUDGET), G("billing", "Billing", ["GST invoice", "Vendor registration / PO", "Advance payment OK"], 1)] },
+    needs: { groups: [G("needs", "Services", ["Artist / act", "Host / emcee", "Sound & light", "Stage & LED", "Décor & theme", "Team activities", "Photo & video", "Full event management"], 1),
+      G("vibe", "Tone", ["Clean & family-friendly", "Bollywood", "Live band", "DJ / party", "Comedy", "Sufi / fusion", "Regional", "Instrumental / lounge"], 1)] },
+    contact: { notes: "Agenda, dress code, brand guidelines, approvals needed…" },
+  },
+  "Private / wedding": {
+    who: { org: ["Whose event?", "e.g. Riya & Arjun's wedding"], role: ["You are", "Bride, groom, family, planner…"] },
+    when: { h1: 'When\'s the <em class="glow">big day?</em>', date: "Main function date", venue: ["Hotel / banquet", "Farmhouse / lawn", "Destination venue", "Home", "Not decided"],
+      groups: [G("functions", "Functions", ["Sangeet", "Mehendi / Haldi", "Cocktail", "Reception", "Birthday", "Anniversary"], 1)] },
+    size: { h1: 'How big is <em class="glow">the party?</em>', hint: "A rough range is fine.", groups: [G("crowd", "Guests", ["Under 100", "100–300", "300–1,000", "1,000+"]), G("budget", "Budget", BUDGET)] },
+    needs: { groups: [G("needs", "Services", ["Artist / act", "DJ", "Sound & light", "Choreography", "Host / anchor", "Décor", "Photo & video", "Full planning"], 1),
+      G("vibe", "Vibe", ["Bollywood", "Punjabi", "Sufi / ghazal", "Live band", "DJ / party", "Regional", "Western", "Comedy"], 1)] },
+    contact: { notes: "Each function's timings, the families' taste, surprises you're planning…" },
+  },
+  "Brand activation": {
+    who: { org: ["Brand / agency", "Your brand or agency"], role: ["Your role", "Brand manager, agency lead, founder…"], extra: [["product", "Product / campaign", "What are you promoting?"]] },
+    when: { hint: "Rough dates are fine.", date: "Campaign starts", city: ["Cities / campuses", "e.g. Bengaluru, Pune"], venue: null,
+      groups: [G("campaign", "Campaign type", ["Campus tour", "Fest sponsorship", "Influencer content", "Stalls & sampling", "Launch event", "Artist collab"], 1)] },
+    size: { h1: 'How big is <em class="glow">the push?</em>', hint: "A rough range is fine.",
+      groups: [G("reach", "Reach", ["1 campus / city", "2–5", "5–20", "20+"]), G("budget", "Budget", BUDGET), G("audience", "Target audience", ["College students", "Young professionals", "Families", "Everyone"])] },
+    needs: { h1: 'What should <em class="glow">we handle?</em>', groups: [G("needs", "Services", ["Fest & campus access", "Artist / ambassador", "Influencers", "Content & shoots", "On-ground team", "Stalls & branding", "Reporting & ROI"], 1),
+      G("vibe", "Brand tone", ["Youthful", "Premium", "Fun / quirky", "Music-led", "Sporty", "Regional"], 1)], artists: "Artists or creators you like (optional)" },
+    contact: { hint: "We'll reply with a plan and costs within 12 hours.", notes: "KPIs, deliverables, brand guidelines, dates you can't move…" },
+  },
+  "Artist management": {
+    who: { h1: 'Tell us about <em class="glow">your act.</em>', hint: "We're always looking for new acts for our stages.", org: ["Act / stage name", "Solo name, band or DJ alias"], role: ["You are", "Singer, band, DJ, comic, rapper…"],
+      extra: [["links", "Instagram / Spotify / YouTube", "Paste your best links", true]] },
+    when: { h1: 'Where are <em class="glow">you based?</em>', hint: "So we know which stages and cities fit.", date: null, city: ["Based in", ""], venue: null,
+      groups: [G("travel", "Can travel to", ["Anywhere in India", "South India", "North-East", "My state only"])] },
+    size: { h1: 'Where are <em class="glow">you at?</em>', hint: "Honest numbers help us pitch you to the right stages.",
+      groups: [G("shows", "Shows in the last year", ["0–5", "5–20", "20–50", "50+"]), G("fee", "Your usual fee", ["Under ₹25k", "₹25k–1L", "₹1–5L", "₹5L+", "Not sure"])] },
+    needs: { h1: 'What do you <em class="glow">want from us?</em>', groups: [G("wants", "Looking for", ["College fest gigs", "Corporate & private gigs", "Full management", "Tours", "Brand deals", "Release & PR"], 1),
+      G("vibe", "Your sound", VIBES, 1)], artists: null },
+    contact: { h1: 'Where do we <em class="glow">reach you?</em>', hint: "We listen to every act that writes in, and reply if there's a fit.", notes: "Best tracks, past shows, who manages you now…" },
+  },
+};
+let flow = null;
+const part = step => ({ ...DEF[step], ...(flow || FLOWS["College fest"])[step] });
+const $id = id => document.getElementById(id);
+function groupHTML(g) {
+  return `<div class="group"><span>${esc(g.l)}</span><div class="chips" ${g.multi ? "data-multi" : "data-single"}="${g.k}">${g.o.map(v => `<button type="button" class="chip" data-v="${esc(v)}" aria-pressed="false">${esc(v)}</button>`).join("")}</div></div>`;
+}
+function applyFlow() {
+  const F = FLOWS[state.type] || FLOWS["College fest"];
+  if (flow === F) return;
+  flow = F;
+  for (const k of Object.keys(state)) if (k !== "type" && k !== "artists") delete state[k];
+  state.needs = []; state.vibe = [];
+  steps.forEach(s => {
+    if (!DEF[s.dataset.step]) return;
+    const d = part(s.dataset.step), h = s.querySelector("[data-h]"), hint = s.querySelector("[data-hint]"), xg = s.querySelector(".x-groups");
+    if (h) h.innerHTML = d.h1;
+    if (hint) hint.textContent = d.hint;
+    if (xg) { xg.innerHTML = d.groups.map(groupHTML).join(""); d.groups.forEach(g => { if (g.multi) state[g.k] = []; }); }
+  });
+  const who = part("who"), when = part("when"), needs = part("needs");
+  $id("org-l").textContent = who.org[0]; $id("org").placeholder = who.org[1];
+  $id("role-l").textContent = who.role[0]; $id("role").placeholder = who.role[1];
+  document.querySelector('[data-step="who"] .x-fields').innerHTML = who.extra.map(([k, l, ph, req]) =>
+    `<div class="f full"><label for="x-${k}">${esc(l)}</label><input id="x-${k}" name="${k}" placeholder="${esc(ph || "")}"${req ? " required" : ""}></div>`).join("");
+  $id("date-f").hidden = $id("flex-l").hidden = $id("date").disabled = !when.date;
+  if (when.date) $id("date-l").textContent = when.date;
+  $id("city-l").textContent = when.city[0]; $id("city").placeholder = when.city[1];
+  $id("venue-f").hidden = $id("venue").disabled = !when.venue;
+  $id("venue").innerHTML = (when.venue || []).map(v => `<option>${esc(v)}</option>`).join("");
+  $id("artist-block").hidden = !needs.artists;
+  if (needs.artists) $id("artist-l").textContent = needs.artists;
+  $id("notes").placeholder = part("contact").notes;
+  if (state.artists.length) pressArtistNeed();
+}
+function pressArtistNeed() {
+  const b = form.querySelector('[data-multi="needs"] [data-v="Artist / act"], [data-multi="needs"] [data-v="Artist / ambassador"]');
+  if (!b) return;
+  b.setAttribute("aria-pressed", "true");
+  if (!state.needs.includes(b.dataset.v)) state.needs.push(b.dataset.v);
+}
+// Every answer as [label, value] in this flow's own words: used for the live card, WhatsApp text and the email
+function answers(d, keepEmpty) {
+  const out = [], add = (l, v) => { v = Array.isArray(v) ? v.join(", ") : v == null ? "" : String(v); if (keepEmpty || v.trim()) out.push([l, v]); };
+  const who = part("who"), when = part("when"), needs = part("needs");
+  add("Event", d.type); add("Name", d.name); add(who.org[0], d.org); add(who.role[0], d.role);
+  who.extra.forEach(([k, l]) => add(l, d[k]));
+  if (when.date) add(when.date, d.date ? fmtDate(d.date) + (d.flexible ? " (flexible)" : "") : "");
+  add(when.city[0], d.city); if (when.venue) add("Venue", d.venue);
+  for (const st of ["when", "size", "needs"]) part(st).groups.forEach(g => add(g.l, d[g.k]));
+  if (needs.artists) add("Artists", d.artists);
+  add("Phone", d.phone); add("Email", d.email); add("WhatsApp updates", d.whatsapp ? "Yes" : "No"); add("Notes", d.notes);
+  return out;
+}
+
+// Artist picker: any roster name or free text; ?artist=X or ?artists=A|B come from the Artists page
+const params = new URLSearchParams(location.search);
+const roster = (window.LW_ARTISTS || []).map(a => a[0]);
+document.getElementById("lw-artist-list").innerHTML = roster.map(n => `<option value="${esc(n)}">`).join("");
+state.artists = [params.get("artist"), ...(params.get("artists") || "").split("|")].filter(Boolean);
+const artistQ = document.getElementById("artist-q");
+function addArtist(v) {
+  v = v.trim(); if (!v) return;
+  const match = roster.find(n => n.toLowerCase() === v.toLowerCase()) || v;
+  if (!state.artists.includes(match)) state.artists.push(match);
+  artistQ.value = ""; renderPicked(); render();
+}
+function renderPicked() {
+  document.getElementById("picked").innerHTML = state.artists.map(n => `<button type="button" class="chip" aria-pressed="true" data-rm="${esc(n)}">${esc(n)} ×</button>`).join("");
+  renderRoster();
+}
+// Every roster name as a tappable chip, grouped by tier; typing in the box above filters it
+const TIERS = { 1: "Headliners", 2: "Fest favourites", 3: "Regional & rising", 4: "New on our stages" };
+function renderRoster() {
+  const q = artistQ.value.trim().toLowerCase();
+  const html = Object.entries(TIERS).map(([t, label]) => {
+    const names = (window.LW_ARTISTS || []).filter(a => a[2] == t && (!q || a[0].toLowerCase().includes(q) || a[1].toLowerCase().includes(q)));
+    return names.length ? `<h4>${label}</h4><div class="chips">${names.map(([n, g]) => `<button type="button" class="chip" data-pick="${esc(n)}" title="${esc(g)}" aria-pressed="${state.artists.includes(n)}">${esc(n)}</button>`).join("")}</div>` : "";
+  }).join("");
+  document.getElementById("roster-pick").innerHTML = html || `<p class="none">No match. Press Enter to add "${esc(artistQ.value.trim())}" anyway.</p>`;
+}
+artistQ.addEventListener("input", renderRoster);
+document.getElementById("roster-pick").addEventListener("click", e => {
+  const b = e.target.closest("[data-pick]"); if (!b) return;
+  const n = b.dataset.pick;
+  state.artists = state.artists.includes(n) ? state.artists.filter(x => x !== n) : [...state.artists, n];
+  if (state.artists.length) pressArtistNeed();
+  renderPicked(); render();
+});
+artistQ.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); addArtist(artistQ.value); } });
+artistQ.addEventListener("change", () => { if (roster.includes(artistQ.value)) addArtist(artistQ.value); });
+document.getElementById("picked").addEventListener("click", e => {
+  const b = e.target.closest("[data-rm]"); if (!b) return;
+  state.artists = state.artists.filter(n => n !== b.dataset.rm); renderPicked(); render();
+});
+
+const progress = form.querySelector(".progress");
+progress.innerHTML = inputSteps.map(() => "<i></i>").join("");
+
+// Preselect from ?type=college etc. (service cards on the home page link here)
+const preset = { college: "College fest", concert: "Concert", corporate: "Corporate", private: "Private / wedding", brand: "Brand activation", artist: "Artist management" }[new URLSearchParams(location.search).get("type")];
+form.querySelectorAll('[data-single="type"] button').forEach(b => b.setAttribute("aria-pressed", "false"));
+if (preset) { state.type = preset; form.querySelector(`[data-single="type"] [data-v="${preset}"]`).setAttribute("aria-pressed", "true"); }
+applyFlow();
+
+// Chip groups are rebuilt per flow, so clicks are handled once at the form
+form.addEventListener("click", e => {
+  const b = e.target.closest("[data-single] > button, [data-multi] > button"); if (!b) return;
+  const g = b.parentElement;
+  if (g.dataset.single) {
+    g.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b));
+    state[g.dataset.single] = b.dataset.v;
+    if (g.dataset.single === "type") { applyFlow(); render(); return setTimeout(() => go(1), 220); }
+  } else {
+    const on = b.getAttribute("aria-pressed") !== "true", k = g.dataset.multi;
+    b.setAttribute("aria-pressed", on);
+    state[k] = on ? [...(state[k] || []), b.dataset.v] : (state[k] || []).filter(v => v !== b.dataset.v);
+  }
+  render();
+});
+form.addEventListener("input", render);
+
+function collect() {
+  const fd = new FormData(form);
+  return { ...state, ...Object.fromEntries([...fd].filter(([k, v]) => v !== "" && k !== "website")), website: fd.get("website") || undefined, flexible: fd.has("flexible"), whatsapp: fd.has("whatsapp") };
+}
+function fmtDate(d) { return d ? new Date(d + "T00:00").toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }) : ""; }
+
+function render() {
+  const d = collect();
+  const skip = new Set(["Name", "Phone", "Email", "WhatsApp updates", "Notes", part("who").role[0]]);
+  const rows = answers(d, true).filter(([k]) => !skip.has(k));
+  document.getElementById("b-list").innerHTML = rows.map(([k, v]) => `<dt>${k}</dt><dd class="${v ? "" : "empty"}">${v ? esc(v) : "—"}</dd>`).join("");
+  document.getElementById("b-title").innerHTML = d.org ? esc(d.org) : d.type ? esc(d.type) : "Your<br>event";
+}
+// The brief as a WhatsApp / DM message the team can act on without opening anything else
+function briefText(l) {
+  const line = (k, v) => v && String(v).trim() ? `${k}: ${v}\n` : "";
+  const hi = l.type === "Artist management" ? "Hi Mo Entertainments, I'd like to work with you." : "Hi Mo Entertainments, I'd like to book a show.";
+  return `${hi}\n\n` + line("Ref", l.id) + (l.answers || []).filter(([k]) => k !== "WhatsApp updates").map(([k, v]) => line(k, v)).join("");
+}
+function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+
+function valid() {
+  const s = steps[i], err = document.getElementById("err");
+  let msg = "";
+  if (s.dataset.step === "type" && !state.type) msg = "Pick an event type to continue.";
+  const missing = [...s.querySelectorAll("[data-single]")].filter(g => REQUIRED.has(g.dataset.single) && !state[g.dataset.single]);
+  if (!msg && missing.length) msg = "Pick: " + missing.map(g => g.previousElementSibling.textContent.toLowerCase()).join(" and ") + ".";
+  const bad = [...s.querySelectorAll("input[required]:not(:disabled)")].find(x => !x.checkValidity());
+  if (!msg && bad) { msg = `Please fill in: ${s.querySelector(`label[for="${bad.id}"]`).textContent.toLowerCase()}.`; bad.focus(); }
+  err.textContent = msg;
+  return !msg;
+}
+
+function show() {
+  steps.forEach((s, n) => s.classList.toggle("active", n === i));
+  progress.querySelectorAll("i").forEach((b, n) => b.classList.toggle("on", n <= i));
+  document.getElementById("back").style.visibility = i ? "visible" : "hidden";
+  document.getElementById("next").innerHTML = i === inputSteps.length - 1 ? (MO.enquiryEndpoint ? 'Send brief <span class="arr">→</span>' : MO.whatsapp ? 'Send on WhatsApp <span class="arr">→</span>' : 'Finish brief <span class="arr">→</span>') : 'Continue <span class="arr">→</span>';
+  const first = steps[i].querySelector("input,select"); if (first && i) setTimeout(() => first.focus(), 50);
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+function go(dir) {
+  if (dir > 0 && !valid()) return;
+  document.getElementById("err").textContent = "";
+  i = Math.max(0, Math.min(inputSteps.length - 1, i + dir)); show();
+}
+document.getElementById("back").onclick = () => go(-1);
+// Sending: the brief is emailed to the team (api/enquiry.js) and the visitor gets a
+// "received" screen, with WhatsApp offered as a second way in. If email delivery is off
+// or fails, the brief goes over WhatsApp instead (or an Instagram DM when no number is set).
+let sending = false;
+form.addEventListener("submit", async e => {
+  e.preventDefault();
+  if (i < inputSteps.length - 1) return go(1);
+  if (!valid() || sending) return;
+  const data = collect();
+  data.answers = answers(data);
+  const lead = LeadStore.add(data);
+  const text = briefText(lead);
+  const wa = moWhatsApp(text);
+  const next = document.getElementById("next");
+
+  let emailed = false;
+  if (MO.enquiryEndpoint) {
+    sending = true; next.disabled = true; next.innerHTML = "Sending…";
+    try {
+      const r = await fetch(MO.enquiryEndpoint, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...data, id: lead.id }) });
+      emailed = r.ok && (await r.json().catch(() => ({}))).ok === true;
+    } catch {}
+    sending = false; next.disabled = false;
+  } else if (wa) {
+    // No email delivery: open WhatsApp inside the click so the browser allows it
+    window.open(wa, "_blank", "noopener");
+  }
+
+  const $ = id => document.getElementById(id);
+  const again = $("send-again"), alt = $("done-alt");
+  if (emailed) {
+    $("done-title").innerHTML = "You're in the <em class=\"mark\">queue.</em>";
+    document.querySelector('[data-step="done"] .kicker').textContent = "● Brief received";
+    $("done-hint").textContent = "Your brief is with our team. Expect a call or WhatsApp within 12 hours, usually much sooner.";
+    if (wa) { again.href = wa; again.innerHTML = 'Also send on WhatsApp <span class="arr">→</span>'; }
+    else again.remove();
+    $("copy-brief").remove();
+  } else {
+    const failed = !!MO.enquiryEndpoint;
+    if (wa) {
+      again.href = wa; again.innerHTML = (failed ? "Send on WhatsApp" : "Open WhatsApp again") + ' <span class="arr">→</span>';
+      $("done-hint").textContent = failed
+        ? "We couldn't email your brief just now, so send it on WhatsApp instead: it's written out for you, just tap Send. We reply within 12 hours."
+        : "WhatsApp has opened with your brief written out. Tap Send and it reaches our team straight away. We reply within 12 hours, usually much sooner.";
+    } else {
+      again.href = "https://ig.me/m/" + MO.instagram; again.innerHTML = 'DM us on Instagram <span class="arr">→</span>';
+      $("done-hint").textContent = (failed ? "We couldn't email your brief just now. " : "") + "Copy your brief and paste it in an Instagram DM to us. We reply within 12 hours, usually much sooner.";
+    }
+    if (failed && MO.email) { alt.hidden = false; alt.innerHTML = `Or email it to <a href="mailto:${esc(MO.email)}?subject=${encodeURIComponent("Booking brief " + lead.id)}&body=${encodeURIComponent(text)}">${esc(MO.email)}</a>.`; }
+    $("copy-brief").onclick = async ev => {
+      try { await navigator.clipboard.writeText(text); ev.target.textContent = "Copied ✓"; } catch { prompt("Copy your brief:", text); }
+    };
+  }
+  i = steps.length - 1; show();
+  $("nav").hidden = true;
+  $("ticket").innerHTML = [["Reference", lead.id], ["Event", lead.type], ["Date", fmtDate(lead.date)], [part("when").city[0], lead.city], ["Reply by", new Date(Date.now() + 12 * 36e5).toLocaleString("en-IN", { weekday: "short", day: "numeric", month: "short", hour: "numeric", minute: "2-digit" })]]
+    .map(([k, v]) => `<div class="row"><span class="muted">${k}</span><b>${esc(v || "—")}</b></div>`).join("");
+});
+
+if (preset) i = 1;
+renderPicked(); render(); show();
+</script>
+</body>
+</html>
