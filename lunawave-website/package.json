@@ -1,0 +1,5 @@
+{
+  "name": "lunawave-website",
+  "private": true,
+  "description": "Luna Wave static website. No build step: Vercel serves these files as they are."
+}
