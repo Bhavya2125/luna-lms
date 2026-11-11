@@ -1,9 +1,6 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useInstall, type InstallPlatform } from "@/lib/pwa";
-
-const KEY = "lw_install_dismissed_at";
-const SNOOZE = 14 * 864e5; // "Not now" hides the tip for two weeks, not forever
 
 /** Safari's share icon, so the steps match what people see on screen. */
 const ShareIcon = () => (
@@ -45,24 +42,15 @@ export function InstallSteps({ platform }: { platform: InstallPlatform }) {
   return <div className="sub">Use your browser&apos;s Install or Add to Home Screen option.</div>;
 }
 
-/** Offers to install the app: a one-tap prompt on Android/Chrome, written steps on Apple devices. */
+/**
+ * Offers to install the app: a one-tap prompt on Android/Chrome, written steps on Apple devices.
+ * Shown on every visit and refresh until the app is installed; "Not now" only hides it for this page view.
+ */
 export function InstallBanner() {
   const { canInstall, installed, install, platform } = useInstall();
-  const [hidden, setHidden] = useState(true);
-  useEffect(() => {
-    try {
-      setHidden(Date.now() - Number(localStorage.getItem(KEY) ?? 0) < SNOOZE);
-    } catch {
-      setHidden(false);
-    }
-  }, []);
+  const [hidden, setHidden] = useState(false);
   if (installed || hidden || !(canInstall || platform !== "other")) return null;
-  const dismiss = () => {
-    setHidden(true);
-    try {
-      localStorage.setItem(KEY, String(Date.now()));
-    } catch {}
-  };
+  const dismiss = () => setHidden(true);
   return (
     <div className="box install" role="region" aria-label="Install the app">
       <div style={{ minWidth: 0, flex: 1 }}>
