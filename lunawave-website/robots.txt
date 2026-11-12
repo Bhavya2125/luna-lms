@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /leads.html
+Disallow: /api/
+
+Sitemap: https://lunawave.in/sitemap.xml
