@@ -194,7 +194,8 @@ footer{padding:80px 0 34px;border-top:1px solid var(--line)}
   .scroll-cue{display:none}
   .steps{grid-template-columns:1fr}
   .ig{grid-template-columns:1fr 1fr}
-  .foot{grid-template-columns:1fr}
+  .foot{grid-template-columns:1fr 1fr;row-gap:36px}
+  .foot>div:first-child{grid-column:1/-1}
   .index h3{font-size:42px}
 }
 
@@ -509,3 +510,18 @@ em.glow{background:linear-gradient(100deg,#F4D9EC,#CDBEFA 50%,#B4D2F5);-webkit-b
 }
 #pi-cr{float:right;clear:right;width:clamp(80px,9vw,110px);margin:-6px 0 10px 18px;font:400 9px/1.3 var(--mono);color:var(--muted);text-align:right}
 #pi-cr[hidden]{display:none}
+
+#logMore{margin-top:28px}
+.log li[hidden]{display:none}
+
+/* Phones: keep the campus wall compact */
+@media (max-width:760px){
+  #campuses{padding:56px 0}
+  .fame-list li{padding:12px 0;gap:4px 12px}
+  .fame-list b{font-size:28px}
+  .fame-list li .mono{font-size:9.5px}
+  .fame-more{margin-top:24px}
+  .fchip{padding:6px 11px;font-size:13px}
+  .fame-artists{margin-top:44px}
+  .fame-artists p{font-size:22px;margin:12px 0 22px}
+}
