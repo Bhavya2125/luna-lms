@@ -258,7 +258,7 @@
 <script src="config.js?v=1"></script>
 <script src="site.js?v=24"></script>
 <script src="artists.js?v=3"></script>
-<script src="posters.js?v=4"></script>
+<script src="posters.js?v=5"></script>
 <script>
 // Hero: flying through space towards Luna. Stars stream out from the logo,
 // faster when you move the pointer or scroll; a moon rises at the bottom with an
@@ -363,7 +363,7 @@
   const car = document.getElementById("carousel"), ring = car.querySelector(".ring3d");
   const items = [...P, null];
   ring.innerHTML = items.map((p, i) => p
-    ? `<a class="pcard" ${href(p)} data-i="${i}" draggable="false"><img src="${esc(p[2])}" alt="${esc(p[0])}, ${esc(p[1])}" draggable="false" loading="${i < 4 ? "eager" : "lazy"}"><span class="cap"><small>${esc(p[4])} · ${esc(p[5])}</small><b>${esc(p[0])}</b></span></a>`
+    ? `<a class="pcard" ${href(p)} data-i="${i}" draggable="false"><img src="${esc(p[2])}" alt="${esc(p[0])}, ${esc(p[1])}" draggable="false" loading="${i < 4 ? "eager" : "lazy"}"><span class="cap"><small>${p[3] === "Production" ? "Production for · " : ""}${esc(p[4])} · ${esc(p[5])}</small><b>${esc(p[0])}</b></span></a>`
     : `<a class="pcard more" href="artists.html" data-i="${i}" draggable="false"><span class="mono">+ ${A.length || "140"} artists</span><b>The whole <em>roster</em></b><span class="pill">Browse artists →</span></a>`).join("");
   const cards = [...ring.children], n = cards.length, step = 360 / n;
   let R = 0;
