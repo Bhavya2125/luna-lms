@@ -1,7 +1,11 @@
 // Luna Wave's own show and artist posters (from @luna.wave_ind and the fests we partner).
-// [title, subtitle, image, kind, date, place, link]. Shown in the home page orbit, the
+// [title, subtitle, image, kind, date, place, link]. No link: the card opens the enquiry form for that artist.. Shown in the home page orbit, the
 // mission log and the artists page. Biggest names first.
 window.LW_POSTERS = [
+  ["Sonu Nigam", "Live at East Point Group of Institutions", "img/post-sonu-nigam.jpg", "Headliner", "26 Apr 2025", "Bengaluru"],
+  ["Sunidhi Chauhan", "Live in concert · East Point", "img/post-sunidhi-chauhan.jpg", "Headliner", "May 2026", "Bengaluru"],
+  ["Jasmine Sandlas", "The Dream Girl Tour", "img/post-jasmine-sandlas.jpg", "Headliner", "Jul 2026", "Bengaluru"],
+  ["Jonita Gandhi", "Strings 2k25", "img/post-jonita-gandhi.jpg", "Headliner", "13 Sep 2025", "Live in concert"],
   ["Raman Negi", "Sonabyss 2026 · NERIST", "img/post-raman-negi.jpg", "Headliner", "4 Nov 2026", "Arunachal Pradesh", "https://www.instagram.com/p/DesW38fTkK0/"],
   ["DJ Rubz", "Unmaad 2026 · IIM Bangalore", "img/post-rubz-iimb.jpg", "Artist", "28 Feb 2026", "Bengaluru", "https://www.instagram.com/p/DVS0fQCEhgD/"],
   ["Taaruk Raina", "Zest '26 · St. Xavier's College", "img/post-taaruk-raina.jpg", "Headliner", "29 Mar 2026", "Jaipur", "https://www.instagram.com/p/DWReARrD18V/"],
@@ -19,6 +23,7 @@ window.LW_POSTERS = [
 // Campuses and fests we've produced or partnered. [campus, fest, year, city, big]
 window.LW_CAMPUSES = [
   ["IIM Bangalore", "Unmaad", "2026", "Bengaluru", 1],
+  ["East Point Group of Institutions", "Sonu Nigam & Sunidhi Chauhan live", "2025 · 2026", "Bengaluru", 1],
   ["IISER Tirupati", "Vivante", "2026", "Tirupati", 1],
   ["St. Xavier's College", "Zest", "2026", "Jaipur", 1],
   ["NERIST", "Sonabyss", "2026", "Arunachal Pradesh", 1],
@@ -33,6 +38,6 @@ window.LW_CAMPUSES = [
 ];
 
 // Artists we've put on stage (big names first)
-window.LW_PLAYED = ["Raman Negi", "Taaruk Raina", "Ashwin Mandoth", "DJ Rubz", "Leading Drops", "The Bombay Lineup", "IQQANVE", "Jordindian",
+window.LW_PLAYED = ["Sonu Nigam", "Sunidhi Chauhan", "Jasmine Sandlas", "Jonita Gandhi", "Raman Negi", "Taaruk Raina", "Ashwin Mandoth", "DJ Rubz", "Leading Drops", "The Bombay Lineup", "IQQANVE", "Jordindian",
   "Swaraaha", "Young & Broke", "Shailzii", "The Staccato Cafe", "Joel Jazz", "Nawaf", "Rohith Thiruvanathil", "Boomrang", "Mehram",
   "DJ Yash India", "DJ Paddy", "DJ Holy C", "DJ Praveen", "Himanshu Verma"];
