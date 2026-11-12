@@ -355,8 +355,8 @@ em.glow{background:linear-gradient(100deg,#F4D9EC,#CDBEFA 50%,#B4D2F5);-webkit-b
 .pl b{position:absolute;top:calc(100% + 10px);left:50%;transform:translateX(-50%);white-space:nowrap;font:500 10px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);transition:color .3s}
 .pl:hover b,.pl.on b{color:var(--ink)}
 .pinfo{padding:clamp(24px,3vw,40px);border-radius:20px;border:1px solid #F1F0FF1F;background:#0B0824E6}
-.ptabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:26px}
-.ptabs button{border:1px solid #332C7A;background:none;border-radius:999px;padding:7px 12px;font:500 12px var(--sans);cursor:pointer;color:var(--muted);transition:.3s}
+.ptabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+.ptabs button{display:inline-flex;align-items:center;justify-content:center;min-height:36px;border:1px solid #332C7A;background:none;border-radius:999px;padding:0 14px;font:500 12.5px/1.2 var(--sans);text-align:center;cursor:pointer;color:var(--muted);transition:.3s}
 .ptabs button:hover{color:var(--ink);border-color:var(--muted)}
 .ptabs button.on{background:var(--moon);color:var(--night);border-color:var(--moon)}
 .pinfo h3{font-size:clamp(38px,3.8vw,58px);margin:10px 0 14px}
@@ -448,9 +448,14 @@ em.glow{background:linear-gradient(100deg,#F4D9EC,#CDBEFA 50%,#B4D2F5);-webkit-b
 .pl.art{width:8px;height:8px;border:0;background:#CFC4F2}
 .pl.art:hover,.pl.art.on{background:#fff;box-shadow:0 0 0 4px #F1F0FF22}
 .pl.art b{font:italic 400 15px var(--serif);letter-spacing:0;text-transform:none;color:#CFCBEA;top:calc(100% + 6px)}
-.ptabs.arts{align-items:center;margin-top:-14px}
-.ptabs.arts .mono{width:100%;margin:4px 0 2px}
-.ptabs button[data-a]{font-style:italic;font-family:var(--serif);font-size:15px;padding:5px 12px}
+.ptabs .mono{width:100%;margin:0 0 4px;font-size:10px;letter-spacing:.14em;color:var(--muted)}
+.ptabs.arts{padding-top:22px;border-top:1px solid #F1F0FF14}
+.ptabs button[data-a]{font-style:italic;font-family:var(--serif);font-size:15px;letter-spacing:0}
+@media (max-width:760px){
+  .ptabs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .ptabs .mono{grid-column:1/-1}
+  .ptabs button{width:100%;padding:0 10px}
+}
 #pi-img{float:right;width:clamp(80px,9vw,110px);aspect-ratio:4/5;object-fit:cover;border-radius:10px;margin:4px 0 12px 18px;border:1px solid #F1F0FF22}
 #pi-img[hidden]{display:none}
 .pinfo ul{clear:both}
@@ -484,3 +489,23 @@ em.glow{background:linear-gradient(100deg,#F4D9EC,#CDBEFA 50%,#B4D2F5);-webkit-b
 
 .trap{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
 .consent{font-size:12.5px;color:var(--muted);margin-top:14px;max-width:60ch}.consent a{color:var(--ink);text-decoration:underline}
+
+/* "+ N more" pill that leads to the roster */
+.more-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:36px;padding:0 16px;border:1px dashed #F1F0FF55;border-radius:999px;font:500 12.5px/1.2 var(--sans);font-style:normal;color:var(--ink);text-decoration:none;white-space:nowrap;vertical-align:middle;transition:.3s}
+.more-btn:hover{border-style:solid;background:#F1F0FF12}
+.fame-artists p .more-btn{font-size:14px;color:var(--ink);margin-left:.3em}
+.fame-artists p a.more-btn:hover{font-style:normal}
+@media (max-width:760px){.ptabs .more-btn{width:100%}}
+
+/* Tablets: seven nav items don't fit in a row, so use the menu button here too */
+.nav a{white-space:nowrap}
+@media (min-width:761px) and (max-width:1100px){
+  .menu-btn{display:block}
+  .nav{display:none;position:fixed;inset:76px 0 0;background:var(--night);flex-direction:column;align-items:flex-start;padding:40px clamp(16px,4vw,48px);gap:20px}
+  .nav a{font:400 44px/1 var(--serif);color:var(--ink)}
+  .nav .btn{font:500 15px var(--sans);margin-top:20px}
+  .nav-open .nav{display:flex}
+  .nav-open .top{background:var(--night)}
+}
+#pi-cr{float:right;clear:right;width:clamp(80px,9vw,110px);margin:-6px 0 10px 18px;font:400 9px/1.3 var(--mono);color:var(--muted);text-align:right}
+#pi-cr[hidden]{display:none}

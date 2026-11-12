@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#060418">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@500;600;700&family=Michroma&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="site.css?v=32">
+<link rel="stylesheet" href="site.css?v=35">
 </head>
 <body>
 <!-- Launch intro: once per visit. Stars rush past, the Luna Wave ring draws itself,
@@ -56,8 +56,8 @@
   <div class="wrap">
     <a class="brand" href="index.html" aria-label="Luna Wave home"><span data-logo="compact"></span></a>
     <nav class="nav" aria-label="Main">
-      <a href="#campuses">Campuses</a>
       <a href="#orbit">Headliners</a>
+      <a href="#campuses">Campuses</a>
       <a href="#planets">Events</a>
       <a href="artists.html">Artists</a>
       <a href="#log">Mission log</a>
@@ -83,40 +83,9 @@
   </div>
 </section>
 
-<section class="statement">
-  <div class="wrap">
-    <div class="stop-top"><span class="mono">Stop 01 · Launch</span><span class="mono">Luna Wave · Live entertainment</span></div>
-    <p>We book the artists, build the stage and run the night. College fests, concerts, corporate evenings and private celebrations, from the first call to the <em>last encore.</em></p>
-    <div class="meta reveal">
-      <div><b data-stat="artists">140+</b><small>Artists on the roster</small></div>
-      <div><b data-stat="genres">12</b><small>Genres, Bollywood to techno</small></div>
-      <div><b>6</b><small>Kinds of night we produce</small></div>
-      <div><b>6h</b><small>To hear back from a real person</small></div>
-    </div>
-    <div class="reply-by"><span class="live"></span><span id="replyBy">Send a brief now and hear from us within 6 hours</span></div>
-  </div>
-</section>
-
-<section id="campuses" class="fame" data-stop="Campuses">
-  <div class="wrap">
-    <div class="stop-top"><span class="mono">Stop 02 · Campuses</span><span class="mono">Fests we've produced and partnered</span></div>
-    <div class="stop-title">
-      <h2>Trusted by campuses that <em class="glow">set the bar</em></h2>
-      <p>From IIM Bangalore to NERIST in Arunachal Pradesh. Fest partner, artist booking or the whole night.</p>
-    </div>
-    <ol class="fame-list" id="fameBig"></ol>
-    <div class="fame-more"><span class="mono">Also on the log</span><div id="fameMore"></div></div>
-    <div class="fame-artists">
-      <span class="mono">Artists we've put on stage</span>
-      <p id="fameArtists"></p>
-      <div class="tune-btns"><a class="btn" href="artists.html">See the full roster <span class="arr">→</span></a><a class="btn" href="enquire.html?type=college">Bring them to your campus <span class="arr">→</span></a></div>
-    </div>
-  </div>
-</section>
-
 <section id="orbit" class="orbit-sec" data-stop="Headliners">
   <div class="wrap">
-    <div class="stop-top"><span class="mono">Stop 03 · Orbit</span><span class="mono">Drag to spin · tap to open</span></div>
+    <div class="stop-top"><span class="mono">Stop 01 · Orbit</span><span class="mono">Drag to spin · tap to open</span></div>
     <div class="stop-title">
       <h2>Now in <em class="glow">orbit</em></h2>
       <p>Headliners and nights we've put up lately. Spin the ring, then pick the sound you want next.</p>
@@ -144,6 +113,37 @@
   </div>
 </section>
 
+<section class="statement" data-stop="Who we are">
+  <div class="wrap">
+    <div class="stop-top"><span class="mono">Stop 02 · Who we are</span><span class="mono">Luna Wave · Live entertainment</span></div>
+    <p>Artists, production, decor, brand activations and sponsorships. We book the acts, build the stage, dress the venue and run the night, from the first call to the <em>last encore.</em></p>
+    <div class="meta reveal">
+      <div><b data-stat="artists">140+</b><small>Artists on the roster</small></div>
+      <div><b data-stat="genres">12</b><small>Genres, Bollywood to techno</small></div>
+      <div><b>6</b><small>Kinds of night we produce</small></div>
+      <div><b>6h</b><small>To hear back from a real person</small></div>
+    </div>
+    <div class="reply-by"><span class="live"></span><span id="replyBy">Send a brief now and hear from us within 6 hours</span></div>
+  </div>
+</section>
+
+<section id="campuses" class="fame" data-stop="Campuses">
+  <div class="wrap">
+    <div class="stop-top"><span class="mono">Stop 03 · Campuses</span><span class="mono">Fests we've produced and partnered</span></div>
+    <div class="stop-title">
+      <h2>Trusted by campuses that <em class="glow">set the bar</em></h2>
+      <p>From IIM Bangalore to NERIST in Arunachal Pradesh. Fest partner, artist booking or the whole night.</p>
+    </div>
+    <ol class="fame-list" id="fameBig"></ol>
+    <div class="fame-more"><span class="mono">Also on the log</span><div id="fameMore"></div></div>
+    <div class="fame-artists">
+      <span class="mono">Artists we've put on stage</span>
+      <p id="fameArtists"></p>
+      <div class="tune-btns"><a class="btn" href="artists.html">See the full roster <span class="arr">→</span></a><a class="btn" href="enquire.html?type=college">Bring them to your campus <span class="arr">→</span></a></div>
+    </div>
+  </div>
+</section>
+
 <section id="planets" data-stop="Events">
   <div class="wrap">
     <div class="stop-top"><span class="mono">Stop 04 · Planets</span><span class="mono">6 worlds · one crew</span></div>
@@ -164,7 +164,7 @@
       <div class="pinfo" id="pinfo" aria-live="polite">
         <div class="ptabs" role="tablist" aria-label="Event types"></div>
         <div class="ptabs arts" role="tablist" aria-label="Our artists"></div>
-        <img id="pi-img" alt="" hidden>
+        <img id="pi-img" alt="" hidden><small id="pi-cr" hidden></small>
         <span class="mono" id="pi-n"></span>
         <h3 id="pi-t"></h3>
         <p id="pi-p"></p>
@@ -257,8 +257,8 @@
 
 <script src="config.js?v=1"></script>
 <script src="site.js?v=24"></script>
-<script src="artists.js?v=3"></script>
-<script src="posters.js?v=5"></script>
+<script src="artists.js?v=4"></script>
+<script src="posters.js?v=8"></script>
 <script>
 // Hero: flying through space towards Luna. Stars stream out from the logo,
 // faster when you move the pointer or scroll; a moon rises at the bottom with an
@@ -330,7 +330,7 @@
 (() => {
   const still = matchMedia("(prefers-reduced-motion:reduce)").matches;
   const A = window.LW_ARTISTS || [], P = window.LW_POSTERS || [];
-  const href = p => p[6] ? `href="${esc(p[6])}" target="_blank" rel="noopener"` : `href="enquire.html?artist=${encodeURIComponent(p[0])}"`;
+  const href = p => p[6] ? `href="${esc(p[6])}" target="_blank" rel="noopener"` : `href="enquire.html?${p[3] === "Stand-up" ? "type=comedy&" : ""}artist=${encodeURIComponent(p[0])}"`;
   const esc = v => String(v).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const IG = "https://www.instagram.com/luna.wave_ind/";
 
@@ -381,8 +381,8 @@
     k.textContent = `${String(f + 1).padStart(2, "0")} / ${String(n).padStart(2, "0")} · ${p ? p[3] : "Roster"}`;
     t.textContent = p ? p[0] : "The whole roster";
     sub.textContent = p ? `${p[1]} · ${p[4]} · ${p[5]}` : `${A.length} artists across ${Object.keys(genres).length} genres`;
-    const act = p && (p[3] === "Artist" || p[3] === "Headliner");
-    go.href = act ? `enquire.html?artist=${encodeURIComponent(p[0])}` : p ? "enquire.html" : "artists.html";
+    const act = p && (p[3] === "Artist" || p[3] === "Headliner" || p[3] === "Stand-up");
+    go.href = act ? `enquire.html?${p[3] === "Stand-up" ? "type=comedy&" : ""}artist=${encodeURIComponent(p[0])}` : p ? "enquire.html" : "artists.html";
     go.firstChild.textContent = act ? "Book this act " : p ? "Plan a night like this " : "Browse artists ";
   }
   function render() {
@@ -432,9 +432,23 @@
   };
   const keys = ["college", "concert", "corporate", "private", "artist", "brand"];
   const tabs = document.querySelector(".ptabs"), sys = document.getElementById("system");
-  tabs.innerHTML = keys.map(key => `<button role="tab" data-k="${key}">${esc(PL[key][1])}</button>`).join("");
+  tabs.innerHTML = '<span class="mono">Kinds of night</span>' + keys.map(key => `<button role="tab" data-k="${key}">${esc(PL[key][1])}</button>`).join("");
   // Our artists ride the outer ring: [name, genre, line, poster]
   const ART = [
+    ["Sonu Nigam", "Bollywood playback", "We gave production for his show at East Point Group of Institutions, Bengaluru.", "img/post-sonu-nigam.jpg"],
+    ["Sunidhi Chauhan", "Bollywood playback", "We gave production for her concert at East Point, Bengaluru.", "img/post-sunidhi-chauhan.jpg"],
+    ["Shreya Ghoshal", "Bollywood playback", "", "img/artist-shreya-ghoshal.jpg", "Photo: Behindwoods, CC BY-SA 3.0"],
+    ["Arijit Singh", "Bollywood playback", "", "img/artist-arijit-singh.jpg", "Photo: Monit2004, CC BY 4.0"],
+    ["A.R. Rahman", "Composer & live concerts", "", "img/artist-ar-rahman.jpg", "Photo: Sriram Narasimhan, CC BY-SA 4.0"],
+    ["Diljit Dosanjh", "Punjabi", "", "img/artist-diljit-dosanjh.jpg", "Photo: Prime Minister's Office, GODL-India"],
+    ["Jasmine Sandlas", "Punjabi pop", "We gave production for The Dream Girl Tour in Bengaluru.", "img/post-jasmine-sandlas.jpg"],
+    ["Badshah", "Hip-hop", "", "img/artist-badshah.jpg", "Photo: Mirchi Plus, CC BY 3.0"],
+    ["Raftaar", "Hip-hop", "", "img/artist-raftaar.jpg", "Photo: Bollywood Hungama, CC BY 3.0"],
+    ["Divine", "Hip-hop", "", "img/artist-divine.jpg", "Photo: Bollywood Hungama, CC BY 3.0"],
+    ["Neha Kakkar", "Bollywood pop", "", "img/artist-neha-kakkar.jpg", "Photo: Bollywood Hungama, CC BY 3.0"],
+    ["Zakir Khan", "Stand-up comedy", "", "img/artist-zakir-khan.jpg", "Photo: Panigrahiasmitku, CC BY-SA 4.0"],
+    ["Chaar Diwaari", "Hip-hop", "", "img/svc-concert.jpg", "", "Concert crowd"],
+    ["Anand Bhaskar Collective", "Band", "Headlined NITRUTSAV 2025 at NIT Rourkela with us.", "img/post-abc.jpg"],
     ["Raman Negi", "Singer-songwriter", "Headlined Sonabyss 2026 at NERIST, Arunachal Pradesh, with us.", "img/post-raman-negi.jpg"],
     ["Taaruk Raina", "Actor & singer-songwriter", "Headlined Zest '26 at St. Xavier's College, Jaipur, with us.", "img/post-taaruk-raina.jpg"],
     ["Ashwin Mandoth", "Multi-genre musician", "Live at Mount Carmel University's DJB Auditorium, Bengaluru.", "img/post-carmelites.jpg"],
@@ -444,23 +458,25 @@
     ["Young & Broke", "Electronic / DJ", "Played Esplendida 2026 in Bengaluru with us.", "img/post-young-broke.jpg"],
     ["Joel Jazz", "Indie / Pop", "Live sets that pull the crowd in close.", "img/joel-jazz.jpg"],
   ];
-  sys.insertAdjacentHTML("beforeend", ART.map(([n], i) => `<div class="orb belt${i ? " b" : ""}" style="--d:96%;--t:240s;--s:${Math.round(i * 360 / ART.length + 12)}deg"><button class="pl art" data-a="${esc(n)}"><span class="up"><b>${esc(n)}</b></span></button></div>`).join(""));
+  const RING = ART.slice(0, 10), TABS = ART.slice(0, 18);
+  sys.insertAdjacentHTML("beforeend", RING.map(([n], i) => `<div class="orb belt${i ? " b" : ""}" style="--d:96%;--t:240s;--s:${Math.round(i * 360 / RING.length + 12)}deg"><button class="pl art" data-a="${esc(n)}"><span class="up"><b>${esc(n)}</b></span></button></div>`).join(""));
   const arts = document.querySelector(".ptabs.arts");
-  arts.innerHTML = '<span class="mono">Artists in orbit</span>' + ART.map(([n]) => `<button role="tab" data-a="${esc(n)}">${esc(n)}</button>`).join("");
+  arts.innerHTML = '<span class="mono">Artists in orbit</span>' + TABS.map(([n]) => `<button role="tab" data-a="${esc(n)}">${esc(n)}</button>`).join("") + `<a class="more-btn" href="artists.html">+ ${A.length - TABS.length} more <span class="arr">→</span></a>`;
   const img = document.getElementById("pi-img");
   const mark = (attr, val) => document.querySelectorAll("[data-k],[data-a]").forEach(b => { const on = b.dataset[attr] === val; b.classList.toggle("on", on); if (b.getAttribute("role") === "tab") b.setAttribute("aria-selected", on); });
   function pickArtist(name) {
-    const [n, genre, line, poster] = ART.find(a => a[0] === name);
+    const [n, genre, line, poster, credit, alt] = ART.find(a => a[0] === name);
     document.getElementById("pi-n").textContent = `Artist · ${genre}`;
     document.getElementById("pi-t").innerHTML = `${esc(n)}`;
-    document.getElementById("pi-p").textContent = line;
+    document.getElementById("pi-p").hidden = true;
     document.getElementById("pi-l").innerHTML = ["College fests and pro-nights", "Concerts, corporate and private events", "Fee, travel and tech rider in one quote"].map(x => `<li>${esc(x)}</li>`).join("");
-    img.hidden = !poster; if (poster) { img.src = poster; img.alt = `${n} poster`; }
+    img.hidden = !poster; if (poster) { img.src = poster; img.alt = alt || n; }
+    const cr = document.getElementById("pi-cr"); cr.hidden = !credit; cr.textContent = credit || "";
     const go = document.getElementById("pi-go"); go.href = `enquire.html?artist=${encodeURIComponent(n)}`; go.firstChild.textContent = `Book ${n} `;
     mark("a", n);
   }
   function pick(key) {
-    img.hidden = true;
+    img.hidden = true; document.getElementById("pi-cr").hidden = true; document.getElementById("pi-p").hidden = false;
     const [no, name, head, p, li, cta] = PL[key];
     document.getElementById("pi-n").textContent = `Planet ${no} · ${name}`;
     document.getElementById("pi-t").innerHTML = head;
@@ -476,7 +492,9 @@
   const C = window.LW_CAMPUSES || [], PLAYED = window.LW_PLAYED || [];
   document.getElementById("fameBig").innerHTML = C.filter(c => c[4]).map((c, i) => `<li><span class="n">${String(i + 1).padStart(2, "0")}</span><b>${esc(c[0])}</b><span class="mono">${esc(c[1])} ${esc(c[2])} · ${esc(c[3])}</span></li>`).join("");
   document.getElementById("fameMore").innerHTML = C.filter(c => !c[4]).map(c => `<span class="fchip">${esc(c[0])} <small>${esc(c[1])}</small></span>`).join("") + `<span class="fchip plus">+ many more</span>`;
-  document.getElementById("fameArtists").innerHTML = PLAYED.map((n, i) => `<a href="enquire.html?artist=${encodeURIComponent(n)}" class="${i < 6 ? "big" : ""}">${esc(n)}</a>`).join(' <i aria-hidden="true">✦</i> ') + ' <span class="more">and many more</span>';
+  // Only the biggest names here; the rest live on the roster page
+  const TOP = PLAYED.slice(0, 6);
+  document.getElementById("fameArtists").innerHTML = TOP.map(n => `<a href="enquire.html?artist=${encodeURIComponent(n)}" class="big">${esc(n)}</a>`).join(' <i aria-hidden="true">✦</i> ') + ` <a class="more-btn" href="artists.html">+ ${PLAYED.length - TOP.length} more on our stages <span class="arr">→</span></a>`;
   const loop = arr => arr.concat(arr).map(x => `<span>${esc(x)}</span>`).join("");
   document.getElementById("mqCampus").innerHTML = loop(C.map(c => c[0]));
   document.getElementById("mqArtist").innerHTML = loop(PLAYED.slice(0, 12));

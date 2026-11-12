@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Plan an Event — Luna Wave</title>
-<meta name="description" content="Tell us about your college fest, concert, corporate or private event and hear back from Luna Wave within 6 hours.">
+<meta name="description" content="Book artists, production, décor, brand activations and sponsorships for college fests, concerts, corporate and private events. Hear back from Luna Wave within 6 hours.">
 <meta name="theme-color" content="#060418">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@500;600;700&family=Michroma&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="site.css?v=32">
+<link rel="stylesheet" href="site.css?v=35">
 <style>
 .page{display:grid;grid-template-columns:1fr 380px;gap:48px;padding:130px 0 90px;align-items:start}
 .progress{display:flex;gap:6px;margin-bottom:34px}
@@ -87,14 +87,17 @@
   <div class="q" data-step="type">
     <span class="kicker">Step 1 of 6 · About 2 minutes</span>
     <h1>What are we <em class="glow">putting on?</em></h1>
-    <p class="hint">Pick the closest one. We read every brief, and a real person replies within 6 hours.</p>
+    <p class="hint">Artists, stand-up, production, décor, brand activations or sponsorships: pick the closest one. A real person replies within 6 hours.</p>
     <div class="types" data-single="type">
       <button type="button" class="type" data-v="College fest"><small>01</small><b>College fest</b><small>Pro-night, freshers, alumni</small></button>
       <button type="button" class="type" data-v="Concert"><small>02</small><b>Concert</b><small>Ticketed or club gig</small></button>
       <button type="button" class="type" data-v="Corporate"><small>03</small><b>Corporate</b><small>Annual day, launch, offsite</small></button>
       <button type="button" class="type" data-v="Private / wedding"><small>04</small><b>Private & wedding</b><small>Sangeet, reception, party</small></button>
-      <button type="button" class="type" data-v="Brand activation"><small>05</small><b>Brand campaign</b><small>Campus, influencers</small></button>
-      <button type="button" class="type" data-v="Artist management"><small>06</small><b>I'm an artist</b><small>Get booked or managed</small></button>
+      <button type="button" class="type" data-v="Stand-up comedy"><small>05</small><b>Stand-up comedy</b><small>Comedy night, solo special, host</small></button>
+      <button type="button" class="type" data-v="Production & decor"><small>06</small><b>Production & décor</b><small>Sound, light, stage, LED, décor</small></button>
+      <button type="button" class="type" data-v="Brand activation"><small>07</small><b>Brand activation</b><small>Campus tours, stalls, influencers</small></button>
+      <button type="button" class="type" data-v="Sponsorship"><small>08</small><b>Sponsorship</b><small>Sponsor a fest, or find sponsors</small></button>
+      <button type="button" class="type" data-v="Artist management"><small>09</small><b>I'm an artist</b><small>Get booked or managed</small></button>
     </div>
   </div>
 
@@ -184,7 +187,7 @@
 
 <script src="config.js?v=1"></script>
 <script src="site.js?v=24"></script>
-<script src="artists.js?v=3"></script>
+<script src="artists.js?v=4"></script>
 <script>
 const form = document.getElementById("form");
 const steps = [...form.querySelectorAll(".q")];
@@ -211,14 +214,14 @@ const FLOWS = {
     when: { h1: 'When\'s <em class="glow">the fest?</em>', date: "Fest date", venue: ["Open-air / ground", "Auditorium", "Indoor stadium", "Not decided"],
       groups: [G("slot", "Which night?", ["Pro-night", "Fest day", "Freshers", "Farewell", "Alumni meet"])] },
     size: { groups: [G("crowd", "Expected footfall", ["Under 1,000", "1,000–3,000", "3,000–10,000", "10,000+"]), G("budget", "Artist + production budget", BUDGET), G("sponsors", "Sponsors", ["Already have some", "Need help finding them", "Not needed"])] },
-    needs: { groups: [G("needs", "Services", ["Artist / act", "Sound & light", "Stage & LED", "Host / emcee", "Sponsorship help", "Ticketing & passes", "Photo & video", "Security & crowd"], 1), G("vibe", "Vibe", VIBES, 1)] },
+    needs: { groups: [G("needs", "Services", ["Artist / act", "Stand-up comedian", "Sound & light", "Stage & LED", "Full production", "Décor & theme", "Host / emcee", "Sponsorship help", "Brand activations & stalls", "Ticketing & passes", "Photo & video", "Security & crowd"], 1), G("vibe", "Vibe", VIBES, 1)] },
     contact: { notes: "Timings, past artists, sponsor tie-ups, what went wrong last year…" },
   },
   "Concert": {
     who: { org: ["Promoter / venue", "Your company or venue"], role: ["Your role", "Promoter, venue manager, organiser…"], extra: [["show", "Show / tour name", "If it has one"]] },
     when: { date: "Show date", venue: ["Club / bar", "Auditorium / theatre", "Open-air / arena", "Not decided"], groups: [G("entry", "Entry", ["Ticketed", "Free entry", "Invite-only"])] },
     size: { groups: [G("crowd", "Capacity", ["Under 300", "300–1,000", "1,000–5,000", "5,000+"]), G("budget", "Artist + production budget", BUDGET), G("tickets", "Ticket price", ["Under ₹500", "₹500–1,500", "₹1,500–5,000", "₹5,000+", "Not set"])] },
-    needs: { groups: [G("needs", "Services", ["Artist / act", "Sound & light", "Stage & LED", "Ticketing", "Promotion", "Hospitality & travel", "Photo & video", "Security & crowd"], 1), G("vibe", "Vibe", VIBES, 1)] },
+    needs: { groups: [G("needs", "Services", ["Artist / act", "Stand-up comedian", "Sound & light", "Stage & LED", "Full production", "Décor & theme", "Sponsors", "Ticketing", "Promotion", "Hospitality & travel", "Photo & video", "Security & crowd"], 1), G("vibe", "Vibe", VIBES, 1)] },
     contact: { notes: "Set length, opener needed, ticketing partner, past shows at the venue…" },
   },
   "Corporate": {
@@ -227,7 +230,7 @@ const FLOWS = {
       groups: [G("occasion", "Occasion", ["Annual day", "Product launch", "Offsite", "Award night", "Festive party", "Conference"]), G("audience", "Audience", ["Employees", "Clients / partners", "Employees & families", "Mixed"])] },
     size: { h1: 'How big is <em class="glow">the event?</em>', hint: "A rough range is fine. It helps us plan the right scale.",
       groups: [G("crowd", "Guests", ["Under 100", "100–500", "500–2,000", "2,000+"]), G("budget", "Budget", BUDGET), G("billing", "Billing", ["GST invoice", "Vendor registration / PO", "Advance payment OK"], 1)] },
-    needs: { groups: [G("needs", "Services", ["Artist / act", "Host / emcee", "Sound & light", "Stage & LED", "Décor & theme", "Team activities", "Photo & video", "Full event management"], 1),
+    needs: { groups: [G("needs", "Services", ["Artist / act", "Stand-up comedian", "Host / emcee", "Sound & light", "Stage & LED", "Full production", "Décor & theme", "Brand activation", "Team activities", "Photo & video", "Full event management"], 1),
       G("vibe", "Tone", ["Clean & family-friendly", "Bollywood", "Live band", "DJ / party", "Comedy", "Sufi / fusion", "Regional", "Instrumental / lounge"], 1)] },
     contact: { notes: "Agenda, dress code, brand guidelines, approvals needed…" },
   },
@@ -236,19 +239,53 @@ const FLOWS = {
     when: { h1: 'When\'s the <em class="glow">big day?</em>', date: "Main function date", venue: ["Hotel / banquet", "Farmhouse / lawn", "Destination venue", "Home", "Not decided"],
       groups: [G("functions", "Functions", ["Sangeet", "Mehendi / Haldi", "Cocktail", "Reception", "Birthday", "Anniversary"], 1)] },
     size: { h1: 'How big is <em class="glow">the party?</em>', hint: "A rough range is fine.", groups: [G("crowd", "Guests", ["Under 100", "100–300", "300–1,000", "1,000+"]), G("budget", "Budget", BUDGET)] },
-    needs: { groups: [G("needs", "Services", ["Artist / act", "DJ", "Sound & light", "Choreography", "Host / anchor", "Décor", "Photo & video", "Full planning"], 1),
+    needs: { groups: [G("needs", "Services", ["Artist / act", "DJ", "Stand-up comedian", "Sound & light", "Stage & LED", "Décor & florals", "Choreography", "Host / anchor", "Photo & video", "Full planning"], 1),
       G("vibe", "Vibe", ["Bollywood", "Punjabi", "Sufi / ghazal", "Live band", "DJ / party", "Regional", "Western", "Comedy"], 1)] },
     contact: { notes: "Each function's timings, the families' taste, surprises you're planning…" },
   },
   "Brand activation": {
     who: { org: ["Brand / agency", "Your brand or agency"], role: ["Your role", "Brand manager, agency lead, founder…"], extra: [["product", "Product / campaign", "What are you promoting?"]] },
     when: { hint: "Rough dates are fine.", date: "Campaign starts", city: ["Cities / campuses", "e.g. Bengaluru, Pune"], venue: null,
-      groups: [G("campaign", "Campaign type", ["Campus tour", "Fest sponsorship", "Influencer content", "Stalls & sampling", "Launch event", "Artist collab"], 1)] },
+      groups: [G("campaign", "Campaign type", ["Campus tour", "Fest sponsorship", "Influencer content", "Stalls & sampling", "Mall / public activation", "Launch event", "Artist collab"], 1)] },
     size: { h1: 'How big is <em class="glow">the push?</em>', hint: "A rough range is fine.",
       groups: [G("reach", "Reach", ["1 campus / city", "2–5", "5–20", "20+"]), G("budget", "Budget", BUDGET), G("audience", "Target audience", ["College students", "Young professionals", "Families", "Everyone"])] },
-    needs: { h1: 'What should <em class="glow">we handle?</em>', groups: [G("needs", "Services", ["Fest & campus access", "Artist / ambassador", "Influencers", "Content & shoots", "On-ground team", "Stalls & branding", "Reporting & ROI"], 1),
+    needs: { h1: 'What should <em class="glow">we handle?</em>', groups: [G("needs", "Services", ["Fest & campus access", "Artist / ambassador", "Influencers", "Content & shoots", "On-ground team", "Stalls & branding", "Production & décor", "Reporting & ROI"], 1),
       G("vibe", "Brand tone", ["Youthful", "Premium", "Fun / quirky", "Music-led", "Sporty", "Regional"], 1)], artists: "Artists or creators you like (optional)" },
     contact: { hint: "We'll reply with a plan and costs within 6 hours.", notes: "KPIs, deliverables, brand guidelines, dates you can't move…" },
+  },
+  "Stand-up comedy": {
+    who: { org: ["College / company / venue", "Who is hosting the show?"], role: ["Your role", "Fest head, HR lead, venue manager…"], extra: [["show", "Event / show name", "e.g. NITRUTSAV comedy night"]] },
+    when: { h1: 'When\'s <em class="glow">the show?</em>', date: "Show date", venue: ["Auditorium", "Open-air / ground", "Club / café", "Office / conference hall", "Hotel ballroom", "Not decided"],
+      groups: [G("format", "Format", ["Solo stand-up set", "Comedy night (2–3 comics)", "Host / emcee for the event", "Storytelling / sketch show", "Open mic"])] },
+    size: { h1: 'How big is <em class="glow">the room?</em>', hint: "A rough range is fine. It helps us suggest comics you can afford.",
+      groups: [G("crowd", "Audience", ["Under 200", "200–1,000", "1,000–5,000", "5,000+"]), G("budget", "Budget", BUDGET), G("language", "Language", ["Hindi", "English", "Hinglish", "Regional"], 1)] },
+    needs: { h1: 'What kind of <em class="glow">laughs?</em>', hint: "Pick the style and anything else we should handle.",
+      groups: [G("vibe", "Style", ["Clean / family-friendly", "Observational", "Storytelling", "Crowd work", "Improv", "Musical comedy"], 1),
+        G("needs", "Also need", ["Opening comic", "Host / emcee", "Sound & light", "Stage & seating", "Ticketing", "Promotion"], 1)],
+      artists: "Comedians you want (optional)", genre: "Comedy" },
+    contact: { notes: "Set length, content limits, past comics you've hosted…" },
+  },
+  "Production & decor": {
+    who: { org: ["College / company / organiser", "Who is running the event?"], role: ["Your role", "Fest head, event manager, planner…"], extra: [["event", "Event name", "e.g. Unmaad 2027, annual day, a wedding"]] },
+    when: { venue: ["Open-air / ground", "Auditorium", "Indoor stadium", "Hotel ballroom", "Farmhouse / lawn", "Not decided"],
+      groups: [G("eventkind", "Kind of event", ["College fest", "Concert", "Corporate", "Wedding / private", "Brand launch", "Exhibition"])] },
+    size: { h1: 'How big is <em class="glow">the setup?</em>', hint: "A rough range is fine. It sets the size of the rig and the crew.",
+      groups: [G("crowd", "Expected crowd", ["Under 500", "500–2,000", "2,000–10,000", "10,000+"]), G("budget", "Production budget", BUDGET), G("stage", "Stage", ["We need one built", "Venue has a stage", "Not sure"])] },
+    needs: { h1: 'What should <em class="glow">we build?</em>', hint: "Pick everything you need. We quote it as one package.",
+      groups: [G("needs", "Production", ["Sound system", "Lighting", "Stage & truss", "LED walls & screens", "Special effects (CO₂, pyro, confetti)", "Generators & power", "Backline for bands", "Technical crew"], 1),
+        G("decor", "Décor", ["Entry & gate", "Stage backdrop", "Theme décor", "Florals", "Photo booth / selfie walls", "Seating & lounges", "Branding & signage"], 1)], artists: null },
+    contact: { hint: "We'll reply with a production plan and full costs within 6 hours.", notes: "Venue size, load-in times, artist tech riders, the look you want…" },
+  },
+  "Sponsorship": {
+    who: { org: ["Brand / college / organiser", "Your brand, college or event"], role: ["Your role", "Brand manager, sponsorship head, fest head…"], extra: [["event", "Event or brand", "e.g. Unmaad 2027, or the product you want to push"]] },
+    when: { hint: "Rough dates are fine.", date: "Event / campaign date", city: ["City / campuses", "e.g. Bengaluru, Jaipur"], venue: null,
+      groups: [G("side", "You are", ["A brand looking to sponsor", "A fest or event looking for sponsors"])] },
+    size: { h1: 'How big is <em class="glow">the deal?</em>', hint: "A rough range is fine.",
+      groups: [G("crowd", "Audience / footfall", ["Under 1,000", "1,000–5,000", "5,000–20,000", "20,000+"]), G("budget", "Sponsorship value", ["Under ₹1L", "₹1–5L", "₹5–25L", "₹25L+", "Not sure yet"]), G("audience", "Audience", ["College students", "Young professionals", "Families", "Everyone"])] },
+    needs: { h1: 'What should <em class="glow">the deal include?</em>', hint: "Pick everything that applies.",
+      groups: [G("needs", "Deal includes", ["Title sponsorship", "Associate / co-sponsor", "Stage & venue branding", "Stalls & sampling", "On-stage mentions", "Social media posts", "Contests & giveaways", "Barter / in-kind"], 1),
+        G("vibe", "Brand fit", ["Food & beverage", "Fashion & lifestyle", "Tech & apps", "Education", "Finance", "Auto", "Other"], 1)], artists: null },
+    contact: { hint: "We'll reply with matching fests or brands and a proposal within 6 hours.", notes: "Deliverables, past sponsors, deck link, deadlines…" },
   },
   "Artist management": {
     who: { h1: 'Tell us about <em class="glow">your act.</em>', hint: "We're always looking for new acts for our stages.", org: ["Act / stage name", "Solo name, band or DJ alias"], role: ["You are", "Singer, band, DJ, comic, rapper…"],
@@ -293,11 +330,13 @@ function applyFlow() {
   $id("venue").innerHTML = (when.venue || []).map(v => `<option>${esc(v)}</option>`).join("");
   $id("artist-block").hidden = !needs.artists;
   if (needs.artists) $id("artist-l").textContent = needs.artists;
+  renderRoster();
   $id("notes").placeholder = part("contact").notes;
   if (state.artists.length) pressArtistNeed();
 }
 function pressArtistNeed() {
   const b = form.querySelector('[data-multi="needs"] [data-v="Artist / act"], [data-multi="needs"] [data-v="Artist / ambassador"]');
+  if (!b && state.type === "Stand-up comedy") return;
   if (!b) return;
   b.setAttribute("aria-pressed", "true");
   if (!state.needs.includes(b.dataset.v)) state.needs.push(b.dataset.v);
@@ -337,7 +376,8 @@ const TIERS = { 1: "Headliners", 2: "Fest favourites", 3: "Regional & rising", 4
 function renderRoster() {
   const q = artistQ.value.trim().toLowerCase();
   const html = Object.entries(TIERS).map(([t, label]) => {
-    const names = (window.LW_ARTISTS || []).filter(a => a[2] == t && (!q || a[0].toLowerCase().includes(q) || a[1].toLowerCase().includes(q)));
+    const only = part("needs").genre;
+    const names = (window.LW_ARTISTS || []).filter(a => a[2] == t && (!only || a[1] === only) && (!q || a[0].toLowerCase().includes(q) || a[1].toLowerCase().includes(q)));
     return names.length ? `<h4>${label}</h4><div class="chips">${names.map(([n, g]) => `<button type="button" class="chip" data-pick="${esc(n)}" title="${esc(g)}" aria-pressed="${state.artists.includes(n)}">${esc(n)}</button>`).join("")}</div>` : "";
   }).join("");
   document.getElementById("roster-pick").innerHTML = html || `<p class="none">No match. Press Enter to add "${esc(artistQ.value.trim())}" anyway.</p>`;
@@ -361,7 +401,7 @@ const progress = form.querySelector(".progress");
 progress.innerHTML = inputSteps.map(() => "<i></i>").join("");
 
 // Preselect from ?type=college etc. (service cards on the home page link here)
-const preset = { college: "College fest", concert: "Concert", corporate: "Corporate", private: "Private / wedding", brand: "Brand activation", artist: "Artist management" }[new URLSearchParams(location.search).get("type")];
+const preset = { college: "College fest", concert: "Concert", corporate: "Corporate", private: "Private / wedding", comedy: "Stand-up comedy", standup: "Stand-up comedy", brand: "Brand activation", production: "Production & decor", decor: "Production & decor", sponsorship: "Sponsorship", artist: "Artist management" }[new URLSearchParams(location.search).get("type")];
 form.querySelectorAll('[data-single="type"] button').forEach(b => b.setAttribute("aria-pressed", "false"));
 if (preset) { state.type = preset; form.querySelector(`[data-single="type"] [data-v="${preset}"]`).setAttribute("aria-pressed", "true"); }
 applyFlow();
